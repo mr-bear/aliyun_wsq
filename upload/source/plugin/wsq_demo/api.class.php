@@ -68,7 +68,7 @@ class wsq_demo_api {
 		    <% } %>
 		</div>
 	</div>
-	<!-- Ä£°å±äÁ¿ -->
+	<!-- Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ -->
 	[{hookname}] CurrentUser = {username}({uid})
 </div>
 EOF;
@@ -82,7 +82,7 @@ EOF;
 			if(!$thread['displayorder']) {
 				$return[$thread['tid']] = array(
 				    'id' => 'style1',
-				    'var' => array(//Ä£°å±äÁ¿
+				    'var' => array(
 					'uid' => $_G['uid'],
 					'username' => $_G['username'],
 					'hookname' => 'threadStyle/'.$thread['tid']
@@ -103,11 +103,12 @@ EOF;
 		    'html' => '[topBar/TopBar1]',
 		    'more' => WeChatHook::getPluginUrl('wsq_demo:view', array('a' => 1, 'b' => 2)),
 		);
-		$return[] = array(
-		    'name' => 'TopBar2',
-		    'html' => '[topBar/TopBar2]',
-		    'more' => '',
-		);
+        $return = array();
+        $return[] = array(
+            'name' => 'TopBar2',
+            'html' => '[topBar/TopBar2]',
+            'more' => WeChatHook::getPluginUrl('wsq_demo:view', array('a' => 1, 'b' => 2)),
+        );
 		return $return;
 	}
 
