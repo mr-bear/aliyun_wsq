@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Addon MD5]]></item>
+	<item id="ID"><![CDATA[veikei_dz_sim_20130910_win8.template]]></item>
+	<item id="RevisionID"><![CDATA[23211]]></item>
+	<item id="SN"><![CDATA[20141011133Pg2BRqpDP]]></item>
+	<item id="RevisionDateline"><![CDATA[1378447201]]></item>
+	<item id="Data">
+		<item id="/preview_large.jpg"><![CDATA[9e06aafdcd67dbff95e73dcc99aed71f]]></item>
+		<item id="/preview.jpg"><![CDATA[f6d62a937c5cac8662060b774405eb20]]></item>
+		<item id="/images/logo.png"><![CDATA[0285962ef75a2974b17dc5656c885dec]]></item>
+		<item id="/images/bg_toptb.png"><![CDATA[51d1f4fdb76ca721b1a44a2b4f9129c1]]></item>
+		<item id="/images/nv_a.png"><![CDATA[2b1c9201597a2e8c5209ec20ab31be2b]]></item>
+		<item id="/images/index.htm"><![CDATA[7215ee9c7d9dc229d2921a40e899ec5f]]></item>
+		<item id="/images/nv.png"><![CDATA[4608c5048abebbe1635c101f11983a72]]></item>
+		<item id="/images/bg_body.png"><![CDATA[2cdd35eaae8348fb92ba7d056f673e67]]></item>
+		<item id="/discuz_style_veikei_dz_sim_20130910_win8.xml"><![CDATA[9daede30ee87051e4c89389188f69f14]]></item>
+		<item id="/index.htm"><![CDATA[7215ee9c7d9dc229d2921a40e899ec5f]]></item>
+		<item id="/common/css_space.css"><![CDATA[768939d60a1d6fce9b554c93787d15cc]]></item>
+		<item id="/common/extend_common.css"><![CDATA[5c6adb4da7b03e2a3d1badf0571cc552]]></item>
+		<item id="/common/index.htm"><![CDATA[7215ee9c7d9dc229d2921a40e899ec5f]]></item>
+		<item id="/common/extend_module.css"><![CDATA[c918016ef6719076ef8ed144110a7b75]]></item>
+		<item id="/common/widthauto.css"><![CDATA[c9549f1d110e3af28fa1ae7ed3a3450e]]></item>
+		<item id="/common/header.php"><![CDATA[d8db7514454ad572cd6e436b6812571f]]></item>
+		<item id="/common/footer.php"><![CDATA[dbd3d4379491beaa73ecbdb2d2b3b20d]]></item>
+	</item>
+</root>

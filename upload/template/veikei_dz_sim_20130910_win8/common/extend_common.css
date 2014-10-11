@@ -1,0 +1,90 @@
+/* ----------------------------------
+
+extend_common.css  file for Discuz! X3.0
+
+【未来科技】 
+http://www.veikei.com
+专注于 Discuz模板开发设计等服务。
+详情请 查看 www.veikei.com
+或咨询 客服 QQ 1508085698 1595675868
+
+Author: Veikei
+Created Time: 2012-09-05
+Modified Time: 2012-09-10
+Update Time: 2013-09-10
+
+---------------------------------- */
+
+
+
+/*************************************************************************
+* 
+* 公共属性
+*
+**************************************************************************/
+body, input, button, select, textarea { font: {FONTSIZE}{FONT};color: {TABLETEXT};
+font-family:"Microsoft yahei", "微软雅黑", Arial, Helvetica, sans-serif, "宋体";}
+
+body { background:#96e7ff url({STYLEIMGDIR}/bg_body.png) repeat-x center top  ; }
+a { outline: none; }
+
+a:active { star:expression(this.onFocus=this.blur());}
+a:hover { color:#f60; text-decoration:none; }
+:focus { outline:0; }
+img, fieldset { border:0; }
+ol, ul, menu { list-style:none; }
+td, th, div { word-break:break-all; word-wrap:break-word }
+* { outline:none }
+
+
+/*******************/
+#toptb  { height:35px; line-height:25px; border:none !important;/* box-shadow:1px 1px 3px #999;*/ background: url({STYLEIMGDIR}/bg_toptb.png) repeat-x center top; }
+#toptb, #toptb a { color:#fff; }
+
+	#diy-tg_menu ul li a { height:24px; line-height:24px;  color:#333;}
+
+/*
+#hd  { margin-top:90px;}
+.hdc { margin-bottom:30px; }
+*/
+#hd .wp { margin: 0 auto; width:980px; clear:both; }
+
+.vk_wp { margin: 0 auto; margin-bottom:15px; width:980px; clear:both; background:#fff;/* -moz-border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px;  box-shadow:1px 1px 3px #aaa;*/ }
+#pt { margin-top:0px !important; }
+
+
+/*******************/
+
+.wp { margin: 0 auto; width:960px; clear:both; }
+#wp .wp { width: auto; }
+#um .avt img { box-shadow:0px 1px 3px #eee; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; padding: 2px; width: 48px; height: 48px; background: #fff; border:1px solid #fff; box-shadow:1px 1px 3px #999; }
+
+#nv { height: 46px; line-height:46px; /* box-shadow:1px 1px 3px #999; -webkit-border-radius:5px 5px 0 0; -moz-border-radius:5px 5px 0 0; border-radius:5px 5px 0 0; */background: url({STYLEIMGDIR}/nv.png) no-repeat; }
+
+
+
+#nv ul { height: 46px; overflow: hidden; }
+#nv li { float: left; height: 46px; font-weight:normal; font-size: 14px; background: none; background: none /*url({STYLEIMGDIR}/nv_li.png) no-repeat 100% 0 */; }
+.ie_all #nv li { line-height: 46px; }
+.ie6 #nv li { line-height: 46px; }
+#nv li a { float: left; padding:0 20px; text-align:center; width: auto; height: 46px; display:block; line-height: 46px; color: #fff; font-size:16px; background: none; }
+#nv li span { display: none; }
+#nv li.a { margin-left:0px; background: url({STYLEIMGDIR}/nv_a.png) repeat-x; }
+#nv li a:hover { color:#fff; text-decoration:none; background: url({STYLEIMGDIR}/nv_a.png) repeat-x; }
+#nv li.hover a:hover, #nv li.hover a { color:#fff; background: url({STYLEIMGDIR}/nv_a.png) repeat-x; }
+#qmenu { margin-top:10px; }
+
+
+
+/********************************************************************
+color redefine
+*********************************************************************/
+/*
+#nv li a ,#nv li.a , #nv li a:hover, #nv li.hover a:hover, #nv li.hover a {  color: #333;  }
+*/
+
+
+/* #toptb, #toptb a  { color:#fff !important;}
+*/
+.hdc, .hdc a, #um p { color:#fff !important;}
+
