@@ -4,9 +4,8 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: wechat.lib.class.php 34716 2014-07-14 08:28:32Z nemohou $
+ *      $Id: wechat.lib.class.php 34815 2014-08-07 02:04:50Z nemohou $
  */
-
 if (!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
@@ -15,6 +14,33 @@ class WeChatServer {
 
 	private $_token;
 
+	/**
+	 * $hooks 格式说明
+	 * array(
+	 * 	'钩子' => array('plugin' => '插件标识', 'include' => '引用的文件', 'class' => '类', 'method' => '方法'),
+	 * ）
+	 * ****** 钩子列表 ******
+	 * receiveAllStart
+	 * receiveMsg::text
+	 * receiveMsg::location
+	 * receiveMsg::image
+	 * receiveMsg::video
+	 * receiveMsg::link
+	 * receiveMsg::voice
+	 * receiveEvent::subscribe
+	 * receiveEvent::unsubscribe
+	 * receiveEvent::scan
+	 * receiveEvent::location
+	 * receiveEvent::click
+	 * receiveAllEnd
+	 * accessCheckSuccess
+	 * 404
+	 *
+	 * example:
+	 * 	array(
+	 * 		'receiveMsg::text' => array('plugin' => 'wechat', 'include' => 'source/plugin/wechat/response.class.php', 'class' => 'WeChatResponse', 'method' => 'text'),
+	 * 	)
+	 */
 	private $_hooks;
 	private $_classes;
 
@@ -33,7 +59,7 @@ class WeChatServer {
 		if (!in_array($hook['plugin'], $_G['setting']['plugins']['available'])) {
 			return null;
 		}
-		if(!preg_match("/^[\w\_]+$/i", $hook['plugin']) || !preg_match('/^[\w\_\.]+\.php$/i', $hook['include'])) {
+		if (!preg_match("/^[\w\_]+$/i", $hook['plugin']) || !preg_match('/^[\w\_\.]+\.php$/i', $hook['include'])) {
 			return null;
 		}
 		include_once DISCUZ_ROOT . 'source/plugin/' . $hook['plugin'] . '/' . $hook['include'];
@@ -101,42 +127,51 @@ class WeChatServer {
 				break;
 
 			case 'link':
-				$result['title'] = (string) $postObj->Title;
-				$result['desc'] = (string) $postObj->Description;
-				$result['url'] = (string) $postObj->Url;
+				$result['title'] = (string) $postObj->Title;       // 消息标题
+				$result['desc'] = (string) $postObj->Description; // 消息描述
+				$result['url'] = (string) $postObj->Url;  // 消息链接
 				break;
 
 			case 'voice':
-				$result['mid'] = (string) $postObj->MediaId;
-				$result['format'] = (string) $postObj->Format;
+				$result['mid'] = (string) $postObj->MediaId;     // 语音消息媒体id，可以调用多媒体文件下载接口拉取该媒体
+				$result['format'] = (string) $postObj->Format;      // 语音格式：amr
 				if (property_exists($postObj, Recognition)) {
-					$result['txt'] = (string) $postObj->Recognition;
+					$result['txt'] = (string) $postObj->Recognition; // 语音识别结果，UTF8编码
 				}
 				break;
 
 			case 'event':
-				$result['event'] = strtolower((string) $postObj->Event);
+				$result['event'] = strtolower((string) $postObj->Event);    // 事件类型，subscribe(订阅)、unsubscribe(取消订阅)、CLICK(自定义菜单点击事???
 				switch ($result['event']) {
 
-					case 'subscribe':
-					case 'scan':
+					// case 'unsubscribe': // 取消订阅
+					case 'subscribe': // 订阅
+					case 'scan': // 扫描二维码
 						if (property_exists($postObj, EventKey)) {
+							// 扫描带参数二维码事件
 							$result['key'] = str_replace(
 								'qrscene_', '', (string) $postObj->EventKey
-							);
+							); // 事件KEY值，qrscene_为前缀，后面为二维码的参数值
 							$result['ticket'] = (string) $postObj->Ticket;
 						}
 						break;
 
-					case 'location':
-						$result['la'] = (string) $postObj->Latitude;
-						$result['lo'] = (string) $postObj->Longitude;
-						$result['p'] = (string) $postObj->Precision;
+					case 'location': // 上报地理位置事件
+						$result['la'] = (string) $postObj->Latitude;  // 地理位置纬度
+						$result['lo'] = (string) $postObj->Longitude; // 地理位置经度
+						$result['p'] = (string) $postObj->Precision; // 地理位置精度
 						break;
 
-					case 'click':
-						$result['key'] = (string) $postObj->EventKey;
+					case 'click': // 自定义菜单事件
+						$result['key'] = (string) $postObj->EventKey; // 事件KEY值，与自定义菜单接口中KEY值对???
 						break;
+					case 'masssendjobfinish':
+						$result['msg_id'] = (string) $postObj->MsgID;
+						$result['status'] = (string) $postObj->Status;
+						$result['totalcount'] = (string) $postObj->TotalCount;
+						$result['filtercount'] = (string) $postObj->FilterCount;
+						$result['sentcount'] = (string) $postObj->SentCount;
+						$result['errorcount'] = (string) $postObj->ErrorCount;
 				}
 		}
 
@@ -163,6 +198,7 @@ class WeChatServer {
 
 			$this->_activeHook('receiveAllStart', $postObj);
 
+			// Call Special Request Handle Function
 			if (isset($postObj['event'])) {
 				$hookName = 'receiveEvent::' . $postObj['event'];
 			} else {
@@ -174,6 +210,7 @@ class WeChatServer {
 		} elseif (isset($_GET['echostr'])) {
 
 			$this->_activeHook('accessCheckSuccess');
+			// avoid of xss
 			if (!headers_sent()) {
 				header('Content-Type: text/plain');
 			}
@@ -297,95 +334,98 @@ class WeChatServer {
 
 class WeChatClient {
 
+	// SETTING
+	// Tail this file N U will see.
 	public static $_URL_API_ROOT = 'https://api.weixin.qq.com';
 	public static $_URL_FILE_API_ROOT = 'http://file.api.weixin.qq.com';
 	public static $_URL_QR_ROOT = 'http://mp.weixin.qq.com';
 	public static $_QRCODE_TICKET_DEFAULT_ID = 1;
 	public static $ERRCODE_MAP = array(
-		'-1' => '&#x7CFB;&#x7EDF;&#x7E41;&#x5FD9;',
-		'0' => '&#x8BF7;&#x6C42;&#x6210;&#x529F;',
-		'40001' => '&#x83B7;&#x53D6;access_token&#x65F6;AppSecret&#x9519;&#x8BEF;&#xFF0C;&#x6216;&#x8005;access_token&#x65E0;&#x6548;',
-		'40002' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x51ED;&#x8BC1;&#x7C7B;&#x578B;',
-		'40003' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;OpenID',
-		'40004' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5A92;&#x4F53;&#x6587;&#x4EF6;&#x7C7B;&#x578B;',
-		'40005' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6587;&#x4EF6;&#x7C7B;&#x578B;',
-		'40006' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6587;&#x4EF6;&#x5927;&#x5C0F;',
-		'40007' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5A92;&#x4F53;&#x6587;&#x4EF6;id',
-		'40008' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6D88;&#x606F;&#x7C7B;&#x578B;',
-		'40009' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x56FE;&#x7247;&#x6587;&#x4EF6;&#x5927;&#x5C0F;',
-		'40010' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x8BED;&#x97F3;&#x6587;&#x4EF6;&#x5927;&#x5C0F;',
-		'40011' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x89C6;&#x9891;&#x6587;&#x4EF6;&#x5927;&#x5C0F;',
-		'40012' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x7F29;&#x7565;&#x56FE;&#x6587;&#x4EF6;&#x5927;&#x5C0F;',
-		'40013' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;APPID',
-		'40014' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;access_token',
-		'40015' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x83DC;&#x5355;&#x7C7B;&#x578B;',
-		'40016' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6309;&#x94AE;&#x4E2A;&#x6570;',
-		'40017' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6309;&#x94AE;&#x4E2A;&#x6570;',
-		'40018' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6309;&#x94AE;&#x540D;&#x5B57;&#x957F;&#x5EA6;',
-		'40019' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6309;&#x94AE;KEY&#x957F;&#x5EA6;',
-		'40020' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6309;&#x94AE;URL&#x957F;&#x5EA6;',
-		'40021' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x83DC;&#x5355;&#x7248;&#x672C;&#x53F7;',
-		'40022' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x7EA7;&#x6570;',
-		'40023' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x6309;&#x94AE;&#x4E2A;&#x6570;',
-		'40024' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x6309;&#x94AE;&#x7C7B;&#x578B;',
-		'40025' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x6309;&#x94AE;&#x540D;&#x5B57;&#x957F;&#x5EA6;',
-		'40026' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x6309;&#x94AE;KEY&#x957F;&#x5EA6;',
-		'40027' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x6309;&#x94AE;URL&#x957F;&#x5EA6;',
-		'40028' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x81EA;&#x5B9A;&#x4E49;&#x83DC;&#x5355;&#x4F7F;&#x7528;&#x7528;&#x6237;',
-		'40029' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;oauth_code',
-		'40030' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;refresh_token',
-		'40031' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;openid&#x5217;&#x8868;',
-		'40032' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;openid&#x5217;&#x8868;&#x957F;&#x5EA6;',
-		'40033' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x8BF7;&#x6C42;&#x5B57;&#x7B26;&#xFF0C;&#x4E0D;&#x80FD;&#x5305;&#x542B;\uxxxx&#x683C;&#x5F0F;&#x7684;&#x5B57;&#x7B26;',
-		'40035' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x53C2;&#x6570;',
-		'40038' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x8BF7;&#x6C42;&#x683C;&#x5F0F;',
-		'40039' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;URL&#x957F;&#x5EA6;',
-		'40050' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5206;&#x7EC4;id',
-		'40051' => '&#x5206;&#x7EC4;&#x540D;&#x5B57;&#x4E0D;&#x5408;&#x6CD5;',
-		'41001' => '&#x7F3A;&#x5C11;access_token&#x53C2;&#x6570;',
-		'41002' => '&#x7F3A;&#x5C11;appid&#x53C2;&#x6570;',
-		'41003' => '&#x7F3A;&#x5C11;refresh_token&#x53C2;&#x6570;',
-		'41004' => '&#x7F3A;&#x5C11;secret&#x53C2;&#x6570;',
-		'41005' => '&#x7F3A;&#x5C11;&#x591A;&#x5A92;&#x4F53;&#x6587;&#x4EF6;&#x6570;&#x636E;',
-		'41006' => '&#x7F3A;&#x5C11;media_id&#x53C2;&#x6570;',
-		'41007' => '&#x7F3A;&#x5C11;&#x5B50;&#x83DC;&#x5355;&#x6570;&#x636E;',
-		'41008' => '&#x7F3A;&#x5C11;oauth code',
-		'41009' => '&#x7F3A;&#x5C11;openid',
-		'42001' => 'access_token&#x8D85;&#x65F6;',
-		'42002' => 'refresh_token&#x8D85;&#x65F6;',
-		'42003' => 'oauth_code&#x8D85;&#x65F6;',
-		'43001' => '&#x9700;&#x8981;GET&#x8BF7;&#x6C42;',
-		'43002' => '&#x9700;&#x8981;POST&#x8BF7;&#x6C42;',
-		'43003' => '&#x9700;&#x8981;HTTPS&#x8BF7;&#x6C42;',
-		'43004' => '&#x9700;&#x8981;&#x63A5;&#x6536;&#x8005;&#x5173;&#x6CE8;',
-		'43005' => '&#x9700;&#x8981;&#x597D;&#x53CB;&#x5173;&#x7CFB;',
-		'44001' => '&#x591A;&#x5A92;&#x4F53;&#x6587;&#x4EF6;&#x4E3A;&#x7A7A;',
-		'44002' => 'POST&#x7684;&#x6570;&#x636E;&#x5305;&#x4E3A;&#x7A7A;',
-		'44003' => '&#x56FE;&#x6587;&#x6D88;&#x606F;&#x5185;&#x5BB9;&#x4E3A;&#x7A7A;',
-		'44004' => '&#x6587;&#x672C;&#x6D88;&#x606F;&#x5185;&#x5BB9;&#x4E3A;&#x7A7A;',
-		'45001' => '&#x591A;&#x5A92;&#x4F53;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45002' => '&#x6D88;&#x606F;&#x5185;&#x5BB9;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45003' => '&#x6807;&#x9898;&#x5B57;&#x6BB5;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45004' => '&#x63CF;&#x8FF0;&#x5B57;&#x6BB5;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45005' => '&#x94FE;&#x63A5;&#x5B57;&#x6BB5;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45006' => '&#x56FE;&#x7247;&#x94FE;&#x63A5;&#x5B57;&#x6BB5;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45007' => '&#x8BED;&#x97F3;&#x64AD;&#x653E;&#x65F6;&#x95F4;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45008' => '&#x56FE;&#x6587;&#x6D88;&#x606F;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45009' => '&#x63A5;&#x53E3;&#x8C03;&#x7528;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45010' => '&#x521B;&#x5EFA;&#x83DC;&#x5355;&#x4E2A;&#x6570;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45015' => '&#x56DE;&#x590D;&#x65F6;&#x95F4;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
-		'45016' => '&#x7CFB;&#x7EDF;&#x5206;&#x7EC4;&#xFF0C;&#x4E0D;&#x5141;&#x8BB8;&#x4FEE;&#x6539;',
-		'45017' => '&#x5206;&#x7EC4;&#x540D;&#x5B57;&#x8FC7;&#x957F;',
-		'45018' => '&#x5206;&#x7EC4;&#x6570;&#x91CF;&#x8D85;&#x8FC7;&#x4E0A;&#x9650;',
-		'46001' => '&#x4E0D;&#x5B58;&#x5728;&#x5A92;&#x4F53;&#x6570;&#x636E;',
-		'46002' => '&#x4E0D;&#x5B58;&#x5728;&#x7684;&#x83DC;&#x5355;&#x7248;&#x672C;',
-		'46003' => '&#x4E0D;&#x5B58;&#x5728;&#x7684;&#x83DC;&#x5355;&#x6570;&#x636E;',
-		'46004' => '&#x4E0D;&#x5B58;&#x5728;&#x7684;&#x7528;&#x6237;',
-		'47001' => '&#x89E3;&#x6790;JSON/XML&#x5185;&#x5BB9;&#x9519;&#x8BEF;',
-		'48001' => 'api&#x529F;&#x80FD;&#x672A;&#x6388;&#x6743;',
-		'50001' => '&#x7528;&#x6237;&#x672A;&#x6388;&#x6743;&#x8BE5;api',
+	    '-1' => '&#x7CFB;&#x7EDF;&#x7E41;&#x5FD9;',
+	    '0' => '&#x8BF7;&#x6C42;&#x6210;&#x529F;',
+	    '40001' => '&#x83B7;&#x53D6;access_token&#x65F6;AppSecret&#x9519;&#x8BEF;&#xFF0C;&#x6216;&#x8005;access_token&#x65E0;&#x6548;',
+	    '40002' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x51ED;&#x8BC1;&#x7C7B;&#x578B;',
+	    '40003' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;OpenID',
+	    '40004' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5A92;&#x4F53;&#x6587;&#x4EF6;&#x7C7B;&#x578B;',
+	    '40005' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6587;&#x4EF6;&#x7C7B;&#x578B;',
+	    '40006' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6587;&#x4EF6;&#x5927;&#x5C0F;',
+	    '40007' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5A92;&#x4F53;&#x6587;&#x4EF6;id',
+	    '40008' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6D88;&#x606F;&#x7C7B;&#x578B;',
+	    '40009' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x56FE;&#x7247;&#x6587;&#x4EF6;&#x5927;&#x5C0F;',
+	    '40010' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x8BED;&#x97F3;&#x6587;&#x4EF6;&#x5927;&#x5C0F;',
+	    '40011' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x89C6;&#x9891;&#x6587;&#x4EF6;&#x5927;&#x5C0F;',
+	    '40012' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x7F29;&#x7565;&#x56FE;&#x6587;&#x4EF6;&#x5927;&#x5C0F;',
+	    '40013' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;APPID',
+	    '40014' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;access_token',
+	    '40015' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x83DC;&#x5355;&#x7C7B;&#x578B;',
+	    '40016' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6309;&#x94AE;&#x4E2A;&#x6570;',
+	    '40017' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6309;&#x94AE;&#x4E2A;&#x6570;',
+	    '40018' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6309;&#x94AE;&#x540D;&#x5B57;&#x957F;&#x5EA6;',
+	    '40019' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6309;&#x94AE;KEY&#x957F;&#x5EA6;',
+	    '40020' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x6309;&#x94AE;URL&#x957F;&#x5EA6;',
+	    '40021' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x83DC;&#x5355;&#x7248;&#x672C;&#x53F7;',
+	    '40022' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x7EA7;&#x6570;',
+	    '40023' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x6309;&#x94AE;&#x4E2A;&#x6570;',
+	    '40024' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x6309;&#x94AE;&#x7C7B;&#x578B;',
+	    '40025' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x6309;&#x94AE;&#x540D;&#x5B57;&#x957F;&#x5EA6;',
+	    '40026' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x6309;&#x94AE;KEY&#x957F;&#x5EA6;',
+	    '40027' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B50;&#x83DC;&#x5355;&#x6309;&#x94AE;URL&#x957F;&#x5EA6;',
+	    '40028' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x81EA;&#x5B9A;&#x4E49;&#x83DC;&#x5355;&#x4F7F;&#x7528;&#x7528;&#x6237;',
+	    '40029' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;oauth_code',
+	    '40030' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;refresh_token',
+	    '40031' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;openid&#x5217;&#x8868;',
+	    '40032' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;openid&#x5217;&#x8868;&#x957F;&#x5EA6;',
+	    '40033' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x8BF7;&#x6C42;&#x5B57;&#x7B26;&#xFF0C;&#x4E0D;&#x80FD;&#x5305;&#x542B;\uxxxx&#x683C;&#x5F0F;&#x7684;&#x5B57;&#x7B26;',
+	    '40035' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x53C2;&#x6570;',
+	    '40038' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x8BF7;&#x6C42;&#x683C;&#x5F0F;',
+	    '40039' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;URL&#x957F;&#x5EA6;',
+	    '40050' => '&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5206;&#x7EC4;id',
+	    '40051' => '&#x5206;&#x7EC4;&#x540D;&#x5B57;&#x4E0D;&#x5408;&#x6CD5;',
+	    '41001' => '&#x7F3A;&#x5C11;access_token&#x53C2;&#x6570;',
+	    '41002' => '&#x7F3A;&#x5C11;appid&#x53C2;&#x6570;',
+	    '41003' => '&#x7F3A;&#x5C11;refresh_token&#x53C2;&#x6570;',
+	    '41004' => '&#x7F3A;&#x5C11;secret&#x53C2;&#x6570;',
+	    '41005' => '&#x7F3A;&#x5C11;&#x591A;&#x5A92;&#x4F53;&#x6587;&#x4EF6;&#x6570;&#x636E;',
+	    '41006' => '&#x7F3A;&#x5C11;media_id&#x53C2;&#x6570;',
+	    '41007' => '&#x7F3A;&#x5C11;&#x5B50;&#x83DC;&#x5355;&#x6570;&#x636E;',
+	    '41008' => '&#x7F3A;&#x5C11;oauth code',
+	    '41009' => '&#x7F3A;&#x5C11;openid',
+	    '42001' => 'access_token&#x8D85;&#x65F6;',
+	    '42002' => 'refresh_token&#x8D85;&#x65F6;',
+	    '42003' => 'oauth_code&#x8D85;&#x65F6;',
+	    '43001' => '&#x9700;&#x8981;GET&#x8BF7;&#x6C42;',
+	    '43002' => '&#x9700;&#x8981;POST&#x8BF7;&#x6C42;',
+	    '43003' => '&#x9700;&#x8981;HTTPS&#x8BF7;&#x6C42;',
+	    '43004' => '&#x9700;&#x8981;&#x63A5;&#x6536;&#x8005;&#x5173;&#x6CE8;',
+	    '43005' => '&#x9700;&#x8981;&#x597D;&#x53CB;&#x5173;&#x7CFB;',
+	    '44001' => '&#x591A;&#x5A92;&#x4F53;&#x6587;&#x4EF6;&#x4E3A;&#x7A7A;',
+	    '44002' => 'POST&#x7684;&#x6570;&#x636E;&#x5305;&#x4E3A;&#x7A7A;',
+	    '44003' => '&#x56FE;&#x6587;&#x6D88;&#x606F;&#x5185;&#x5BB9;&#x4E3A;&#x7A7A;',
+	    '44004' => '&#x6587;&#x672C;&#x6D88;&#x606F;&#x5185;&#x5BB9;&#x4E3A;&#x7A7A;',
+	    '45001' => '&#x591A;&#x5A92;&#x4F53;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45002' => '&#x6D88;&#x606F;&#x5185;&#x5BB9;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45003' => '&#x6807;&#x9898;&#x5B57;&#x6BB5;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45004' => '&#x63CF;&#x8FF0;&#x5B57;&#x6BB5;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45005' => '&#x94FE;&#x63A5;&#x5B57;&#x6BB5;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45006' => '&#x56FE;&#x7247;&#x94FE;&#x63A5;&#x5B57;&#x6BB5;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45007' => '&#x8BED;&#x97F3;&#x64AD;&#x653E;&#x65F6;&#x95F4;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45008' => '&#x56FE;&#x6587;&#x6D88;&#x606F;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45009' => '&#x63A5;&#x53E3;&#x8C03;&#x7528;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45010' => '&#x521B;&#x5EFA;&#x83DC;&#x5355;&#x4E2A;&#x6570;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45015' => '&#x56DE;&#x590D;&#x65F6;&#x95F4;&#x8D85;&#x8FC7;&#x9650;&#x5236;',
+	    '45016' => '&#x7CFB;&#x7EDF;&#x5206;&#x7EC4;&#xFF0C;&#x4E0D;&#x5141;&#x8BB8;&#x4FEE;&#x6539;',
+	    '45017' => '&#x5206;&#x7EC4;&#x540D;&#x5B57;&#x8FC7;&#x957F;',
+	    '45018' => '&#x5206;&#x7EC4;&#x6570;&#x91CF;&#x8D85;&#x8FC7;&#x4E0A;&#x9650;',
+	    '46001' => '&#x4E0D;&#x5B58;&#x5728;&#x5A92;&#x4F53;&#x6570;&#x636E;',
+	    '46002' => '&#x4E0D;&#x5B58;&#x5728;&#x7684;&#x83DC;&#x5355;&#x7248;&#x672C;',
+	    '46003' => '&#x4E0D;&#x5B58;&#x5728;&#x7684;&#x83DC;&#x5355;&#x6570;&#x636E;',
+	    '46004' => '&#x4E0D;&#x5B58;&#x5728;&#x7684;&#x7528;&#x6237;',
+	    '47001' => '&#x89E3;&#x6790;JSON/XML&#x5185;&#x5BB9;&#x9519;&#x8BEF;',
+	    '48001' => 'api&#x529F;&#x80FD;&#x672A;&#x6388;&#x6743;',
+	    '50001' => '&#x7528;&#x6237;&#x672A;&#x6388;&#x6743;&#x8BE5;api',
 	);
 	public static $_USERINFO_LANG = 'en';
+	// DATA
 	private $_appid;
 	private $_appsecret;
 	private static $_accessTokenCache = array();
@@ -393,7 +433,7 @@ class WeChatClient {
 	private static $ERROR_NO = 0;
 
 	public function __construct($appid, $appsecret = '') {
-		if($appsecret) {
+		if ($appsecret) {
 			$this->_appid = $appid;
 			$this->_appsecret = $appsecret;
 		} else {
@@ -420,6 +460,12 @@ class WeChatClient {
 		return $result;
 	}
 
+	/**
+	 * @method get
+	 * @static
+	 * @param  {string}
+	 * @return {string|boolen}
+	 */
 	public static function get($url) {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -439,6 +485,13 @@ class WeChatClient {
 		return $data;
 	}
 
+	/**
+	 * @method post
+	 * @static
+	 * @param  {string}        $url URL to post data to
+	 * @param  {string|array}  $data Data to be post
+	 * @return {string|boolen} Response string or false for failure.
+	 */
 	private static function post($url, $data) {
 		if (!function_exists('curl_init')) {
 			return '';
@@ -466,13 +519,14 @@ class WeChatClient {
 		$myTokenInfo = null;
 		$appid = $this->_appid;
 		$appsecret = $this->_appsecret;
-		$cachename = 'wechatat_'.$appid;
+		$cachename = 'wechatat_' . $appid;
 		loadcache($cachename);
 
 		if ($nocache || empty(self::$_accessTokenCache[$appid])) {
 			self::$_accessTokenCache[$appid] = $_G['cache'][$cachename];
 		}
 
+		// check cache
 		if (!empty(self::$_accessTokenCache[$appid])) {
 			$myTokenInfo = self::$_accessTokenCache[$appid];
 			if (time() < $myTokenInfo['expiration']) {
@@ -480,12 +534,14 @@ class WeChatClient {
 			}
 		}
 
+		// get new token
 		$url = self::$_URL_API_ROOT . "/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$appsecret";
 
 		$json = self::get($url);
 		$res = json_decode($json, true);
 
 		if (self::checkIsSuc($res)) {
+			// update cache
 			self::$_accessTokenCache[$appid] = $myTokenInfo = array(
 			    'token' => $res['access_token'],
 			    'expiration' => time() + (int) $res['expires_in']
@@ -505,6 +561,7 @@ class WeChatClient {
 		}
 	}
 
+	// *************** media file upload/download ************
 	public function upload($type, $file_path, $mediaidOnly = 1) {
 		$access_token = $this->getAccessToken();
 		$url = self::$_URL_FILE_API_ROOT . "/cgi-bin/media/upload?access_token=$access_token&type=$type";
@@ -525,6 +582,7 @@ class WeChatClient {
 		return self::get($url);
 	}
 
+	// *************** MENU ******************
 	public function getMenu() {
 
 		$access_token = $this->getAccessToken();
@@ -563,6 +621,7 @@ class WeChatClient {
 		return self::checkIsSuc($res);
 	}
 
+	// *************** send msg ******************
 	private function _send($to, $type, $data) {
 		$access_token = $this->getAccessToken();
 		$url = self::$_URL_API_ROOT . "/cgi-bin/message/custom/send?access_token=$access_token";
@@ -632,6 +691,78 @@ class WeChatClient {
 		return $result;
 	}
 
+	public function uploadNews($articles) {
+		$i = 0;
+		$ii = count($articles);
+		$result = array();
+		while ($i < $ii) {
+			$currentArticle = $articles[$i++];
+			try {
+				array_push($result, array(
+				    'thumb_media_id' => $currentArticle['thumb_media_id'],
+				    'title' => $this->convertToUtf($currentArticle['title']),
+				    'content' => $this->convertToUtf($currentArticle['content']),
+				    'author' => $this->convertToUtf($currentArticle['author']),
+				    'content_source_url' => $this->convertToUtf($currentArticle['url']),
+				    'digest' => $this->convertToUtf($currentArticle['desc']),
+				    'show_cover_pic' => 1
+				));
+			} catch (Exception $e) {
+
+			}
+		}
+
+		$access_token = $this->getAccessToken();
+		$url = self::$_URL_API_ROOT . "/cgi-bin/media/uploadnews?access_token=$access_token";
+		if (defined('JSON_UNESCAPED_UNICODE')) {
+			$json = json_encode(array('articles' => $result), JSON_UNESCAPED_UNICODE);
+		} else {
+			$json = json_encode(array('articles' => $result));
+		}
+
+		$json = urldecode($json);
+
+		$res = self::post($url, $json);
+		if (self::checkIsSuc($res)) {
+			return json_decode($res, true);
+		} else {
+			return false;
+		}
+	}
+
+	public function sendMassMsg($msg) {
+		$access_token = $this->getAccessToken();
+		$url = self::$_URL_API_ROOT . "/cgi-bin/message/mass/sendall?access_token=$access_token";
+		$post = array();
+		$post['filter'] = array('group_id' => $msg['group_id']);
+		if ($msg['type'] == 'media') {
+			$post['mpnews'] = array('media_id' => $msg['media_id']);
+			$post['msgtype'] = 'mpnews';
+		} else {
+			$post['text'] = array('content' => $this->convertToUtf($msg['text']));
+			$post['msgtype'] = 'text';
+		}
+
+		if (defined('JSON_UNESCAPED_UNICODE')) {
+			$json = json_encode($post, JSON_UNESCAPED_UNICODE);
+		} else {
+			$json = json_encode($post);
+		}
+
+		$json = urldecode($json);
+
+		$res = self::post($url, $json);
+		if (self::checkIsSuc($res)) {
+			return json_decode($res, true);
+		} else {
+			return false;
+		}
+	}
+
+	function convertToUtf($str) {
+		return urlencode(diconv($str, CHARSET, 'UTF-8'));
+	}
+
 	public function sendRichMsg($to, $articles) {
 
 		return $this->_send($to, 'news', array(
@@ -639,6 +770,8 @@ class WeChatClient {
 		));
 	}
 
+	// *************** followers admin ******************
+	// follower group
 	public function createGroup($name) {
 		$access_token = $this->getAccessToken();
 		$url = self::$_URL_API_ROOT . "/cgi-bin/groups/create?access_token=$access_token";
@@ -687,11 +820,13 @@ class WeChatClient {
 		$access_token = $this->getAccessToken();
 		$url = self::$_URL_API_ROOT . "/cgi-bin/groups/get?access_token=$access_token";
 
-		$res = self::get($url);
-		echo $res;
-		$res = json_decode($res, true);
+		$res = json_decode(self::get($url), true);
 
-		return self::checkIsSuc($res) ? $res['groups'] : null;
+		if (self::checkIsSuc($res)) {
+			return $res['groups'];
+		} else {
+			return null;
+		}
 	}
 
 	public function getGroupidByUserid($uid) {
@@ -706,6 +841,7 @@ class WeChatClient {
 		return self::checkIsSuc($res) ? $res['groupid'] : null;
 	}
 
+	// *************** Followers info ******************
 	public function getUserInfoById($uid, $lang = '') {
 		if (!$lang) {
 			$lang = self::$_USERINFO_LANG;
@@ -737,6 +873,7 @@ class WeChatClient {
 			) : null;
 	}
 
+	// ************************** OAuth *****************
 	public function getOAuthConnectUri($redirect_uri, $state = '', $scope = 'snsapi_base') {
 		$redirect_uri = urlencode($redirect_uri);
 		$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->_appid}&redirect_uri={$redirect_uri}&response_type=code&scope={$scope}&state={$state}#wechat_redirect";
@@ -761,6 +898,7 @@ class WeChatClient {
 		return $res;
 	}
 
+	// ************************** qr code *****************
 	public static function getQrcodeImgByTicket($ticket) {
 		return self::get($this->getQrcodeImgUrlByTicket($ticket));
 	}
@@ -836,7 +974,7 @@ class WeChatHook {
 	public static function updateAppInfo($extId, $appId = '', $appSecret = '') {
 		global $_G;
 		$wechatappInfos = unserialize($_G['setting']['wechatappInfos']);
-		if($appId) {
+		if ($appId) {
 			$wechatappInfos[$extId] = array('appId' => $appId, 'appSecret' => $appSecret);
 		} else {
 			unset($wechatappInfos[$extId]);
@@ -849,7 +987,7 @@ class WeChatHook {
 	public static function getAppInfo($extId) {
 		global $_G;
 		$wechatappInfos = unserialize($_G['setting']['wechatappInfos']);
-		if(isset($wechatappInfos[$extId])) {
+		if (isset($wechatappInfos[$extId])) {
 			return $wechatappInfos[$extId];
 		} else {
 			return array();
@@ -858,21 +996,21 @@ class WeChatHook {
 
 	public static function updateResponse($data, $extId = '') {
 		$response = self::getResponse($extId);
-		foreach($data as $key => $value) {
-			if($value) {
-				if($value['plugin'] && $value['include'] && $value['class'] && $value['method']) {
+		foreach ($data as $key => $value) {
+			if ($value) {
+				if ($value['plugin'] && $value['include'] && $value['class'] && $value['method']) {
 					$response[$key] = $value;
 				}
 			} else {
 				unset($response[$key]);
 			}
 		}
-		if(!$extId) {
+		if (!$extId) {
 			$settings = array('wechatresponse' => serialize($response));
 		} else {
 			global $_G;
 			$wechatresponseExts = unserialize($_G['setting']['wechatresponseExts']);
-			if($data) {
+			if ($data) {
 				$wechatresponseExts[$extId] = $response;
 			} else {
 				unset($wechatresponseExts[$extId]);
@@ -886,7 +1024,7 @@ class WeChatHook {
 
 	public static function getResponse($extId = '') {
 		global $_G;
-		if(!$extId) {
+		if (!$extId) {
 			return unserialize($_G['setting']['wechatresponse']);
 		} else {
 			$wechatresponseExts = unserialize($_G['setting']['wechatresponseExts']);
@@ -895,7 +1033,7 @@ class WeChatHook {
 	}
 
 	public static function updateRedirect($value) {
-		if(!$value || $value['plugin'] && $value['include'] && $value['class'] && $value['method']) {
+		if (!$value || $value['plugin'] && $value['include'] && $value['class'] && $value['method']) {
 			$settings = array('wechatredirect' => $value);
 			C::t('common_setting')->update_batch($settings);
 			updatecache('setting');
@@ -920,13 +1058,13 @@ class WeChatHook {
 
 	public static function updateAPIHook($datas) {
 		$apihook = self::getAPIHook();
-		foreach($datas as $data) {
-			foreach($data as $key => $value) {
-				if(!$value['plugin']) {
+		foreach ($datas as $data) {
+			foreach ($data as $key => $value) {
+				if (!$value['plugin']) {
 					continue;
 				}
 				list($module, $hookname) = explode('_', $key);
-				if($value['include'] && $value['class'] && $value['method']) {
+				if ($value['include'] && $value['class'] && $value['method']) {
 					$v = $value;
 					unset($v['plugin']);
 					$v['allow'] = 1;
@@ -945,13 +1083,13 @@ class WeChatHook {
 	public static function getAPIHook($getplugin = '') {
 		global $_G;
 		$data = unserialize($_G['setting']['mobileapihook']);
-		if(!$getplugin) {
+		if (!$getplugin) {
 			return $data;
 		} else {
-			foreach($data as $key => $hooknames) {
-				foreach($hooknames as $hookname => $plugins) {
-					foreach($plugins as $plugin => $value) {
-						if($getplugin != $plugin) {
+			foreach ($data as $key => $hooknames) {
+				foreach ($hooknames as $hookname => $plugins) {
+					foreach ($plugins as $plugin => $value) {
+						if ($getplugin != $plugin) {
 							unset($data[$key][$hookname][$plugin]);
 						}
 					}
@@ -962,15 +1100,15 @@ class WeChatHook {
 	}
 
 	public static function delAPIHook($getplugin) {
-		if(!$getplugin) {
+		if (!$getplugin) {
 			return;
 		}
-		$getplugins = (array)$getplugin;
+		$getplugins = (array) $getplugin;
 		$apihook = self::getAPIHook();
-		foreach($apihook as $key => $hooknames) {
-			foreach($hooknames as $hookname => $plugins) {
-				foreach($plugins as $plugin => $value) {
-					if(in_array($plugin, $getplugins)) {
+		foreach ($apihook as $key => $hooknames) {
+			foreach ($hooknames as $hookname => $plugins) {
+				foreach ($plugins as $plugin => $value) {
+					if (in_array($plugin, $getplugins)) {
 						unset($apihook[$key][$hookname][$plugin]);
 					}
 				}
@@ -984,15 +1122,13 @@ class WeChatHook {
 
 	public static function getPluginUrl($pluginid, $param = array()) {
 		global $_G;
-		if(in_array('plugin', $_G['setting']['rewritestatus'])) {
-			$url = $_G['siteurl'].rewriteoutput('plugin', 1, 'wechat', 'access');
+		if (in_array('plugin', $_G['setting']['rewritestatus'])) {
+			$url = $_G['siteurl'] . rewriteoutput('plugin', 1, 'wechat', 'access') . '?';
 		} else {
-			$url = $_G['siteurl'].'plugin.php?id=wechat:access';
+			$url = $_G['siteurl'] . 'plugin.php?id=wechat:access&';
 		}
-		$url .= '&pluginid='.urlencode($pluginid);
-		$url .= '&param='.urlencode(base64_encode(http_build_query($param)));
+		$url .= 'pluginid=' . urlencode($pluginid) . '&param=' . urlencode(base64_encode(http_build_query($param)));
 		return $url;
-
 	}
 
 }

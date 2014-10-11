@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: wsqapi.class.php 34716 2014-07-14 08:28:32Z nemohou $
+ *      $Id: wsqapi.class.php 34924 2014-08-27 06:33:08Z nemohou $
  */
 
 if (!defined('IN_DISCUZ')) {
@@ -42,38 +42,94 @@ class WSQAPI {
 		$variables['thread']['showactivity'] = 1;
 		$variables['special_activity']['thumb'] = preg_match('/^http:\//', $GLOBALS['activity']['thumb']) ? $GLOBALS['activity']['thumb'] : $_G['siteurl'].$GLOBALS['activity']['thumb'];
 		unset($variables['special_activity']['attachurl']);
-		$posts = DB::fetch_all("SELECT pid, voters FROM %t WHERE tid=%d", array('forum_debatepost', $_G['tid']), 'pid');
-		$voters = array();
-		foreach($variables['postlist'] as &$post) {
-			$post['voters'] = intval($posts[$post['pid']]['voters']);
-		}
-		require_once libfile('function/attachment');
-		if(empty($_GET['viewnew']) && empty($_GET['viewpid'])) {
-			foreach($posts as $vpost) {
-				if($vpost['voters'] > 0) {
-					$voters[$vpost['pid']] = $vpost['voters'];
+
+		if(empty($_GET['viewpid'])) {
+			if(!$_GET['viewhot']) {
+				$pids = array();
+				foreach($variables['postlist'] as $post) {
+					$pids[] = $post['pid'];
 				}
+				if($pids) {
+					$posts = DB::fetch_all("SELECT pid, voters FROM %t WHERE pid IN (%n)", array('forum_debatepost', $pids), 'pid');
+					$voters = array();
+					foreach($variables['postlist'] as $key => $post) {
+						$variables['postlist'][$key]['voters'] = intval($posts[$post['pid']]['voters']);
+						if($_G['page'] == 1 && !$post['first'] && $_G['uid'] && $_G['uid'] == $post['authorid']) {
+							unset($variables['postlist'][$key]);
+						}
+					}
+				}
+				$variables['postlist'] = array_values($variables['postlist']);
+				$myarr = array();
+				if($_G['uid'] && $_G['page'] == 1) {
+					$pids = array();
+					$posts = C::t('forum_post')->fetch_all_common_viewthread_by_tid($_G['tid'], 0, $_G['uid'], 1, 2, 0, 0, 0);
+					foreach($posts as $pid => $post) {
+						$myarr[$pid] = array(
+						    'pid' => $pid,
+						    'author' => $post['author'],
+						    'authorid' => $post['authorid'],
+						    'voters' => 0,
+						);
+						$pids[] = $post['pid'];
+					}
+					$posts = DB::fetch_all("SELECT pid, voters FROM %t WHERE pid IN (%n)", array('forum_debatepost', $pids), 'pid');
+					foreach($posts as $pid => $post) {
+						$myarr[$pid]['voters'] = intval($post['voters']);
+					}
+					if($myarr) {
+						require_once libfile('function/attachment');
+						parseattach(array_keys($myarr), array(), $myarr);
+					}
+				}
+				$variables['special_activity']['my_postlist'] = array_values($myarr);
+				$variables['special_activity']['view'] = 'new';
+			} else {
+				foreach($variables['postlist'] as $key => $post) {
+					if(!$post['first']) {
+						unset($variables['postlist'][$key]);
+					}
+				}
+				$cachekey = 'showactivity_'.$_G['tid'];
+				loadcache($cachekey);
+				if(!$_G['cache'][$cachekey] || TIMESTAMP - $_G['cache'][$cachekey]['expiration'] > 600) {
+					$posts = DB::fetch_all("SELECT pid, voters FROM %t d WHERE tid=%d AND voters>1 ORDER BY voters DESC LIMIT 500", array('forum_debatepost', $_G['tid']), 'pid');
+					foreach($posts as $vpost) {
+						$voters[$vpost['pid']] = $vpost['voters'];
+					}
+					$top = 1;
+					$toparr = array();
+					$posts = C::t('forum_post')->fetch_all_by_pid('tid:'.$_G['tid'], array_keys($voters), false, '', 0, 0, null, 0);
+					foreach($voters as $pid => $voters) {
+						if($posts[$pid]) {
+							$toparr[$pid] = array(
+							    'pid' => $pid,
+							    'author' => $posts[$pid]['author'],
+							    'authorid' => $posts[$pid]['authorid'],
+							    'voters' => $voters,
+							    'top' => $top++
+							);
+							if($top > 50) {
+								break;
+							}
+						}
+					}
+					$variables['special_activity']['top_postlist'] = $toparr;
+					savecache($cachekey, array('variable' => $toparr, 'expiration' => TIMESTAMP));
+				} else {
+					$variables['special_activity']['top_postlist'] = $_G['cache'][$cachekey]['variable'];
+				}
+				$hotpage = max(1, $_GET['page']);
+				$start = max(0, ($hotpage - 1) * $_G['ppp']);
+
+				$toplist = & $variables['special_activity']['top_postlist'];
+				$toplist = array_slice($toplist, $start, $_G['ppp'], 1);
+				require_once libfile('function/attachment');
+				parseattach(array_keys($toplist), array(), $toplist);
+				$toplist = array_values($toplist);
+				$variables['special_activity']['view'] = 'hot';
 			}
-			arsort($voters);
-			$voters = array_slice($voters, 0, 10, 1);
-			$vpids = array_keys($voters);
-			$toparr = C::t('forum_post')->fetch_all('tid:'.$_G['tid'], $vpids, false);
-			$top = 1;
-			foreach($voters as $pid => &$data) {
-				$toparr[$pid] = array(
-				    'pid' => $pid,
-				    'author' => $toparr[$pid]['author'],
-				    'authorid' => $toparr[$pid]['authorid'],
-				    'voters' => $data,
-				    'top' => $top++,
-				);
-				$data = $toparr[$pid];
-			}
-			$variables['special_activity']['top_postlist'] = $voters;
-			parseattach($vpids, array(), $variables['special_activity']['top_postlist']);
-			$variables['special_activity']['top_postlist'] = array_values($variables['special_activity']['top_postlist']);
-		}
-		if(!empty($_GET['viewpid'])) {
+		} else {
 			$comments = array();
 			foreach($GLOBALS['comments'][$_GET['viewpid']] as $comment) {
 				$comments[] = array(
@@ -85,6 +141,9 @@ class WSQAPI {
 				);
 			}
 			$variables['postlist'] = array_merge($variables['postlist'], $comments);
+			$variables['thread']['replies'] = $GLOBALS['commentcount'][$_GET['viewpid']];
+			$voters = C::t('forum_debatepost')->fetch($_GET['viewpid']);
+			$variables['thread']['recommend_add'] = $voters['voters'];
 		}
 	}
 

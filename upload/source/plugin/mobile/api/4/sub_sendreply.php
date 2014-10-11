@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: sub_sendreply.php 34619 2014-06-13 01:36:17Z nemohou $
+ *      $Id: sub_sendreply.php 34818 2014-08-11 02:59:57Z nemohou $
  */
 if (!defined('IN_DISCUZ')) {
 	exit('Access Denied');
@@ -30,7 +30,6 @@ if (trim($newmessage) != '') {
 	    'author' => $_G['username'],
 	    'authorid' => $_G['uid'],
 	    'message' => $newmessage,
-	    'avatar' => avatar($_G['uid'], 'small', true),
 	);
 	array_push($posts, $post);
 }

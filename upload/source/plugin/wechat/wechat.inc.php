@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: wechat.inc.php 34702 2014-07-10 10:08:30Z nemohou $
+ *      $Id: wechat.inc.php 34941 2014-09-05 06:42:35Z nemohou $
  */
 if (!defined('IN_DISCUZ')) {
 	exit('Access Denied');
@@ -16,6 +16,7 @@ define('IN_WECHAT', strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== fa
 require_once DISCUZ_ROOT . './source/plugin/wechat/wechat.lib.class.php';
 require_once DISCUZ_ROOT . './source/plugin/wechat/wechat.class.php';
 require_once DISCUZ_ROOT . './source/plugin/wechat/wsq.class.php';
+require_once DISCUZ_ROOT . './source/discuz_version.php';
 
 list($openid, $sid) = explode("\t", authcode(base64_decode($_GET['key']), 'DECODE', $_G['config']['security']['authkey']));
 $keyenc = urlencode($_GET['key']);
@@ -182,6 +183,9 @@ if($ac == 'bind') {
 		showmessage('profile_passwd_illegal');
 	}
 
+	if(DISCUZ_VERSION < 'X3.0') {
+		$_GET['username'] = WeChatEmoji::clear($_GET['username']);
+	}
 	$result = userlogin($_GET['username'], $_GET['password'], $_GET['questionid'], $_GET['answer'], $_G['setting']['autoidselect'] ? 'auto' : $_GET['loginfield'], $_G['clientip']);
 
 	if($result['status'] <= 0) {
@@ -214,15 +218,22 @@ if($ac == 'bind') {
 		showmessage('wechat:wechat_openid_exists');
 	} else {
 
+		if(DISCUZ_VERSION < 'X3.0') {
+			$_GET['username'] = WeChatEmoji::clear($_GET['username']);
+		}
 		if($ac == 'wxregister') {
 			loaducenter();
 			$user = uc_get_user($_GET['username']);
 			if(!empty($user)) {
-				$_GET['username'] = substr($_GET['username'], 0, 9).'_'.random(5);
+				$_GET['username'] = cutstr($_GET['username'], 9, '').'_'.random(5);
 			}
 		}
 
 		$uid = WeChat::register($_GET['username']);
+
+		if($uid && $_GET['avatar']) {
+			WeChat::syncAvatar($uid, $_GET['avatar']);
+		}
 
 		if(!$_G['wechat']['setting']['wechat_qrtype']) {
 			WeChatHook::bindOpenId($uid, $openid, 1);

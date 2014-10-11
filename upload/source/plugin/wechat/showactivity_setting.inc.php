@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: showactivity_setting.inc.php 34702 2014-07-10 10:08:30Z nemohou $
+ *      $Id: showactivity_setting.inc.php 34754 2014-07-29 03:16:20Z nemohou $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -17,6 +17,9 @@ $ac = !empty($_GET['ac']) ? $_GET['ac'] : '';
 
 require_once libfile('function/forumlist');
 loadcache('forums');
+
+require_once DISCUZ_ROOT.'./source/plugin/wechat/setting.class.php';
+WeChatSetting::menu();
 
 if(!$ac) {
 

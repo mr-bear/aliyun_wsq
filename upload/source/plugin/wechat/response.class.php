@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: response.class.php 34716 2014-07-14 08:28:32Z nemohou $
+ *      $Id: response.class.php 34929 2014-08-29 08:09:29Z nemohou $
  */
 
 if (!defined('IN_DISCUZ')) {
@@ -33,6 +33,7 @@ class WSQResponse {
 				wsq::report('loginclick');
 				self::_show('access', $data['from']);
 			}
+//			echo WeChatServer::getXml4Txt(lang('plugin/wechat', 'wechat_response_text_codeerror'));
 		} else {
 			wsq::report('sendnum');
 			self::_show('sendnum', $data['from']."\t".$authcode['sid'], 60);
@@ -49,6 +50,8 @@ class WSQResponse {
 		if($data['key'] == self::$keyword) {
 			wsq::report('loginclick');
 			self::_show('access', $data['from']);
+		} else {
+			self::_custom('text', $data['key']);
 		}
 	}
 
@@ -84,6 +87,7 @@ class WSQResponse {
 		}
 		$authcode = C::t('#wechat#mobile_wechat_authcode')->fetch_by_code($data['key']);
 		if(!$authcode || $authcode['status']) {
+//			echo WeChatServer::getXml4Txt(lang('plugin/wechat', 'wechat_response_text_codeerror'));
 		} else {
 			if($authcode['uid']) {
 				$member = getuserbyuid($authcode['uid'], 1);
@@ -163,8 +167,7 @@ class WSQResponse {
 			'title' => lang('plugin/wechat', 'wechat_response_text_title', $param),
 			'desc' => lang('plugin/wechat', $desc, $param),
 			'url' => $url
-		    )
-		);
+		));
 		echo WeChatServer::getXml4RichMsgByArray($list);
 		exit;
 	}
@@ -178,7 +181,33 @@ class WSQResponse {
 			if($query == self::$keyword) {
 				return 1;
 			}
-			echo WeChatServer::getXml4Txt($query);
+			if(preg_match("/^\[resource=(\d+)\]/", $query, $r)) {
+				$resource = C::t('#wechat#mobile_wechat_resource')->fetch($r[1]);
+				if(!$resource['type']) {
+					$list = array(array(
+						'title' => $resource['data']['title'],
+						'desc' => $resource['data']['desc'],
+						'pic' => $resource['data']['pic'],
+						'url' => $resource['data']['url'],
+					));
+				} else {
+					$mergeids = array_keys($resource['data']['mergeids']);
+					$sresource = C::t('#wechat#mobile_wechat_resource')->fetch_all($mergeids);
+					$list = array();
+					foreach($resource['data']['mergeids'] as $id => $order) {
+						$list[] = array(
+							'title' => $sresource[$id]['data']['title'],
+							'desc' => $sresource[$id]['data']['desc'],
+							'pic' => $sresource[$id]['data']['pic'],
+							'url' => $sresource[$id]['data']['url'],
+						);
+					}
+				}
+				echo WeChatServer::getXml4RichMsgByArray($list);
+				exit;
+			} else {
+				echo WeChatServer::getXml4Txt($query);
+			}
 			exit;
 		}
 		return 0;
@@ -190,5 +219,21 @@ class WSQResponse {
 			$_G['wechat']['setting'] = unserialize($_G['setting']['mobilewechat']);
 		}
 	}
+
+    public static function masssendFinish($param) {
+        list($data) = $param;
+        if(!$data['msg_id']) {
+            exit;
+        }
+        $updatedata = array(
+            'res_status' => $data['status'],
+            'res_totalcount' => $data['totalcount'],
+            'res_filtercount' => $data['filtercount'],
+            'res_sentcount' => $data['sentcount'],
+            'res_errorcount' => $data['errorcount'],
+            'res_finish_at' => $data['time']
+        );
+        DB::update('mobile_wechat_masssend', $updatedata, "msg_id='$data[msg_id]'");
+    }
 
 }

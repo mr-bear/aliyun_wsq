@@ -4,8 +4,9 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: sub_threadlist.php 34702 2014-07-10 10:08:30Z nemohou $
+ *      $Id: sub_threadlist.php 34818 2014-08-11 02:59:57Z nemohou $
  */
+//note checkpost.sub @ Discuz! X2.5
 
 if (!defined('IN_MOBILE_API')) {
 	exit('Access Denied');
@@ -33,7 +34,6 @@ foreach ($_G['forum_threadlist'] as $k => $thread) {
 	}
 	$_G['forum_threadlist'][$k]['dateline'] = strip_tags($thread['dateline']);
 	$_G['forum_threadlist'][$k]['lastpost'] = strip_tags($thread['lastpost']);
-	$_G['forum_threadlist'][$k]['avatar'] = avatar($thread['authorid'], 'small', true);
 	$userids[] = $thread['authorid'];
 }
 
@@ -75,9 +75,9 @@ if($_G['forum']['icon']) {
 $_G['forum']['threadcount'] = $_G['forum_threadcount'];
 
 $variable = array(
-    'forum' => mobile_core::getvalues($_G['forum'], array('fid', 'fup', 'name', 'threads', 'posts', 'rules', 'autoclose', 'password', 'icon', 'threadcount', 'picstyle')),
+    'forum' => mobile_core::getvalues($_G['forum'], array('fid', 'fup', 'name', 'threads', 'posts', 'rules', 'autoclose', 'password', 'icon', 'threadcount', 'picstyle', 'description')),
     'group' => mobile_core::getvalues($_G['group'], array('groupid', 'grouptitle')),
-    'forum_threadlist' => mobile_core::getvalues(array_values($_G['forum_threadlist']), array('/^\d+$/'), array('tid', 'author', 'authorid', 'subject', 'subject', 'dbdateline', 'dateline', 'dblastpost', 'lastpost', 'lastposter', 'attachment', 'replies', 'readperm', 'views', 'digest', 'cover', 'recommend', 'recommend_add', 'reply', 'avatar', 'displayorder', 'coverpath', 'typeid')),
+    'forum_threadlist' => mobile_core::getvalues(array_values($_G['forum_threadlist']), array('/^\d+$/'), array('tid', 'author', 'special', 'authorid', 'subject', 'subject', 'dbdateline', 'dateline', 'dblastpost', 'lastpost', 'lastposter', 'attachment', 'replies', 'readperm', 'views', 'digest', 'cover', 'recommend', 'recommend_add', 'reply', 'avatar', 'displayorder', 'coverpath', 'typeid')),
     'groupiconid' => $groupiconIds,
     'sublist' => mobile_core::getvalues($GLOBALS['sublist'], array('/^\d+$/'), array('fid', 'name', 'threads', 'todayposts', 'posts', 'icon')),
     'tpp' => $_G['tpp'],

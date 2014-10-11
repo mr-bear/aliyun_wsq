@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: wsq.class.php 34559 2014-05-29 09:48:04Z nemohou $
+ *      $Id: wsq.class.php 34914 2014-08-25 04:45:40Z nemohou $
  */
 
 if (!defined('IN_DISCUZ')) {
@@ -19,7 +19,7 @@ class wsq {
 
 	private static function _dfsockopen($get, $post = array()) {
 		global $_G;
-		$return = dfsockopen(self::$API_URL.http_build_query($get), 0, $post);
+		$return = dfsockopen(self::$API_URL.http_build_query($get), 0, $post, '', false, $_G['config']['wsqapi_ip']);
 		return json_decode($return);
 	}
 
@@ -80,7 +80,7 @@ class wsq {
 		return self::$SETTING['wsq_siteid'];
 	}
 
-	public static function register($sitename, $siteurl, $sitelogo, $sitesummary, $mptype, $qrtype) {
+	public static function register($sitename, $siteurl, $sitelogo, $sitesummary, $mptype, $qrtype, $siteip, $followurl, $appid, $appsecret, $setting) {
 		global $_G;
 		$get = array(
 			'c' => 'site',
@@ -94,6 +94,11 @@ class wsq {
 			'mptype' => $mptype,
 			'qrtype' => $qrtype,
 			'siteuniqueid' => $_G['setting']['siteuniqueid'],
+			'siteip' => $siteip,
+			'followurl' => $followurl,
+			'appid' => $appid,
+			'appsecret' => $appsecret,
+			'setting' => serialize($setting),
 		);
 		$post = self::_convert($post);
 		return self::_dfsockopen($get, $post);
@@ -167,7 +172,7 @@ class wsq {
 		return !$return->code;
 	}
 
-	public static function edit($sitename, $siteurl, $sitelogo, $sitesummary, $mptype, $qrtype) {
+	public static function edit($sitename, $siteurl, $sitelogo, $sitesummary, $mptype, $qrtype, $siteip, $followurl, $appid, $appsecret, $setting) {
 		global $_G;
 		$get = array(
 			'c' => 'site',
@@ -182,6 +187,11 @@ class wsq {
 			'mptype' => $mptype,
 			'qrtype' => $qrtype,
 			'siteuniqueid' => $_G['setting']['siteuniqueid'],
+			'siteip' => $siteip,
+			'followurl' => $followurl,
+			'appid' => $appid,
+			'appsecret' => $appsecret,
+			'setting' => serialize($setting),
 		);
 		$post = self::_convert($post);
 		$post['signature'] = self::_make_sign(array_merge($get, $post), self::_token());
@@ -235,6 +245,18 @@ class wsq {
 		    )
 		);
 	}
+
+    public static function stat() {
+        self::_setting();
+        $get = array(
+            'c' => 'site',
+            'a' => 'stat',
+            'siteid' => self::_siteid(),
+        );
+        $post = array();
+        $post['signature'] = self::_make_sign(array_merge($get, $post), self::_token());
+        return self::_dfsockopen($get, $post);
+    }
 
 }
 

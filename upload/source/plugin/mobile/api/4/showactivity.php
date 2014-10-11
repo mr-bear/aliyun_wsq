@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: showactivity.php 34702 2014-07-10 10:08:30Z nemohou $
+ *      $Id: showactivity.php 34858 2014-08-15 09:29:50Z nemohou $
  */
 if (!defined('IN_MOBILE_API')) {
 	exit('Access Denied');
@@ -30,6 +30,10 @@ class mobile_api {
 			$postinfo = C::t('forum_post')->fetch('tid:'.$_GET['tid'], $_GET['pid']);
 			if(!$postinfo) {
 				mobile_core::result(mobile_core::variable(array('result' => -3)));
+			}
+			$activity = C::t('forum_activity')->fetch($_G['tid']);
+			if($activity['expiration'] && $activity['expiration'] < TIMESTAMP) {
+				mobile_core::result(mobile_core::variable(array('result' => -4)));
 			}
 			$post = C::t('forum_debatepost')->fetch($_GET['pid']);
 			if(!$post) {

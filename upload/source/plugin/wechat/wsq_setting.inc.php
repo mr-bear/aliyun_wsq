@@ -4,18 +4,30 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: wsq_setting.inc.php 34702 2014-07-10 10:08:30Z nemohou $
+ *      $Id: wsq_setting.inc.php 34927 2014-08-28 04:41:23Z nemohou $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-$setting = C::t('common_setting')->fetch_all(array('mobilewechat'));
+if(empty($_GET['updated'])) {
+	require_once DISCUZ_ROOT.'./source/plugin/wechat/install/checkupdate.inc.php';
+	if($pluginupdated) {
+		updatecache(array('plugin', 'setting'));
+		$url = $_SERVER['REQUEST_URI'].(strexists($_SERVER['REQUEST_URI'], '?') ? '&' : '?').'updated=yes';
+		dheader('location: '.$url);
+	}
+}
+
+$setting = C::t('common_setting')->fetch_all(array('mobilewechat', 'mobile'));
+$mobilesetting = (array)unserialize($setting['mobile']);
 $setting = (array)unserialize($setting['mobilewechat']);
 
 require_once DISCUZ_ROOT.'./source/plugin/wechat/wechat.lib.class.php';
 require_once DISCUZ_ROOT.'./source/plugin/wechat/wsq.class.php';
+require_once DISCUZ_ROOT.'./source/plugin/wechat/setting.class.php';
+WeChatSetting::menu();
 
 if(!empty($_GET['recheck'])) {
 	wsq::recheck();
@@ -66,13 +78,16 @@ if(!submitcheck('settingsubmit')) {
 	showsetting(lang('plugin/wechat', 'wsq_sitelogo'), 'wsq_sitelogo', $setting['wsq_sitelogo'], 'file', 0, 0, lang('plugin/wechat', 'wsq_sitelogo_comment', array('sitelogo' => $sitelogo)));
 	showsetting(lang('plugin/wechat', 'wsq_sitesummary'), 'setting[wsq_sitesummary]', $setting['wsq_sitesummary'], 'textarea');
 	showsetting(lang('plugin/wechat', 'wsq_siteurl'), 'setting[wsq_siteurl]', $setting['wsq_siteurl'], 'text', 0, 0, lang('plugin/wechat', 'wsq_siteurl_comment'));
+	showsetting(lang('plugin/wechat', 'wsq_siteip'), 'setting[wsq_siteip]', $setting['wsq_siteip'], 'text', 0, 0, lang('plugin/wechat', 'wsq_siteip_comment'));
 	showsetting(lang('plugin/wechat', 'wsq_fid'), '', '', $forums, 0, 0, lang('plugin/wechat', 'wsq_fid_comment'));
 	if(!empty($_G['setting']['domain']['root']['forum'])) {
 		showsetting(lang('plugin/wechat', 'wsq_domain'), '', '', 'http://<input type="text" name="setting[wsq_domain]" class="txt" value="'.$setting['wsq_domain'].'" style="width:100px; margin-right:0px;" >.'.$_G['setting']['domain']['root']['forum'], !function_exists('domain_create'), 0, lang('plugin/wechat', 'wsq_domain_comment'));
 	} else {
 		showsetting(lang('plugin/wechat', 'wsq_domain'), 'setting[wsq_domain]', '', 'text', 1, 0, lang('plugin/wechat', 'wsq_domain_comment'));
 	}
-	showsetting(lang('plugin/wechat', 'wechat_float_qrcode'), 'setting[wechat_float_qrcode]', $setting['wechat_float_qrcode'], 'radio');
+	showsetting(lang('plugin/wechat', 'wechat_float_qrcode'), 'setting[wechat_float_qrcode]', $setting['wechat_float_qrcode'], 'radio', 0, 1);
+	showsetting(lang('plugin/wechat', 'wechat_float_text'), 'setting[wechat_float_text]', $setting['wechat_float_text'], 'text');
+	showtagfooter('tbody');
 	showsetting(lang('plugin/wechat', 'wsq_wapdefault'), 'setting[wsq_wapdefault]', $setting['wsq_wapdefault'], 'radio');
 	showsubmit('settingsubmit');
 	showtablefooter();
@@ -97,14 +112,38 @@ if(!submitcheck('settingsubmit')) {
 	}
 
 	if(!$setting['wsq_sitetoken']) {
-		$siteinfo = wsq::register($_GET['setting']['wsq_sitename'], $_GET['setting']['wsq_siteurl'], $_GET['setting']['wsq_sitelogo'], $_GET['setting']['wsq_sitesummary'], $setting['wechat_mtype'], $setting['wechat_qrtype']);
+		$siteinfo = wsq::register(
+			$_GET['setting']['wsq_sitename'],
+			$_GET['setting']['wsq_siteurl'],
+			$_GET['setting']['wsq_sitelogo'],
+			$_GET['setting']['wsq_sitesummary'],
+			$setting['wechat_mtype'],
+			$setting['wechat_qrtype'],
+			$_GET['setting']['wsq_siteip'],
+			$setting['wechat_followurl'],
+			$setting['wechat_appId'],
+			$setting['wechat_appsecret'],
+			$_GET['setting'] + $setting
+		);
 		if(!$siteinfo || $siteinfo->code) {
 			cpmsg(lang('plugin/wechat', 'wsq_api_register_error'), '', 'error');
 		}
 		$_GET['setting']['wsq_siteid'] = $siteinfo->res->siteid;
 		$_GET['setting']['wsq_sitetoken'] = $siteinfo->res->token;
 	} else {
-		$siteinfo = wsq::edit($_GET['setting']['wsq_sitename'], $_GET['setting']['wsq_siteurl'], $_GET['setting']['wsq_sitelogo'], $_GET['setting']['wsq_sitesummary'], $setting['wechat_mtype'], $setting['wechat_qrtype']);
+		$siteinfo = wsq::edit(
+			$_GET['setting']['wsq_sitename'],
+			$_GET['setting']['wsq_siteurl'],
+			$_GET['setting']['wsq_sitelogo'],
+			$_GET['setting']['wsq_sitesummary'],
+			$setting['wechat_mtype'],
+			$setting['wechat_qrtype'],
+			$_GET['setting']['wsq_siteip'],
+			$setting['wechat_followurl'],
+			$setting['wechat_appId'],
+			$setting['wechat_appsecret'],
+			$_GET['setting'] + $setting
+		);
 		if(!$siteinfo || $siteinfo->code) {
 			cpmsg(lang('plugin/wechat', 'wsq_api_edit_error'), '', 'error');
 		}
@@ -119,6 +158,10 @@ if(!submitcheck('settingsubmit')) {
 	$_GET['setting']['wsq_status'] = $siteinfo->res->status;
 	$_GET['setting']['wsq_lastrequest'] = $siteinfo->res->lasttime;
 	$settings = array('mobilewechat' => serialize($_GET['setting'] + $setting));
+	if(!$mobilesetting['allowmobile']) {
+		$mobilesetting['allowmobile'] = 1;
+		$settings['mobile'] = serialize($mobilesetting);
+	}	
 	C::t('common_setting')->update_batch($settings);
 
 	updatecache('setting');
@@ -132,7 +175,6 @@ if(!submitcheck('settingsubmit')) {
 		));
 		WeChatHook::updateRedirect(array('plugin' => 'wechat', 'include' => 'response.class.php', 'class' => 'WSQResponse', 'method' => 'redirect'));
 		WeChatHook::updateAPIHook(array(
-			array('wsqindex_variables' => array('plugin' => 'wechat', 'include' => 'wsqapi.class.php', 'class' => 'WSQAPI', 'method' => 'forumdisplay_variables')),
 			array('forumdisplay_variables' => array('plugin' => 'wechat', 'include' => 'wsqapi.class.php', 'class' => 'WSQAPI', 'method' => 'forumdisplay_variables')),
 			array('viewthread_variables' => array('plugin' => 'wechat', 'include' => 'wsqapi.class.php', 'class' => 'WSQAPI', 'method' => 'viewthread_variables')),
 		));

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Addon MD5]]></item>
+	<item id="ID"><![CDATA[wsq_demo.plugin]]></item>
+	<item id="RevisionID"><![CDATA[38760]]></item>
+	<item id="SN"><![CDATA[2014101112gqYugu3AoZ]]></item>
+	<item id="RevisionDateline"><![CDATA[1405658997]]></item>
+	<item id="Data">
+		<item id="/api.class.php"><![CDATA[96b95e14be2c886681d8a714698a6f44]]></item>
+		<item id="/install.php"><![CDATA[b600de345629626a3e63fef81f8a80af]]></item>
+		<item id="/discuz_plugin_wsq_demo_SC_UTF8.xml"><![CDATA[1b123ebb9b2c44d0887cdfd1e2adbfe6]]></item>
+		<item id="/discuz_plugin_wsq_demo_SC_GBK.xml"><![CDATA[cad7f6023e9376ea84be9fae439c508b]]></item>
+		<item id="/discuz_plugin_wsq_demo_TC_BIG5.xml"><![CDATA[371c96877188f3d3226a2706c8cb9a02]]></item>
+		<item id="/view.inc.php"><![CDATA[cd0f1049766b780bdf8e12b4b008e1db]]></item>
+		<item id="/discuz_plugin_wsq_demo_TC_UTF8.xml"><![CDATA[68396ba9b5933f8665fac3fcc58ac450]]></item>
+	</item>
+</root>
