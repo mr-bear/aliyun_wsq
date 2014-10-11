@@ -99,5 +99,5 @@ $_config['input']['compatible'] = 1;
 
 
 // -------------------  THE END  -------------------- //
-
+$_config['plugindeveloper'] = 1;
 ?>
