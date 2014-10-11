@@ -103,12 +103,6 @@ EOF;
 		    'html' => '[topBar/TopBar1]',
 		    'more' => WeChatHook::getPluginUrl('wsq_demo:view', array('a' => 1, 'b' => 2)),
 		);
-        $return = array();
-        $return[] = array(
-            'name' => 'TopBar2',
-            'html' => '[topBar/TopBar2]',
-            'more' => WeChatHook::getPluginUrl('wsq_demo:view', array('a' => 1, 'b' => 2)),
-        );
 		return $return;
 	}
 
@@ -139,6 +133,8 @@ EOF;
 	}
 
 	function viewthread_threadBottom() {
+
+
 		return '[threadBottom]';
 	}
 
