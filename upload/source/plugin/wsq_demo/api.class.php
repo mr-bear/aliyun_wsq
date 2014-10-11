@@ -109,6 +109,7 @@ EOF;
 	//viewthread
 
 	function viewthread_sideBar() {
+
 		return '[sideBar]';
 	}
 
@@ -134,8 +135,10 @@ EOF;
 
 	function viewthread_threadBottom() {
 
-
-		return '[threadBottom]';
+//        var_dump($GLOBALS['postlist']);
+//        echo 111;
+//		return json_encode($GLOBALS['postlist']);
+        return '[theadBottom]';
 	}
 
 	function viewthread_topBar() {
