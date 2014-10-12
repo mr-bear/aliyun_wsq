@@ -1,0 +1,95 @@
+@charset "gb2312";
+
+a { text-decoration: none;color:#0073B6;}
+a:hover { text-decoration:underline; cursor:pointer !important; }
+.title{ font-weight:100}
+h1,h2,h3,h4,h5,h6{color:#333; font-weight:100}
+.fontYaHei{font-family:"Hiragino Sans GB","Microsoft YaHei",黑体,宋体,sans-serif}
+.sidebar{padding-top:25px;float:right;margin-left:20px;width:260px;border-top:8px solid rgb(51,51,51);margin-top:-8px}
+p img{margin:0}
+strong{font-weight:bold}
+.nav_min .search{float:right;margin-right:10px;margin-top:10px}
+.nav_min .search input#s{background:none repeat scroll 0 0 rgb(255,255,255);color:rgb(85,85,85);border:medium none;float:right}
+.newry_m_n,.newry_m_n *{margin:0;padding:0;list-style:none outside none}
+.newry_m_n{line-height:1;float:left}
+.newry_m_n ul{position:absolute;top:-999em;width:8.8em}
+.newry_m_n ul li{width:100%}
+.newry_m_n li:hover{visibility:inherit}
+.newry_m_n li{float:left;margin-right:0}
+.newry_m_n li.active{border-bottom:3px solid #0094f6}
+.newry_m_n li.active a{background:none;color:#FFFFFF}
+.newry_m_n li li{margin-right:15px}
+.newry_m_n a{display:block;text-decoration:none;line-height:27px;min-width:1px;z-index:11}
+.newry_m_n li{background:none repeat scroll 0 0 transparent}
+.newry_m_n li a{padding:15px 10px;font-family:"Microsoft Yahei";font-size:16px;font-weight:100}
+.ie6 .newry_m_n li a{padding:15px 10px 12px}
+.newry_m_n li a:hover,.newry_m_n li.sfHover a{color:#FFFFFF;text-decoration:none;background:none!important}
+.newry_m_n li:hover{border-bottom:3px solid #0094f6}
+.newry_m_n li li a,.newry_m_n li li a:visited,.newry_m_n li.sfHover li a{font-size:12px;line-height:18px;background:none repeat scroll 0 0 rgb(255,255,255);color:rgb(51,51,51)!important;border-bottom:1px dotted rgb(220,220,220);font-weight:normal}
+.newry_m_n li li:last-child a,.newry_m_n li li:last-child a:visited{border-bottom:medium none}
+.newry_m_n ul li li a{border-left:1px dotted rgb(220,220,220)}
+.newry_m_n li li{background:none repeat scroll 0 0 rgb(255,255,255)}
+.newry_m_n li li li{background:none repeat scroll 0 0 rgb(255,255,255)}
+.newry_m_n li li:hover,.newry_m_n li li.sfHover,.newry_m_n li li a:focus,.newry_m_n li li a:hover,.newry_m_n li li a:active{background:none repeat scroll 0 0;outline:0 none}
+.newry_m_n a.sf-with-ul{padding-right:28px;min-width:1px}
+.bodycontainer.nav_mincontainer{z-index:10}
+.newry_m_n li ul,.newry_m_n li li ul{}
+.nav_min{width:980px;margin:0 auto;background:none;height:;z-index:13}
+.newry_m_n a{color:#e0f1df}
+.newry_m_n li:last-child a{background-image:none}
+.logo{float:left;width:120px;height:58px;margin-top:2px;overflow:hidden}
+.logo h1{margin:10px 0 0 0}
+.wp{width:980px !important; margin:0 auto}
+.ct2_a .appl{ margin-left:0 !important}
+.ct2_a{ padding-left:0 !important}
+.bdl{ margin-right:10px}
+.ct2 .sd{ margin-right:0 !important}
+.ct2_a .mn{ width:800px !important}
+
+
+
+/* hot_bbs */
+.bbs_tiehotlist {margin:10px 0;background: url("../img/li1234.png") no-repeat scroll 0 14px transparent; _background: url("../img/li1234.gif") no-repeat scroll 0 14px transparent; overflow:hidden; clear:both}
+.bbs_tiehotlist li { border-top: 1px dashed #DDDDDD;font-size: 14px;height: 36px;line-height: 18px;padding: 10px 0 10px 39px;word-break: break-all;word-wrap: break-word;}
+.bbs_tiehotlist p {height: 36px;vertical-align: middle;}
+.bbs_tiehotlist a {color: #636363; font: 12px "Lucida Grande",Verdana,Lucida,Helvetica,Arial,'Simsun',sans-serif}
+.bbs_tiehotlist a:hover {color: #0073B6;}
+.u_link{ display:block; overflow:hidden; height:80px; width:960px; margin:0 auto}
+.u_link a{ padding:0 10px}
+
+/*discuz*/
+#r_con .slideshow img{ border: 1px solid #D0D0D0;box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);padding: 4px;}
+#r_con .slidebar{ width:80px; margin:15px auto 0 auto}
+#r_con .slidebar span{ width:14px; height:14px; margin:4px 5px 0 0; float:left; background:url("../img/pagination.png") no-repeat -25px 0; text-indent:-9999px; cursor:pointer}
+#r_con .slidebar .on{background:url("../img/pagination.png") no-repeat 0 0;}
+.bbs_topnav_box{ height: 46px; overflow: hidden}
+.bbs_subnav { background: none repeat scroll 0 0 #0072B8;height: 46px;margin-bottom: 30px; width: 100%;}
+.bbs_subnav li {float: left;font-size: 18px;line-height: 40px;padding: 0 10px;}
+.bbs_subnav a {color: #D1EED0;display: block;padding: 3px 5px;}
+.bbs_subnav a:hover, .bbs_subnav .current a {border-bottom: 3px solid #1F784C; color: #FFFFFF;padding-bottom: 0;text-decoration: none;}
+
+/** bbs_right **/
+.discuz_left{ display:block; overflow:hidden; width:680px; float:left}
+.lay_side{ width: 270px; float: right; display:block; overflow:hidden;}
+.bbs_sidetool2 {background: none repeat scroll 0 0 #EBF7FE; border: 1px solid #CCE8F9;padding: 10px 14px;}
+.bbs_sidetool2 .lastwrite {color: #636363;line-height: 14px;overflow: hidden;padding-top: 13px;text-overflow: ellipsis;white-space: nowrap; width: 100%;}
+.btn_newbbs2 {background: url("../img/postbtns2.png") no-repeat scroll 0 0 transparent;display: block;height: 38px;line-height: 300px;overflow: hidden;width: 240px;}
+.btn_newbbs2:hover {background-position: 0 -50px;}
+.bbs_lastread {-moz-border-bottom-colors: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;background: none repeat scroll 0 0 #EBF7FE;border-color: #CCE8F9;border-image: none;border-right: 1px solid #CCE8F9;border-style: solid;border-width: 0 1px 1px;position: relative;}
+.bbs_lastread_tit {line-height: 14px;padding: 10px 0;text-align: center;}
+.bbs_info{ overflow: hidden; color: #636363}
+.fl_g dt a{ font-size: 14px; line-height: 18px}
+
+/** discuzbtn **/
+.new_tie{background: #0073b6;display: inline-block;	height: 28px;padding: 0 10px;border: none;border-radius: 3px;overflow: hidden;font:14px/28px helvetica,arial,宋体b8b\4f53,sans-serif;color: #fff;cursor: pointer;overflow: visible;}	
+.ui_button{background: #3F9F5F;display: inline-block;	height: 28px;padding: 0 10px;border: none;border-radius: 3px;overflow: hidden;font:14px/28px helvetica,arial,宋体b8b\4f53,sans-serif;color: #fff;cursor: pointer;overflow: visible;}	
+.ui_button:hover{background: #5cad77;}	
+.new_tie:hover {background: #2b8fc8;color: #fff;text-decoration: none;}
+.pls{border-right:none}
+.tl th, .tl td{ border-bottom:1px dotted #D7D7D7; padding:10px 0}
+.bbs_tabnav{ background:#63A674}
+
+
+
+.spacer20{ padding:0 0 0 20px}
+

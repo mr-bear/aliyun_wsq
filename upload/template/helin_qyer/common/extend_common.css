@@ -1,0 +1,134 @@
+/* newrycommon
+-------------------------------------*/
+.wp{width:980px; margin:0 auto}
+#newry_menu_nav li a span{display:none}
+a,#umnav_menu,.pn{transition:background-color .3s linear;-moz-transition:background-color .3s linear;-webkit-transition:background-color .3s linear;-o-transition:background-color .3s linear}
+#newry_menu_nav.newry_m_n{float:left;width:500px;height:60px;margin-left:10px;overflow:hidden}
+.tbn li{border-bottom:1px solid #eee!important}
+.nav_box{width:100%;height:60px;border-bottom:2px solid #045f96;background:none repeat scroll 0 0 #0072b8;z-index:999}
+#newry_user{height:31px;margin-top:13px;float:right;}
+#newry_nav .username{display:block;width:31px;height:31px;float:left}
+#newry_nav .username img{width:31px;height:31px;border-radius:50%}
+#newry_nav span{float:left}
+#newry_nav span a{float:left;height:31px;font-size:14px;line-height:31px;display:block;color:#e0f1df;padding:0 6px;text-decoration:none}
+#newry_nav span a:hover,#newry_nav span a.new{color:#ccc}
+#pm_ntc.new{background-repeat:no-repeat;background-position:5px 10px;padding-left:28px}
+#myprompt.new{background-repeat:no-repeat;background-position:5px 10px;padding-left:20px}
+#umnav_menu{margin-left:-72px;top:60px!important; border:1px solid #0094F6}
+#umnav_menu li a{width:63px;padding:2px 20px}
+#umnav_menu li span.pipe{display:none}
+#umnav_menu li .qq_bind{margin-left:-18px}
+#umnav_menu .infos{ background:#0094F6; color:#fff !important}
+#umnav_menu .newry_arrow {-moz-border-bottom-colors: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;
+border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #0094F6;border-image: none;border-style: solid;border-width: 0 8px 8px;height: 0;overflow: hidden;
+position: absolute;right: 10px;top: -10px;width: 0;}
+#extcreditmenu, #g_upmine{ margin-right:0 !important}
+.newry_login{width:20px;height:22px;margin-top:20px;float:right;position:relative;overflow:hidden; list-style:none}
+.newry_login .i_qq{width:20px;height:26px; display:block;text-indent:9999px;background:url({STYLEIMGDIR}/qq.gif) no-repeat 0 0}
+.newry_login .i_qq em{text-indent:9999px}
+/* menu_2
+--------------------------------------------------------------*/
+.h_pop { top:60px !important}
+.p_pop,.p_pof,.sllt{padding:0;border:none;background:#FFF;margin-top:2px;-moz-box-shadow:0 0 30px rgba(0,0,0,.35);-webkit-box-shadow:0 0 30px rgba(0,0,0,.35)}
+.p_pop a{color:#FFF}
+.p_pop a,.p_pop a.a,#sctype_menu .sca{padding:10px 20px;font-size:12px;line-height:22px;color:#333!important;border-bottom:1px solid #e5e5e5;font-weight:400}
+.p_pop a:hover{background:#e0f1df}
+.bui a,.bui a:hover{padding:0;border:none;background:none}
+/* search
+----------------------------------------------------------------------------------------------------*/
+#scbar{border:none;background:none;height:31px;line-height:31px;overflow:hidden;float:right;margin-top:13px;margin-right:10px}
+#scbar_type{float:left;background-color:#fff;height:31px}
+#scbar_txt{font-size:12px}
+.scbar_narrow #scbar_txt{width:90px!important}
+#scbar input{border:0;margin:0;height:18px;width:90px;padding-left:5px;padding:7px 7px 6px;float:left}
+#scbar_btn{float:left;height:31px;width:31px;text-indent:-9999px;cursor:pointer;background:#fff url({STYLEIMGDIR}/search.png) no-repeat}
+#scbar_type{color:#999}
+#scbar_type_menu{margin-top:0}
+#scbar_type_menu li a{padding:8px 12px}
+/* block tit
+----------------------------------------------------------------------------------------------------*/
+.bm{border:none}
+.bm_h,.bmw .bm_h{background:none;border-bottom:1px dotted #DEDEDE}
+.bm_h{height:30px;line-height:30px;padding:0 0 10px;background:none;border-bottom:1px dotted #DEDEDE}
+.bm_h h2{font-size:16px;font-weight:400}
+/* btn
+------------------------------*/
+.pn{margin-left:0}
+.px{margin-left:0}
+.pnc,a.pnc{background:#3F9F5F;border:none}
+.pnc:hover,a.pnc:hover{background:#5cad77}
+/* page
+---------------------------------------*/
+#pgt .pg,#pgt .pgb{margin-top:0}
+.pg a,.pg strong,.pgb a,.pg label{border:none;margin-left:0}
+.pg strong{background-color:#077345;color:#FFF;display:block;float:left;padding:3px 14px;margin-left:5px;font-weight:400; border:1px solid ##077345; border-radius:3px}
+.pg a,.pgb a,.pg label{display:block;float:left;background-color:#EEE;padding:3px 14px;margin-left:5px;color:#333;border-radius:3px}
+.pg a.nxt{background-repeat:no-repeat;background-image:none;display:block;float:left;padding:3px 15px;margin-left:5px}
+.pg label{display:none}
+.pg a:hover,.pgb a:hover{color:#fff;background-color:#3F9F5F;border:none}
+.pg a.prev{background-repeat:no-repeat}
+.pgb a{padding-left:25px}
+/* login
+----------------------------------------------------------------------------------------------------*/
+#fwin_content_login{ background:#f5f4f0}
+#fctrl_login em, #layer_reginfo_t{ font-family: "hiragino sans gb","Microsoft YaHei",榛戜綋,瀹嬩綋,sans-serif; color:#636363; font-size:16px}
+form .rfm .px,.rfm .pt,.ps,.rfm select{background:noneborder:1px solid #ccc;}
+form .rfm .rq{display:none}
+form .rfm th,.rfm td{height:32px;line-height:32px}
+form .rfm .p_chk,.rfm .p_tip{height:30px;line-height:30px}
+form .rfm th{text-align:left;width:5em;font-size:14px}
+form .rfm .pn{height:30px;line-height:30px}
+form .rfm .pn em,.rfm .pn span,.rfm .pn strong{padding:0 20px}
+form .rfm .px,.rfm .pt{padding:8px 5px}
+form .rfm #reginfo_a_btn em{display:none}
+form .rfm .ps,.rfm select{margin-left:0;padding:6px}
+.rfm .px:focus{ border-color:#ccc}
+/* newdiy
+---------------------------------------------------------------------*/
+.frame,.frame-tab{background:none;border:none;padding:0;margin:0}
+.block{margin:0}
+.temp{margin:0}
+.flbc{background-image:url({STYLEIMGDIR}/cls.gif)}
+.tb{padding-left:0}
+.rfm{border-bottom:none}
+.t_l,.t_r,.b_l,.b_r{border-radius:0}
+.px,.pt{padding:5px 4px}
+/*footer
+------------------------------------------------------------------------------------------------------------ */
+.qyer_footer{ display:block; overflow:hidden;width:100%;min-width:960px;text-align:left;background:#363636;font:12px/1.5 helvetica,arial,"hiragino sans gb",\5b8b\4f53,sans-serif;color:#959595;clear:both}
+.qyer_footer a{text-decoration:none;color:#959595}
+.qyer_footer a:hover{text-decoration:underline;color:#959595}
+.qyer_footerBox{width:960px;margin:0 auto;padding:20px 0;overflow:hidden}
+.qyer_footer_about{float:left;padding-top:3px}
+.qyer_footer_about li{float:left;width:140px;line-height:24px}
+.qyer_footer_about li dt{font-weight:700;color:#c2c2c2}
+.qyer_footer_attention{padding-top:7px}
+.qyer_footer_appStore{float:right;padding-top:10px}
+.qyer_footer_copyright{clear:left;width:100%;padding:20px 0 0 110px;overflow:hidden;_zoom:1}
+.qyer_footer_copyright img{float:left;margin:5px 0 0 -110px}
+.qyer_header{width:980px}
+.qyer_footerBox{width:980px}
+/* discuz_top
+-----------------------------------------------------------*/
+.bbs_indtop{height:38px;margin:0 auto;width:980px}
+.bbs_indtop .title{color:#0072B8;float:left;font-size:36px;line-height:38px;height:38px}
+.bbs_indtop .slogen{color:#636363;float:left;font-size:20px;line-height:22px;padding:16px 0 0 20px}
+.bbs_indtop .slogen2{color:#636363;float:right;font-size:20px;line-height:22px;padding-top:16px}
+.bbs_indtop .slogen2 em{color:#0094F6}
+.bbs_sldline2{background-color:#D7D7D7;height:2px;margin:30px 0;overflow:hidden;width:100%}
+/* hot_top 
+--------------------------------------------------------------*/
+.lay_main{width:980px; height:auto;float:left;overflow:hidden; display:block; overflow: hidden;}
+.bbs_indone .titles{color:#636363;font-size:18px;line-height:20px;margin-bottom:20px}
+.bbs_focuspic{float:left;left:-5px;position:relative;top:-5px;width:350px}
+.bbs_focuspic .slides_container{padding:5px 5px 0}
+.bbs_topstory{float:right;width:320px;dispaly:block;height:280px}
+.bbs_topstory .list li{background:url({STYLEIMGDIR}/li_icon1.png) no-repeat scroll 0 center transparent;color:#0073B6;font-size:16px;height:32px;line-height:32px;overflow:hidden;padding-left:16px;text-overflow:ellipsis;white-space:nowrap;width:290px}
+.bbs_maintit{height:32px;margin-bottom:15px}
+.bbs_maintit .title{color:#636363;float:left;font-size:20px;line-height:32px}
+.bbs_maintit .title em{font-size:12px}
+.bbs_maintit .titcur a{color:#636363}
+.bbs_maintit .titcur a:hover{cursor:default;text-decoration:none}
+.bbs_maintit .titgap{color:#636363;float:left;font-size:20px;line-height:32px;margin:0 10px}
+.bbs_maintit .info{color:#636363;float:left;line-height:22px;padding:8px 0 0 15px}
+
