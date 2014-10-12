@@ -75,24 +75,24 @@ EOF;
 		return $return;
 	}
 
-	function forumdisplay_threadStyle() {
-		global $_G;
-		$return = array();
-		foreach($GLOBALS['threadlist'] as $thread) {
-			if(!$thread['displayorder']) {
-				$return[$thread['tid']] = array(
-				    'id' => 'style1',
-				    'var' => array(
-					'uid' => $_G['uid'],
-					'username' => $_G['username'],
-					'hookname' => 'threadStyle/'.$thread['tid']
-				    )
-				);
-				break;
-			}
-		}
-		return $return;
-	}
+	// function forumdisplay_threadStyle() {
+	// 	global $_G;
+	// 	$return = array();
+	// 	foreach($GLOBALS['threadlist'] as $thread) {
+	// 		if(!$thread['displayorder']) {
+	// 			$return[$thread['tid']] = array(
+	// 			    'id' => 'style1',
+	// 			    'var' => array(
+	// 				'uid' => $_G['uid'],
+	// 				'username' => $_G['username'],
+	// 				'hookname' => 'threadStyle/'.$thread['tid']
+	// 			    )
+	// 			);
+	// 			break;
+	// 		}
+	// 	}
+	// 	return $return;
+	// }
 
 	function forumdisplay_topBar() {
 		require_once DISCUZ_ROOT.'./source/plugin/wechat/wechat.lib.class.php';
