@@ -1,6 +1,6 @@
 <?php if(!defined('IN_DISCUZ')) exit('Access Denied'); hookscriptoutput('ranklist');
 0
-|| checktplrefresh('./template/default/ranklist/ranklist.htm', './template/default/ranklist/side_left.htm', 1413087554, 'diy', './data/template/4_diy_ranklist_ranklist.tpl.php', './template/helin_qyer', 'ranklist/ranklist')
+|| checktplrefresh('./template/default/ranklist/ranklist.htm', './template/default/ranklist/side_left.htm', 1413100247, 'diy', './data/template/4_diy_ranklist_ranklist.tpl.php', './template/helin_qyer', 'ranklist/ranklist')
 ;?><?php include template('common/header'); ?><div id="pt" class="bm cl">
 <div class="z">
 <a href="./" class="nvhm" title="首页"><?php echo $_G['setting']['bbname'];?></a> <em>&rsaquo;</em>

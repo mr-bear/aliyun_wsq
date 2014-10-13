@@ -1,6 +1,6 @@
 <?php if(!defined('IN_DISCUZ')) exit('Access Denied'); hookscriptoutput('guide');
 0
-|| checktplrefresh('./template/default/forum/guide.htm', './template/default/forum/guide_list_row.htm', 1413087535, '4', './data/template/4_4_forum_guide.tpl.php', './template/helin_qyer', 'forum/guide')
+|| checktplrefresh('./template/default/forum/guide.htm', './template/default/forum/guide_list_row.htm', 1413100241, '4', './data/template/4_4_forum_guide.tpl.php', './template/helin_qyer', 'forum/guide')
 ;?><?php include template('common/header'); ?><style type="text/css">
 .xl2 { background: url(<?php echo IMGDIR;?>/vline.png) repeat-y 50% 0; }
 .xl2 li { width: 49.9%; }

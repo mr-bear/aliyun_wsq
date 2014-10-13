@@ -1,5 +1,5 @@
 <!--{template common/header}-->
-<style id="diy_style" type="text/css">#portal_block_6 { margin-top:20px !important;}</style>
+<style id="diy_style" type="text/css">#portal_block_6 {  margin-top:20px !important;}</style>
 <style type="text/css">
      body{ background: url("template/newry_travel/style/img/bbs_bg.jpg");background:repeat-x }
     .recommend{ width:350px; height:280px;background-position: 5px -565px; float:left; overflow:hidden}

@@ -1,6 +1,6 @@
 <?php
 //Discuz! cache file, DO NOT modify me!
-//Identify: b3661d193b66ad852fd802ab2a2bbdf9
+//Identify: 96d0f2b8d3165049a99d68f0f7daf92c
 
-$mobilecheck = '{"discuzversion":"X3.2","charset":"utf-8","version":"4","pluginversion":"1.3.8","oemversion":"0","regname":"register","qqconnect":"0","sitename":"Mr.Bear","mysiteid":"37719526","ucenterurl":"http:\\/\\/121.199.30.154\\/wsq_t\\/upload\\/uc_server","setting":{"closeforumorderby":"0"},"extends":{"used":null,"lastupdate":null}}';
+$mobilecheck = '{"discuzversion":"X3.2","charset":"utf-8","version":"MOBILE_PLUGIN_VERSION","pluginversion":"1.3.8","oemversion":"0","regname":"register","qqconnect":"1","sitename":"Mr.Bear","mysiteid":"37719526","ucenterurl":"http:\\/\\/121.199.30.154\\/wsq_t\\/upload\\/uc_server","setting":{"closeforumorderby":"0"},"extends":{"used":null,"lastupdate":null}}';
 ?>

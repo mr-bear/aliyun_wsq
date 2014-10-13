@@ -29,8 +29,8 @@ block_get('3,4,5,6,7,8,9,10');?><?php include template('common/header'); ?><styl
 <div class="z"><?php if(!empty($_G['setting']['pluginhooks']['index_status_extra'])) echo $_G['setting']['pluginhooks']['index_status_extra'];?></div>
 </div> 
         <div class="bbs_indtop fontYaHei">
-            <p class="title">知游论坛</p>
-            <p class="slogen">帮助大家,分享精彩旅游人生</p>
+            <p class="title">Mr.Bear</p>
+            <p class="slogen">分享精彩人生</p>
             <div class="slogen2">
                 <em><?php echo $posts;?></em> 
                 篇分享等你探索

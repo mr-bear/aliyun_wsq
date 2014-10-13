@@ -1,7 +1,7 @@
 <?php if(!defined('IN_DISCUZ')) exit('Access Denied'); 
 0
-|| checktplrefresh('./template/helin_qyer/common/header.htm', './template/helin_qyer/common/header_common.htm', 1413087485, '4', './data/template/4_4_common_header_home_spacecp.tpl.php', './template/helin_qyer', 'common/header_home_spacecp')
-|| checktplrefresh('./template/helin_qyer/common/header.htm', './template/helin_qyer/common/pubsearchform.htm', 1413087485, '4', './data/template/4_4_common_header_home_spacecp.tpl.php', './template/helin_qyer', 'common/header_home_spacecp')
+|| checktplrefresh('./template/helin_qyer/common/header.htm', './template/helin_qyer/common/header_common.htm', 1413100162, '4', './data/template/4_4_common_header_home_spacecp.tpl.php', './template/helin_qyer', 'common/header_home_spacecp')
+|| checktplrefresh('./template/helin_qyer/common/header.htm', './template/helin_qyer/common/pubsearchform.htm', 1413100162, '4', './data/template/4_4_common_header_home_spacecp.tpl.php', './template/helin_qyer', 'common/header_home_spacecp')
 ;?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
