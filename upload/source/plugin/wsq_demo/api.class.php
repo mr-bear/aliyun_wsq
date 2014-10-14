@@ -197,8 +197,9 @@ EOF;
 	}
 
 	function viewthread_topBar() {
-//		return '[topBar]';
+
         return json_encode($GLOBALS['postlist']);
+
 	}
 
 	//profile

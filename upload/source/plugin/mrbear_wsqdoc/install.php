@@ -3,15 +3,14 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
     exit('Access Denied');
 }
-
 $pluginid = 'mrbear_wsqdoc';
 $hooks = array(
 
     'viewthread_postBottom',
-    'viewthread_authorInfo',
     'viewthread_threadTop',
     'viewthread_threadBottom',
-    'viewthread_threadBottom',
+    'viewthread_topBar',
+    'viewthread_authorInfo',
 
 );
 

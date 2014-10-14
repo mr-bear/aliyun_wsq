@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="Version"><![CDATA[X2.5,X3,X3.1,X3.2]]></item>
+	<item id="Time"><![CDATA[2014-10-14 11:05]]></item>
+	<item id="From"><![CDATA[Mr.Bear (http://121.199.30.154/wsq_t/upload/)]]></item>
+	<item id="Data">
+		<item id="plugin">
+			<item id="available"><![CDATA[1]]></item>
+			<item id="adminid"><![CDATA[1]]></item>
+			<item id="name"><![CDATA[Î¢ÉçÇøÄÚÈÝÒ³ÃÀ»¯]]></item>
+			<item id="identifier"><![CDATA[mrbear_wsqdoc]]></item>
+			<item id="description"><![CDATA[]]></item>
+			<item id="datatables"><![CDATA[]]></item>
+			<item id="directory"><![CDATA[mrbear_wsqdoc/]]></item>
+			<item id="copyright"><![CDATA[mr.bear1]]></item>
+			<item id="modules"><![CDATA[a:0:{}]]></item>
+			<item id="version"><![CDATA[v1.0.0]]></item>
+		</item>
+		<item id="version"><![CDATA[X2.5,X3,X3.1,X3.2]]></item>
+		<item id="var">
+			<item id="0">
+				<item id="displayorder"><![CDATA[0]]></item>
+				<item id="title"><![CDATA[ÈÈÌûÍÆ¼öÌìÊý]]></item>
+				<item id="description"><![CDATA[Ä¬ÈÏÍÆ¼ö3ÌìÄÚµÄÈÈÌû]]></item>
+				<item id="variable"><![CDATA[day]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[0]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="1">
+				<item id="displayorder"><![CDATA[0]]></item>
+				<item id="title"><![CDATA[ÈÈÌûÍÆ¼ö¹æÔò]]></item>
+				<item id="description"><![CDATA[1¡¢°´ÈÈ¶È
+2¡¢°´²é¿´Á¿
+3¡¢°´»Ø¸´ÊýÁ¿
+Ä¬ÈÏÑ¡2]]></item>
+				<item id="variable"><![CDATA[rule]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[3]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+		</item>
+		<item id="language">
+			<item id="scriptlang">
+				<item id="ios"><![CDATA[iphone¿Í»§¶Ë]]></item>
+				<item id="android"><![CDATA[android¿Í»§¶Ë]]></item>
+				<item id="windowsphone"><![CDATA[windowsphone¿Í»§¶Ë]]></item>
+				<item id="wsq"><![CDATA[Î¢ÉçÇø]]></item>
+				<item id="pc"><![CDATA[pc¶Ë]]></item>
+				<item id="source"><![CDATA[À´×Ô]]></item>
+				<item id="docrec"><![CDATA[ÈÈÌûÍÆ¼ö]]></item>
+			</item>
+			<item id="templatelang">
+				<item id="ios"><![CDATA[iphone¿Í»§¶Ë]]></item>
+				<item id="android"><![CDATA[android¿Í»§¶Ë]]></item>
+				<item id="windowsphone"><![CDATA[windowsphone¿Í»§¶Ë]]></item>
+				<item id="wsq"><![CDATA[Î¢ÉçÇø]]></item>
+				<item id="pc"><![CDATA[pc¶Ë]]></item>
+				<item id="source"><![CDATA[À´×Ô]]></item>
+				<item id="docrec"><![CDATA[ÈÈÌûÍÆ¼ö]]></item>
+			</item>
+			<item id="installlang">
+				<item id="ios"><![CDATA[iphone¿Í»§¶Ë]]></item>
+				<item id="android"><![CDATA[android¿Í»§¶Ë]]></item>
+				<item id="windowsphone"><![CDATA[windowsphone¿Í»§¶Ë]]></item>
+				<item id="wsq"><![CDATA[Î¢ÉçÇø]]></item>
+				<item id="pc"><![CDATA[pc¶Ë]]></item>
+				<item id="source"><![CDATA[À´×Ô]]></item>
+				<item id="docrec"><![CDATA[ÈÈÌûÍÆ¼ö]]></item>
+			</item>
+			<item id="systemlang">
+				<item id="file">
+					<item id="english"><![CDATA[chinese]]></item>
+				</item>
+			</item>
+		</item>
+		<item id="installfile"><![CDATA[install.php]]></item>
+	</item>
+</root>
