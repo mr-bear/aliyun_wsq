@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: mobile.class.php 34740 2014-07-22 03:41:27Z nemohou $
+ *      $Id: mobile.class.php 34984 2014-09-22 07:44:50Z nemohou $
  */
 
 define("MOBILE_PLUGIN_VERSION", "4");
@@ -88,7 +88,7 @@ class mobile_core {
 			'saltkey' => $_G['cookie']['saltkey'],
 			'member_uid' => $_G['member']['uid'],
 			'member_username' => $_G['member']['username'],
-            'member_avatar' => avatar($_G['member']['uid'], 'small', true),
+			'member_avatar' => avatar($_G['member']['uid'], 'small', true),
 			'groupid' => $_G['groupid'],
 			'formhash' => FORMHASH,
 			'ismoderator' => $_G['forum']['ismoderator'],
@@ -335,6 +335,22 @@ class base_plugin_mobile {
 		$_G['setting']['cacheindexlife'] = $_G['setting']['cachethreadlife'] = false;
 		if(!$_G['setting']['mobile']['nomobileurl'] && function_exists('diconv') && !empty($_GET['charset'])) {
 			$_GET = mobile_core::diconv_array($_GET, $_GET['charset'], $_G['charset']);
+		}
+		if($_GET['_auth'] && !$_G['uid']) {
+			require_once DISCUZ_ROOT.'./source/plugin/wechat/wsq.class.php';
+			$uid = wsq::decodeauth($_GET['_auth']);
+			if($uid) {
+				require_once libfile('function/member');
+				$member = getuserbyuid($uid, 1);
+				setloginstatus($member, 1296000);
+				$_G['setting']['seccodedata'] = array();
+				$_G['setting']['seccodestatus'] = 0;
+				$_G['setting']['secqaa'] = array();
+				define('IN_MOBILE_AUTH', $uid);
+				if($_SERVER['REQUEST_METHOD'] == 'POST') {
+					$_GET['formhash'] = $_G['formhash'];
+				}
+			}
 		}
 		if(class_exists('mobile_api', false) && method_exists('mobile_api', 'common')) {
 			mobile_api::common();

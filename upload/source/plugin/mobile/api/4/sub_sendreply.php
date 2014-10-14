@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: sub_sendreply.php 34818 2014-08-11 02:59:57Z nemohou $
+ *      $Id: sub_sendreply.php 35005 2014-10-09 03:01:21Z nemohou $
  */
 if (!defined('IN_DISCUZ')) {
 	exit('Access Denied');
@@ -27,8 +27,8 @@ if (trim($newmessage) != '') {
 	}
 	$post = array(
 	    'pid' => $pid,
-	    'author' => $_G['username'],
-	    'authorid' => $_G['uid'],
+	    'author' => empty($_GET['isanonymous']) ? $_G['username'] : $_G['setting']['anonymoustext'],
+	    'authorid' => empty($_GET['isanonymous']) ? $_G['uid'] : 0,
 	    'message' => $newmessage,
 	);
 	array_push($posts, $post);
@@ -39,6 +39,10 @@ if (count($posts) < 3 && ($thread['replies'] >= count($posts)) && !getstatus($th
 	foreach (C::t('forum_post')->fetch_all_by_tid($thread['posttableid'], $thread['tid'], true, 'DESC', 0, 10, 0, 0) as $p) {
 		$p['message'] = preg_replace('/<\/*.*?>|&nbsp;|\r\n|\[attachimg\].*?\[\/attachimg\]|\[quote\].*?\[\/quote\]|\[\/*.*?\]/ms', '', $p['message']);
 		$p['message'] = trim(messagecutstr($p['message'], 100));
+		if($p['anonymous']) {
+			$p['author'] = $_G['setting']['anonymoustext'];
+			$p['authorid'] = 0;
+		}
 		$post = array(
 		    'pid' => $p['pid'],
 		    'author' => $p['author'],

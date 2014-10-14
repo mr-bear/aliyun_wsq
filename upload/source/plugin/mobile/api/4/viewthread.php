@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: viewthread.php 34909 2014-08-22 09:07:14Z nemohou $
+ *      $Id: viewthread.php 35004 2014-10-09 02:51:24Z nemohou $
  */
 
 if(!defined('IN_MOBILE_API')) {
@@ -32,11 +32,18 @@ class mobile_api {
 
 		$_G['thread']['lastpost'] = dgmdate($_G['thread']['lastpost']);
 		$_G['thread']['recommend'] =  $_G['uid'] && C::t('forum_memberrecommend')->fetch_by_recommenduid_tid($_G['uid'], $_G['tid']) ? 1 : 0;
+		if(!empty($_GET['viewpid'])) {
+			$GLOBALS['postlist'][$_GET['viewpid']] = $GLOBALS['post'];
+		}
+		if($GLOBALS['rushreply']) {
+			$_G['thread']['rushreply'] = $GLOBALS['rushreply'];
+			$_G['thread']['rushresult'] = $GLOBALS['rushresult'];
+		}
 
 		$variable = array(
 			'thread' => $_G['thread'],
 			'fid' => $_G['fid'],
-			'postlist' => array_values(mobile_core::getvalues($GLOBALS['postlist'], array('/^\d+$/'), array('pid', 'tid', 'author', 'first', 'dbdateline', 'dateline', 'username', 'adminid', 'memberstatus', 'authorid', 'username', 'groupid', 'memberstatus', 'status', 'message', 'number', 'memberstatus', 'groupid', 'attachment', 'attachments', 'attachlist', 'imagelist', 'anonymous', 'position'))),
+			'postlist' => array_values(mobile_core::getvalues($GLOBALS['postlist'], array('/^\d+$/'), array('pid', 'tid', 'author', 'first', 'dbdateline', 'dateline', 'username', 'adminid', 'memberstatus', 'authorid', 'username', 'groupid', 'memberstatus', 'status', 'message', 'number', 'memberstatus', 'groupid', 'attachment', 'attachments', 'attachlist', 'imagelist', 'anonymous', 'position', 'rewardfloor', 'replycredit'))),
 			'ppp' => $_G['ppp'],
 			'setting_rewriterule' => $_G['setting']['rewriterule'],
 			'setting_rewritestatus' => $_G['setting']['rewritestatus'],
@@ -77,8 +84,11 @@ class mobile_api {
 				$variable['postlist'][$k]['message'] = $message;
 			}
 			if($post['anonymous'] && !$_G['forum']['ismoderator']) {
-				$variable['postlist'][$k]['username'] = $variable['postlist'][$k]['author'] = '';
+				$variable['postlist'][$k]['username'] = $variable['postlist'][$k]['author'] = $_G['setting']['anonymoustext'];
 				$variable['postlist'][$k]['adminid'] = $variable['postlist'][$k]['groupid'] = $variable['postlist'][$k]['authorid'] = 0;
+				if($post['first']) {
+					$variable['thread']['authorid'] = 0;
+				}
 			}
 			if(strpos($variable['postlist'][$k]['message'], '[/tthread]') !== FALSE) {
 				$matches = array();

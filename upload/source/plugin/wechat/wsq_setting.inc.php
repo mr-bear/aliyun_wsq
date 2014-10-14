@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: wsq_setting.inc.php 34927 2014-08-28 04:41:23Z nemohou $
+ *      $Id: wsq_setting.inc.php 34983 2014-09-22 06:16:09Z nemohou $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -59,6 +59,12 @@ if(!submitcheck('settingsubmit')) {
 	$sitelogo = $setting['wsq_sitelogo'] ? '<img src="'.$setting['wsq_sitelogo'].'" width="150" />' : '';
 	$qrcode = $setting['wechat_qrcode'] ? '<img src="'.$_G['setting']['attachurl'].'common/'.$setting['wechat_qrcode'].'" width="150" />' : '';
 
+	$apicredits = '<option value="0">'.cplang('none').'</option>';
+	foreach($_G['setting']['extcredits'] as $i => $credit) {
+		$extcredit = 'extcredits'.$i.' ('.$credit['title'].')';
+		$apicredits .= '<option value="'.$i.'" '.($i == intval($setting['wsq_apicredit']) ? 'selected' : '').'>'.$extcredit.'</option>';
+	}
+
 	showtips(lang('plugin/wechat', 'wsq_tips', array('ADMINSCRIPT' => ADMINSCRIPT.'?action=', 'apiurl' => $apilisturl)));
 	showformheader('plugins&operation=config&do='.$pluginid.'&identifier=wechat&pmod=wsq_setting', 'enctype');
 
@@ -89,6 +95,7 @@ if(!submitcheck('settingsubmit')) {
 	showsetting(lang('plugin/wechat', 'wechat_float_text'), 'setting[wechat_float_text]', $setting['wechat_float_text'], 'text');
 	showtagfooter('tbody');
 	showsetting(lang('plugin/wechat', 'wsq_wapdefault'), 'setting[wsq_wapdefault]', $setting['wsq_wapdefault'], 'radio');
+	showsetting(lang('plugin/wechat', 'wsq_apicredit'), '', '', '<select name="setting[wsq_apicredit]">'.$apicredits.'</select>', 0, 0, lang('plugin/wechat', 'wsq_apicredit_comment'));
 	showsubmit('settingsubmit');
 	showtablefooter();
 
@@ -161,7 +168,7 @@ if(!submitcheck('settingsubmit')) {
 	if(!$mobilesetting['allowmobile']) {
 		$mobilesetting['allowmobile'] = 1;
 		$settings['mobile'] = serialize($mobilesetting);
-	}	
+	}
 	C::t('common_setting')->update_batch($settings);
 
 	updatecache('setting');

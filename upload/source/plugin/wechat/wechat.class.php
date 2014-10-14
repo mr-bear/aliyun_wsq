@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: wechat.class.php 34932 2014-09-02 07:47:10Z nemohou $
+ *      $Id: wechat.class.php 34989 2014-09-24 07:22:03Z nemohou $
  */
 
 if (!defined('IN_DISCUZ')) {
@@ -484,7 +484,7 @@ class WeChat {
 			loaducenter();
 			$user = uc_get_user($defaultusername);
 			if(!empty($user)) {
-				$defaultusername = cutstr($defaultusername, 9, '').'_'.random(5);
+				$defaultusername = cutstr($defaultusername, 7, '').'_'.random(5);
 			}
 		} else {
 			$defaultusername = 'wx_'.random(5);
@@ -500,7 +500,7 @@ class uploadUcAvatar {
 	 * 上传至uc头像
 	 */
 	public static function upload($uid, $localFile) {
-	
+
 		global $_G;
 		if(!$uid || !$localFile) {
 			return false;
@@ -571,7 +571,7 @@ class uploadUcAvatar {
 		foreach($value as $k => $v) {
 			$b .= strtoupper($v);
 		}
-		
+
 		return $b;
 	}
 

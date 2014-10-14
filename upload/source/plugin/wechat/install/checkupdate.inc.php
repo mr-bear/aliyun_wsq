@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: checkupdate.inc.php 34924 2014-08-27 06:33:08Z nemohou $
+ *      $Id: checkupdate.inc.php 35011 2014-10-11 06:05:59Z nemohou $
  */
 
 define('PLUGIN_RELEASE', '20140812');
@@ -100,7 +100,7 @@ EOF;
 		'wechat_float_qrcode' => '1',
 		'wechat_confirmtype' => '0',
 		'wechat_newusergroupid' => $_G['setting']['newusergroupid'],
-		'wsq_wapdefault' => DISCUZ_VERSION == 'X2.5' ? 1 : 0,
+		'wsq_wapdefault' => 1,
 	);
 
 	require_once DISCUZ_ROOT.'./source/plugin/wechat/install/update.func.php';
@@ -117,6 +117,8 @@ EOF;
 
 	$settings = array('mobilewechat' => serialize($setting));
 	C::t('common_setting')->update_batch($settings);
+
+	C::t('common_plugin')->delete_by_identifier('mobileoem');
 
 	require_once DISCUZ_ROOT.'./source/plugin/wechat/wechat.lib.class.php';
 

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: response.class.php 34929 2014-08-29 08:09:29Z nemohou $
+ *      $Id: response.class.php 35012 2014-10-11 07:48:33Z nemohou $
  */
 
 if (!defined('IN_DISCUZ')) {
@@ -127,6 +127,7 @@ class WSQResponse {
 			return;
 		}
 		if($_G['wechat']['setting']['wsq_siteid'] && !defined('IN_MOBILE_API')) {
+			$_G['wechat']['setting']['wsq_wapdefault'] = !IS_ROBOT ? $_G['wechat']['setting']['wsq_wapdefault'] : false;
 			$in_wechat = $_G['wechat']['setting']['wsq_wapdefault'] ? true : strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false;
 			$fromwap = $_G['wechat']['setting']['wsq_wapdefault'] && strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false;
 			$url = wsq::$WSQ_DOMAIN.'siteid='.$_G['wechat']['setting']['wsq_siteid'].($fromwap ? '&source=wap' : '').'&c=index&a=';

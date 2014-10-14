@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: mobile.php 34692 2014-07-09 01:17:48Z qingrongfu $
+ *      $Id: mobile.php 34988 2014-09-23 08:39:55Z nemohou $
  */
 
 define('IN_MOBILE_API', 1);
@@ -20,11 +20,11 @@ $modules = array('extends', 'buyattachment', 'buythread', 'checkpost', 'connect'
 	'login', 'myfavforum', 'myfavthread', 'mypm', 'mythread',
 	'newthread', 'profile', 'publicpm', 'register', 'seccode',
 	'secure', 'sendpm', 'sendreply', 'sub_checkpost', 'sublist',
-	'toplist', 'viewthread', 'uploadavatar', 'pollvote', 'mynotelist',
+	'toplist', 'viewthread', 'uploadavatar', 'pollvote', 'mynotelist', 'credit', 'profiles',
 	'modcp', 'topicadmin', 'forumimage', 'newthreads', 'signin', 'smiley', 'threadrecommend', 'check', 'mobilesign',
 	'wsqindex', 'wsqsiteinfo', 'recommend',
 	'wechat', 'wechat_clearlogin', 'checkinfo', 'seccodehtml',
-	'showactivity');
+	'showactivity', 'bestanswer');
 
 $defaultversions = array(
 	'wechat' => 4,
@@ -47,6 +47,10 @@ if(empty($_GET['module']) || empty($_GET['version']) || !preg_match('/^[\w\.]+$/
 if($_GET['module'] == 'extends') {
 	require_once 'source/plugin/mobile/mobile_extends.php';
 	return;
+}
+
+if(!empty($_GET['_auth'])) {
+	unset($_GET['formhash'], $_POST['formhash']);
 }
 
 $apifile = 'source/plugin/mobile/api/'.$_GET['version'].'/'.$_GET['module'].'.php';

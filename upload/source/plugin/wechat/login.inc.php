@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: login.inc.php 34930 2014-08-29 10:45:53Z nemohou $
+ *      $Id: login.inc.php 34989 2014-09-24 07:22:03Z nemohou $
  */
 if (!defined('IN_DISCUZ')) {
 	exit('Access Denied');
@@ -65,7 +65,7 @@ if($ac == 'login') {
 		loaducenter();
 		$user = uc_get_user($defaultusername);
 		if(!empty($user)) {
-			$defaultusername = cutstr($defaultusername, 9, '').'_'.random(5);
+			$defaultusername = cutstr($defaultusername, 7, '').'_'.random(5);
 		}
 		$uid = WeChat::register($defaultusername, 1, 8);
 		if(!$uid) {
@@ -131,7 +131,7 @@ function redirectregister($username) {
 	loaducenter();
 	$user = uc_get_user($defaultusername);
 	if(!empty($user)) {
-		$defaultusername = cutstr($defaultusername, 9, '').'_'.random(5);
+		$defaultusername = cutstr($defaultusername, 7, '').'_'.random(5);
 	}
 	$auth = urlencode(base64_encode(authcode($_GET['openid']."\t".$_GET['openidsign']."\t".$_GET['referer'], 'ENCODE')));
 	$referer = urlencode($_G['siteurl'].'plugin.php?id=wechat:login&ac=regcallback&auth='.$auth);

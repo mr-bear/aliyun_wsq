@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: discuzcode.func.php 34909 2014-08-22 09:07:14Z nemohou $
+ *      $Id: discuzcode.func.php 34976 2014-09-17 04:48:04Z qingrongfu $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -219,24 +219,16 @@ function mobile_parseurl($url, $text, $scheme) {
 			$text = substr($url, 0, intval($length * 0.5)).' ... '.substr($url, - intval($length * 0.3));
 		}
 		$url = substr(strtolower($url), 0, 4) == 'www.' ? 'http://'.$url : $url;
-		if(strstr($url, $_G['siteurl'])) {
 			$url .= (strstr($url, '?') ? '&' : '?').'_wsq_';
 			return '<a href="'.$url.'">'.$text.'</a>';
-		} else {
-			return '<span class="blue">'.$text.'</span>';
-		}
 	} else {
 		$url = substr($url, 1);
 		if(substr(strtolower($url), 0, 4) == 'www.') {
 			$url = 'http://'.$url;
 		}
 		$url = !$scheme ? $_G['siteurl'].$url : $url;
-		if(strstr($url, $_G['siteurl'])) {
 			$url .= (strstr($url, '?') ? '&' : '?').'_wsq_';
 			return '<a href="'.$url.'">'.$text.'</a>';
-		} else {
-			return '<span class="blue">'.$text.'</span>';
-		}
 	}
 }
 

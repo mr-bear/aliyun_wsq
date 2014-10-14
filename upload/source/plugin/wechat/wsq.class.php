@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: wsq.class.php 34914 2014-08-25 04:45:40Z nemohou $
+ *      $Id: wsq.class.php 35006 2014-10-09 07:46:49Z nemohou $
  */
 
 if (!defined('IN_DISCUZ')) {
@@ -80,6 +80,15 @@ class wsq {
 		return self::$SETTING['wsq_siteid'];
 	}
 
+	public static function decodeauth($auth) {
+		list($uid, $tt, $siteid) = explode("\t", authcode($auth, 'DECODE', self::_token()));
+		if($uid && $siteid == self::_siteid() && $tt > TIMESTAMP) {
+			return $uid;
+		} else {
+			return 0;
+		}
+	}
+
 	public static function register($sitename, $siteurl, $sitelogo, $sitesummary, $mptype, $qrtype, $siteip, $followurl, $appid, $appsecret, $setting) {
 		global $_G;
 		$get = array(
@@ -151,6 +160,34 @@ class wsq {
 			'tt' => TIMESTAMP,
 			'mobile' => 2,
 			'qrreferer' => $_GET['referer'],
+		);
+		$get['signature'] = self::_make_sign($get, self::_token());
+		return self::$API_URL.http_build_query($get);
+	}
+
+	public static function userloginUrl($uid, $openid, $openidSign) {
+		$get = array(
+			'c' => 'site',
+			'a' => 'userregister',
+			'siteid' => self::_siteid(),
+			'siteuid' => $uid,
+			'openid' => $openid,
+			'openidsign' => $openidSign,
+			'type' => 'json',
+			'tt' => TIMESTAMP,
+		);
+		$get['signature'] = self::_make_sign($get, self::_token());
+		return self::$API_URL.http_build_query($get);
+	}
+
+	public static function userloginUrl2($uid) {
+		$get = array(
+			'c' => 'site',
+			'a' => 'waplogin',
+			'siteid' => self::_siteid(),
+			'siteuid' => $uid,
+			'type' => 'json',
+			'tt' => TIMESTAMP,
 		);
 		$get['signature'] = self::_make_sign($get, self::_token());
 		return self::$API_URL.http_build_query($get);
