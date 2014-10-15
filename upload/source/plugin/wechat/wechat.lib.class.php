@@ -15,11 +15,11 @@ class WeChatServer {
 	private $_token;
 
 	/**
-	 * $hooks ¸ñÊ½ËµÃ÷
+	 * $hooks ï¿½ï¿½Ê½Ëµï¿½ï¿½
 	 * array(
-	 * 	'¹³×Ó' => array('plugin' => '²å¼þ±êÊ¶', 'include' => 'ÒýÓÃµÄÎÄ¼þ', 'class' => 'Àà', 'method' => '·½·¨'),
-	 * £©
-	 * ****** ¹³×ÓÁÐ±í ******
+	 * 	'ï¿½ï¿½ï¿½ï¿½' => array('plugin' => 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê¶', 'include' => 'ï¿½ï¿½ï¿½Ãµï¿½ï¿½Ä¼ï¿½', 'class' => 'ï¿½ï¿½', 'method' => 'ï¿½ï¿½ï¿½ï¿½'),
+	 * ï¿½ï¿½
+	 * ****** ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ ******
 	 * receiveAllStart
 	 * receiveMsg::text
 	 * receiveMsg::location
@@ -106,64 +106,64 @@ class WeChatServer {
 
 		switch ($result['type']) {
 			case 'text':
-				$result['content'] = (string) $postObj->Content; // Content ÏûÏ¢ÄÚÈÝ
+				$result['content'] = (string) $postObj->Content; // Content ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
 				break;
 
 			case 'location':
-				$result['X'] = (float) $postObj->Location_X; // Location_X µØÀíÎ»ÖÃÎ³¶È
-				$result['Y'] = (float) $postObj->Location_Y; // Location_Y µØÀíÎ»ÖÃ¾­¶È
-				$result['S'] = (float) $postObj->Scale;      // Scale µØÍ¼Ëõ·Å´óÐ¡
-				$result['I'] = (string) $postObj->Label;     // Label µØÀíÎ»ÖÃÐÅÏ¢
+				$result['X'] = (float) $postObj->Location_X; // Location_X ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½Î³ï¿½ï¿½
+				$result['Y'] = (float) $postObj->Location_Y; // Location_Y ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ã¾ï¿½ï¿½ï¿½
+				$result['S'] = (float) $postObj->Scale;      // Scale ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Å´ï¿½Ð¡
+				$result['I'] = (string) $postObj->Label;     // Label ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½Ï¢
 				break;
 
 			case 'image':
-				$result['url'] = (string) $postObj->PicUrl;  // PicUrl Í¼Æ¬Á´½Ó£¬¿ª·¢Õß¿ÉÒÔÓÃHTTP GET»ñÈ¡
-				$result['mid'] = (string) $postObj->MediaId; // MediaId Í¼Æ¬ÏûÏ¢Ã½Ìåid£¬¿ÉÒÔµ÷ÓÃ¶àÃ½ÌåÎÄ¼þÏÂÔØ½Ó¿ÚÀ­È¡Êý¾Ý¡£
+				$result['url'] = (string) $postObj->PicUrl;  // PicUrl Í¼Æ¬ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¿ï¿½ï¿½ï¿½ï¿½ï¿½HTTP GETï¿½ï¿½È¡
+				$result['mid'] = (string) $postObj->MediaId; // MediaId Í¼Æ¬ï¿½ï¿½Ï¢Ã½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½ï¿½Ã¶ï¿½Ã½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ø½Ó¿ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ý¡ï¿½
 				break;
 
 			case 'video':
-				$result['mid'] = (string) $postObj->MediaId;      // MediaId Í¼Æ¬ÏûÏ¢Ã½Ìåid£¬¿ÉÒÔµ÷ÓÃ¶àÃ½ÌåÎÄ¼þÏÂÔØ½Ó¿ÚÀ­È¡Êý¾Ý¡£
-				$result['thumbmid'] = (string) $postObj->ThumbMediaId; // ThumbMediaId ÊÓÆµÏûÏ¢ËõÂÔÍ¼µÄÃ½Ìåid£¬¿ÉÒÔµ÷ÓÃ¶àÃ½ÌåÎÄ¼þÏÂÔØ½Ó¿ÚÀ­È¡Êý¾Ý¡£
+				$result['mid'] = (string) $postObj->MediaId;      // MediaId Í¼Æ¬ï¿½ï¿½Ï¢Ã½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½ï¿½Ã¶ï¿½Ã½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ø½Ó¿ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ý¡ï¿½
+				$result['thumbmid'] = (string) $postObj->ThumbMediaId; // ThumbMediaId ï¿½ï¿½Æµï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Ã½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½ï¿½Ã¶ï¿½Ã½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ø½Ó¿ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ý¡ï¿½
 				break;
 
 			case 'link':
-				$result['title'] = (string) $postObj->Title;       // ÏûÏ¢±êÌâ
-				$result['desc'] = (string) $postObj->Description; // ÏûÏ¢ÃèÊö
-				$result['url'] = (string) $postObj->Url;  // ÏûÏ¢Á´½Ó
+				$result['title'] = (string) $postObj->Title;       // ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
+				$result['desc'] = (string) $postObj->Description; // ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
+				$result['url'] = (string) $postObj->Url;  // ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
 				break;
 
 			case 'voice':
-				$result['mid'] = (string) $postObj->MediaId;     // ÓïÒôÏûÏ¢Ã½Ìåid£¬¿ÉÒÔµ÷ÓÃ¶àÃ½ÌåÎÄ¼þÏÂÔØ½Ó¿ÚÀ­È¡¸ÃÃ½Ìå
-				$result['format'] = (string) $postObj->Format;      // ÓïÒô¸ñÊ½£ºamr
+				$result['mid'] = (string) $postObj->MediaId;     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢Ã½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½ï¿½Ã¶ï¿½Ã½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ø½Ó¿ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ã½ï¿½ï¿½
+				$result['format'] = (string) $postObj->Format;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½amr
 				if (property_exists($postObj, Recognition)) {
-					$result['txt'] = (string) $postObj->Recognition; // ÓïÒôÊ¶±ð½á¹û£¬UTF8±àÂë
+					$result['txt'] = (string) $postObj->Recognition; // ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½UTF8ï¿½ï¿½ï¿½ï¿½
 				}
 				break;
 
 			case 'event':
-				$result['event'] = strtolower((string) $postObj->Event);    // ÊÂ¼þÀàÐÍ£¬subscribe(¶©ÔÄ)¡¢unsubscribe(È¡Ïû¶©ÔÄ)¡¢CLICK(×Ô¶¨Òå²Ëµ¥µã»÷ÊÂ???
+				$result['event'] = strtolower((string) $postObj->Event);    // ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Í£ï¿½subscribe(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½unsubscribe(È¡ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½CLICK(ï¿½Ô¶ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½???
 				switch ($result['event']) {
 
-					// case 'unsubscribe': // È¡Ïû¶©ÔÄ
-					case 'subscribe': // ¶©ÔÄ
-					case 'scan': // É¨Ãè¶þÎ¬Âë
+					// case 'unsubscribe': // È¡ï¿½ï¿½ï¿½ï¿½
+					case 'subscribe': // ï¿½ï¿½ï¿½ï¿½
+					case 'scan': // É¨ï¿½ï¿½ï¿½Î¬ï¿½ï¿½
 						if (property_exists($postObj, EventKey)) {
-							// É¨Ãè´ø²ÎÊý¶þÎ¬ÂëÊÂ¼þ
+							// É¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½Â¼ï¿½
 							$result['key'] = str_replace(
 								'qrscene_', '', (string) $postObj->EventKey
-							); // ÊÂ¼þKEYÖµ£¬qrscene_ÎªÇ°×º£¬ºóÃæÎª¶þÎ¬ÂëµÄ²ÎÊýÖµ
+							); // ï¿½Â¼ï¿½KEYÖµï¿½ï¿½qrscene_ÎªÇ°×ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Î¬ï¿½ï¿½Ä²ï¿½ï¿½ï¿½Öµ
 							$result['ticket'] = (string) $postObj->Ticket;
 						}
 						break;
 
-					case 'location': // ÉÏ±¨µØÀíÎ»ÖÃÊÂ¼þ
-						$result['la'] = (string) $postObj->Latitude;  // µØÀíÎ»ÖÃÎ³¶È
-						$result['lo'] = (string) $postObj->Longitude; // µØÀíÎ»ÖÃ¾­¶È
-						$result['p'] = (string) $postObj->Precision; // µØÀíÎ»ÖÃ¾«¶È
+					case 'location': // ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½Â¼ï¿½
+						$result['la'] = (string) $postObj->Latitude;  // ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½Î³ï¿½ï¿½
+						$result['lo'] = (string) $postObj->Longitude; // ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ã¾ï¿½ï¿½ï¿½
+						$result['p'] = (string) $postObj->Precision; // ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ã¾ï¿½ï¿½ï¿½
 						break;
 
-					case 'click': // ×Ô¶¨Òå²Ëµ¥ÊÂ¼þ
-						$result['key'] = (string) $postObj->EventKey; // ÊÂ¼þKEYÖµ£¬Óë×Ô¶¨Òå²Ëµ¥½Ó¿ÚÖÐKEYÖµ¶Ô???
+					case 'click': // ï¿½Ô¶ï¿½ï¿½ï¿½Ëµï¿½ï¿½Â¼ï¿½
+						$result['key'] = (string) $postObj->EventKey; // ï¿½Â¼ï¿½KEYÖµï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½Ëµï¿½ï¿½Ó¿ï¿½ï¿½ï¿½KEYÖµï¿½ï¿½???
 						break;
 					case 'masssendjobfinish':
 						$result['msg_id'] = (string) $postObj->MsgID;
