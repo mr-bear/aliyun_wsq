@@ -9,9 +9,7 @@ $hooks = array(
 
     'forumdisplay_sideBar',
     'viewthread_sideBar',
-    'viewthread_postBottom',
     'viewthread_threadBottom',
-    'viewthread_topBar',
 
 );
 
