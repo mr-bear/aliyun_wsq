@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="version"><![CDATA[X2.5,X3,X3.1,X3.2]]></item>
+	<item id="Time"><![CDATA[2014-10-16 16:49]]></item>
+	<item id="From"><![CDATA[Mr.Bear (http://121.199.30.154/wsq_t/upload/)]]></item>
+	<item id="Data">
+		<item id="plugin">
+			<item id="available"><![CDATA[1]]></item>
+			<item id="adminid"><![CDATA[1]]></item>
+			<item id="name"><![CDATA[[ Î¢ÉçÇø]Ìû×ÓÌø×ª]]></item>
+			<item id="identifier"><![CDATA[mrbear_wsqdocjump]]></item>
+			<item id="description"><![CDATA[]]></item>
+			<item id="datatables"><![CDATA[]]></item>
+			<item id="directory"><![CDATA[mrbear_wsqdocjump/]]></item>
+			<item id="copyright"><![CDATA[mr.bear]]></item>
+			<item id="modules"><![CDATA[a:0:{}]]></item>
+			<item id="version"><![CDATA[v1.0.0]]></item>
+		</item>
+		<item id="version"><![CDATA[X2.5,X3,X3.1,X3.2]]></item>
+		<item id="language">
+			<item id="scriptlang">
+				<item id="pre"><![CDATA[ÉÏÒ»Æª]]></item>
+				<item id="next"><![CDATA[ÏÂÒ»Æª]]></item>
+				<item id="rand"><![CDATA[Ëæ»ú¿´Ìû]]></item>
+				<item id="randDetail"><![CDATA[[µãÎÒËæ»ú¿´Ìû]¿ªÊ¼Î´ÖªÖ®ÂÃ]]></item>
+			</item>
+		</item>
+		<item id="installfile"><![CDATA[install.php]]></item>
+	</item>
+</root>
