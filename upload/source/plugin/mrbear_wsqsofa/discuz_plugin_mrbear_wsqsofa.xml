@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="Version"><![CDATA[X3.2]]></item>
+	<item id="Time"><![CDATA[2014-10-17 14:26]]></item>
+	<item id="From"><![CDATA[Mr.Bear (http://121.199.30.154/wsq_t/upload/)]]></item>
+	<item id="Data">
+		<item id="plugin">
+			<item id="available"><![CDATA[1]]></item>
+			<item id="adminid"><![CDATA[0]]></item>
+			<item id="name"><![CDATA[[微社区]抢沙发]]></item>
+			<item id="identifier"><![CDATA[mrbear_wsqsofa]]></item>
+			<item id="description"><![CDATA[]]></item>
+			<item id="datatables"><![CDATA[]]></item>
+			<item id="directory"><![CDATA[mrbear_wsqsofa/]]></item>
+			<item id="copyright"><![CDATA[mr.bear]]></item>
+			<item id="modules"><![CDATA[b:0;]]></item>
+			<item id="version"><![CDATA[v1.0.0]]></item>
+		</item>
+		<item id="version"><![CDATA[X3.2]]></item>
+	</item>
+</root>
