@@ -18,8 +18,8 @@ $siteUrl = $_G['siteurl'];
 $uid = $_G['uid'];
 $uname = $_G['username'];
 
+//sofa dom
 $sofaData = getSofaData($rankTime);
-
 $dom = '';
 if (!empty($sofaData)) {
     $domStruct = <<<EOF
@@ -49,7 +49,22 @@ EOF;
     }
 }
 
-//origin data
+//head dom
+$threadCount = 0;
+$threadCountData = getThreadCount();
+if (!empty($threadCountData)) {
+    $threadCount = $threadCountData[0]['count'];
+}
+
+$noPostData = getNoPost();
+$noPostCount = 0;
+if (!empty($noPostData)) {
+    $noPostCount = count($noPostData);
+    $ranKey = rand(0, $noPostCount-1);
+    $randTid = $noPostData[$ranKey];
+}
+$headTitle = '主题:'.$threadCount.' 无评论的主题:'.$noPostCount;
+
 function getSofaData($time = '')
 {
     $historyCon = '';
@@ -62,6 +77,20 @@ function getSofaData($time = '')
     return $historySofaData;
 }
 
+function getThreadCount()
+{
+    $queryCon = 'SELECT count(1) count FROM '.DB::table('forum_thread');
+    $threadCount = DB::fetch_all($queryCon);
+    return $threadCount;
+
+}
+
+function getNoPost()
+{
+    $queryCon = 'SELECT tid,count(1) count FROM '.DB::table('forum_post').' group by tid having count=1';
+    $noPostData = DB::fetch_all($queryCon);
+    return $noPostData;
+}
 
 ?>
 <html>
@@ -74,7 +103,7 @@ function getSofaData($time = '')
     menu.push({name:"历史排名", pluginid:'mrbear_wsqsofa:view', param:"h=1"});
     WSQ.initBtmBar(menu);
     WSQ.showBtmBar();
-    WSQ.initPlugin({name:'1111'});
+    WSQ.initPlugin({name:"<?php echo $headTitle;?>"});
 
     var initWx = {
         'img': 'http://www.discuz.net/static/image/common/logo.png',
@@ -91,14 +120,10 @@ function getSofaData($time = '')
     <div class="rankBox">
         <dl>
             <dt class="pr">
-<!--                还有10个帖子没有评论-->
-<!--                <span style="background-color: #ffa903;display: inline-block;right: 50px">-->
-<!--                    点我抢-->
-<!--                </span>-->
 
-                <span class="rbName f14 c9 db" style="width: 70%">还有10个帖子没有评论</span>
+                <span class="rbName f14 c9 db" style="width: 70%">我的历史排名:<em>1</em></span>
                 <span style="background-color: #ffa903;display: inline-block;color: #fff;">
-                    点我开抢喽！
+                    点我抢沙发!
                 </span>
 
             </dt>
