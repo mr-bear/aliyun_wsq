@@ -3259,9 +3259,7 @@ em {
     font-style:normal;
 }
 
-.addBbsOn,100%,.gb {
-                   background-color:#ccc;
-               }
+
 
 .cuImg,.cuAppImg,.slideShow {
     overflow:hidden;
@@ -3366,3 +3364,4 @@ dt,.ptInfo {
 .iconArrowR {
     right:0;
 }
+
