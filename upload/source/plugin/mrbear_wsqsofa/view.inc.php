@@ -7,7 +7,7 @@ global $_G;
 //var_dump($_G);
 $isHistory = (isset($_GET['h']) && $_GET['h'] == 1) ? true : false;
 
-//init title
+//init
 $historyRankTitle = lang('plugin/mrbear_wsqsofa', 'historyRankTitle');
 $sevenRankTitle = lang('plugin/mrbear_wsqsofa', 'sevenRankTitle');
 $rankTitle = ($isHistory) ? $historyRankTitle : $sevenRankTitle;
@@ -28,8 +28,9 @@ $rankTime = ($isHistory) ? '' : $unixTime;
 $siteUrl = $_G['siteurl'];
 $uid = $_G['uid'];
 $uname = $_G['username'];
+//init end
 
-//sofa dom
+//get rankData
 $sofaData = getSofaData($rankTime);
 
 $dom = '';
@@ -76,7 +77,7 @@ EOF;
     }
 }
 
-//head dom
+//header
 $threadCount = 0;
 $threadCountData = getThreadCount();
 if (!empty($threadCountData)) {
