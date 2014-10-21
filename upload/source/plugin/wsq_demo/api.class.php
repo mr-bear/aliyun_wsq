@@ -99,7 +99,7 @@ EOF;
 
 		$return = array();
 		$return[] = array(
-		    'name' => 'TopBar1',
+		    'name' => '测试',
 		    'html' => '[topBar/TopBar1]',
 		    'more' => WeChatHook::getPluginUrl('wsq_demo:view', array('a' => 1, 'b' => 2)),
 		);
