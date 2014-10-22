@@ -16,6 +16,7 @@ $rankUrlTitle = lang('plugin/mrbear_wsqsofa', 'pluginTitle');
 $sofaCounTitle = lang('plugin/mrbear_wsqsofa', 'ranCount');
 $myCountTitle = lang('plugin/mrbear_wsqsofa', 'mySofa');
 $noRank = lang('plugin/mrbear_wsqsofa', 'noRank');
+$noSofa = lang('plugin/mrbear_wsqsofa', 'noSofa');
 
 $myRank = 0;
 $mySofaCount = 0;
@@ -94,7 +95,7 @@ if (!empty($noPostData)) {
 }
 $randUrl = getUrl($randTid);
 
-$headTitle = lang('plugin/mrbear_wsqsofa', 'title').':'.$threadCount.lang('plugin/mrbear_wsqsofa', 'noRepTitle').':'.$noPostCount;
+$headTitle = lang('plugin/mrbear_wsqsofa', 'title').':'.$threadCount.' '.lang('plugin/mrbear_wsqsofa', 'noRepTitle').':'.$noPostCount;
 
 
 function getUrl($tid)
@@ -184,15 +185,17 @@ function getNoPost()
     WSQ.showBtmBar();
     WSQ.initPlugin({name:"<?php echo $headTitle;?>"});
 
-    var initWx = {
-        'img': 'http://www.discuz.net/static/image/common/logo.png',
-        'desc': 'initWxParam',
-        'title': 'shareTitle',
-        'pluginid':'mrbear_wsqsofa:view',
-        'param': ''
-    };
-    WSQ.initShareWx(initWx);
+//    var initWx = {
+//        'img': 'http://www.discuz.net/static/image/common/logo.png',
+//        'desc': 'initWxParam',
+//        'title': 'shareTitle',
+//        'pluginid':'mrbear_wsqsofa:view',
+//        'param': ''
+//    };
+//    WSQ.initShareWx(initWx);
+
 </script>
+
 
 <body style="zoom: 1; padding-bottom: 55px;height: 100%;">
 <div class="warp">
@@ -212,7 +215,7 @@ function getNoPost()
                 </span>
 
                 <span style="background-color: #ffa903;display: inline-block;color: #fff;">
-                    <a href="<?php if($randTid){echo $randUrl;}else{echo 'javascript:;';} ?>" target="_blank" style="color: #fff;">
+                    <a href="<?php if($randTid){echo $randUrl;}else{echo 'javascript:alert(\''.$noSofa.'\')';} ?>" target="_blank" style="color: #fff;">
                         <?php echo $rankUrlTitle;?>
                     </a>
                 </span>
@@ -236,4 +239,6 @@ function getNoPost()
 </div>
 
 </body></html>
+
+
 

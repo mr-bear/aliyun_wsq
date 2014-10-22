@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
-	<item id="Version"><![CDATA[X3.2]]></item>
-	<item id="Time"><![CDATA[2014-10-17 14:26]]></item>
+	<item id="Version"><![CDATA[X2.5,X3,X3.1,X3.2]]></item>
+	<item id="Time"><![CDATA[2014-10-22 13:54]]></item>
 	<item id="From"><![CDATA[Mr.Bear (http://121.199.30.154/wsq_t/upload/)]]></item>
 	<item id="Data">
 		<item id="plugin">
 			<item id="available"><![CDATA[1]]></item>
-			<item id="adminid"><![CDATA[0]]></item>
-			<item id="name"><![CDATA[[å¾®ç¤¾åŒº]æŠ¢æ²™å‘]]></item>
+			<item id="adminid"><![CDATA[1]]></item>
+			<item id="name"><![CDATA[[Î¢ÉçÇø]ÇÀÉ³·¢]]></item>
 			<item id="identifier"><![CDATA[mrbear_wsqsofa]]></item>
 			<item id="description"><![CDATA[]]></item>
 			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[mrbear_wsqsofa/]]></item>
 			<item id="copyright"><![CDATA[mr.bear]]></item>
-			<item id="modules"><![CDATA[b:0;]]></item>
+			<item id="modules"><![CDATA[a:0:{}]]></item>
 			<item id="version"><![CDATA[v1.0.0]]></item>
 		</item>
-		<item id="version"><![CDATA[X3.2]]></item>
+		<item id="version"><![CDATA[X2.5,X3,X3.1,X3.2]]></item>
+		<item id="language">
+			<item id="scriptlang">
+				<item id="pluginTitle"><![CDATA[ÇÀÉ³·¢]]></item>
+				<item id="historyRankTitle"><![CDATA[ÀúÊ·ÅÅÃû]]></item>
+				<item id="sevenRankTitle"><![CDATA[7ÌìÅÅÃû]]></item>
+				<item id="myHisRankTitle"><![CDATA[ÎÒµÄÀúÊ·ÅÅÃû]]></item>
+				<item id="mySevRankTitle"><![CDATA[ÎÒµÄ7ÌìÄÚÅÅÃû]]></item>
+				<item id="ranCount"><![CDATA[É³·¢Êý]]></item>
+				<item id="mySofa"><![CDATA[ÎÒµÄÉ³·¢]]></item>
+				<item id="noRank"><![CDATA[ÄúÄ¿Ç°°ñÉÏÎÞÃû]]></item>
+				<item id="title"><![CDATA[Ö÷Ìâ]]></item>
+				<item id="noRepTitle"><![CDATA[ÎÞÆÀÂÛµÄÖ÷Ìâ]]></item>
+				<item id="noSofa"><![CDATA[É³·¢ÂúÁË£¬Ö»ÄÜ×ø°åµÊÁË]]></item>
+			</item>
+		</item>
+		<item id="installfile"><![CDATA[install.php]]></item>
 	</item>
 </root>

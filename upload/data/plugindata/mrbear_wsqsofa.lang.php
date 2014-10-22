@@ -11,5 +11,6 @@ $scriptlang['mrbear_wsqsofa'] = array(
     'noRank' => '您目前榜上无名',
     'title' => '主题',
     'noRepTitle' => '无评论的主题',
+    'noSofa' => '沙发满了，只能坐板凳了',
 );
 
