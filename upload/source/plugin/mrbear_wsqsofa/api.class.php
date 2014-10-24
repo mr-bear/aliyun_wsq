@@ -37,7 +37,7 @@ eof;
             $i = 1;
             foreach ($sofaData as $itemValue) {
                 $authorId = $itemValue['authorid'];
-                $author = $this->pluginIconv($itemValue['author']);
+                $author = $itemValue['author'];
                 $userImg = $siteUrl.'uc_server/avatar.php?uid='.$authorId.'&size=small';
                 $userUrl = $this->getUserUrl($authorId);
 

@@ -51,7 +51,7 @@ EOF;
     $i = 1;
     foreach ($sofaData as $itemValue) {
         $authorId = $itemValue['authorid'];
-        $author = pluginIconv($itemValue['author']);
+        $author = $itemValue['author'];
         $historyCount = $itemValue['count'];
 
         if ($i <= 10) {
@@ -203,20 +203,20 @@ function getNoPost()
         <dl>
             <dt class="pr">
                 <span class="rbName f14 c9 db" style="width: 83%">
-                    <?php echo $myCountTitle;?>:
+                    <?php echo htmlspecialchars($myCountTitle);?>:
                     <em style="color:#ff6035;font-size:20;margin-right: 10px"><?php echo $mySofaCount;?></em>
 
                     <?php if ($myRank) { ?>
-                        <?php echo $rankTitle;?>:
+                        <?php echo htmlspecialchars($rankTitle);?>:
                         <em style="color:#ff6035;font-size:20;"><?php echo $myRank;?></em>
                     <?php } else { ?>
-                        <?php echo $noRank; ?>
+                        <?php echo htmlspecialchars($noRank); ?>
                     <?php } ?>
                 </span>
 
                 <span style="background-color: #ffa903;display: inline-block;color: #fff;">
                     <a href="<?php if($randTid){echo $randUrl;}else{echo 'javascript:alert(\''.$noSofa.'\')';} ?>" target="_blank" style="color: #fff;">
-                        <?php echo $rankUrlTitle;?>
+                        <?php echo htmlspecialchars($rankUrlTitle);?>
                     </a>
                 </span>
 
@@ -228,7 +228,7 @@ function getNoPost()
                     <i class="iconRank db cf f10 c2"></i>
                 </span>
                 <span class="rbName f14 c9 db">
-                    <?php echo $rankTitle ?></span><span class="rbNum f14 c9 db" style="text-align:left;"><?php echo $sofaCounTitle;?>
+                    <?php echo htmlspecialchars($rankTitle) ?></span><span class="rbNum f14 c9 db" style="text-align:left;"><?php echo htmlspecialchars($sofaCounTitle);?>
                 </span>
             </dt>
 
