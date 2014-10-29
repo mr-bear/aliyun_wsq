@@ -5,7 +5,7 @@
  * Date: 14-10-28
  * Time: 下午3:51
  */
-if(!defined('IN_DISCUZ')) {
+if (!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
 
@@ -27,55 +27,264 @@ class award {
         $this->_userGroup = $_G['groupid'];
     }
 
+
     /**
      * query user info
+     * @param $userId
+     * @param $eventId
      * @return array
      */
-    public function getUserInfo()
+    public function getUserInfo($userId, $eventId)
     {
-        if (!intval($this->_userId)) {
-            return array();
+        if (!intval($userId)) {
+            return array('status'=>1,'data'=>'');
         }
-        $queryCon = 'select * from '.DB::table('mrbear_diaobao_user').' where event_id = '.$this->_eventId.' and user_id = '.$this->_userId;
+        $queryCon = 'select * from '.DB::table('mrbear_diaobao_user').' where event_id = '.$eventId.' and user_id = '.$userId;
         $userInfo = DB::fetch_all($queryCon);
-        return $userInfo;
+        return array('status'=>0,'data'=>$userInfo);
     }
 
     /**
-     * insert into user
-     * @return int
+     * update user info
+     * @param $eventId
+     * @param $userId
+     * @param array $data
+     * @return array|bool|void|
      */
-    public function insertUser()
+    public function updateUserInfo($eventId, $userId, $data = array())
     {
-        if (!intval($this->_userId)) {
+        if (!intval($userId) || !is_array($data) || empty($data)) {
+            return array();
+        }
+        return DB::update('mrbear_diaobao_user', $data, 'user_id = '.$userId.' and event_id = '.$eventId);
+    }
+
+    /**
+     * @param $userId
+     * @param $eventId
+     * @param $userName
+     * @return array|int
+     */
+    public function insertUser($userId, $eventId, $userName)
+    {
+        if (!intval($userId)) {
             return array();
         }
         $insertData = array(
-            'event_id' => $this->_eventId,
-            'user_id' => $this->_userId,
-            'user_name' => $this->_userName,
+            'event_id' => $eventId,
+            'user_id' => $userId,
+            'user_name' => $userName,
             'last_time' => '',
         );
-        return DB::insert(DB::table('mrbear_diaobao_user'), $insertData);
+        return DB::insert('mrbear_diaobao_user', $insertData);
     }
 
+    /**
+     * add log
+     * @param $data
+     * @return array|int
+     */
+    public function insertLog($data)
+    {
+        if (!is_array($data) || empty($data)) {
+            return array();
+        }
+        return DB::insert('mrbear_diaobao_log', $data);
+    }
+
+    /**
+     * add creadits
+     * @param $userId
+     * @param $type
+     * @param $score
+     * @return array|int|string
+     */
+    public function updateUserCredits($userId, $type, $score)
+    {
+        if (!intval($userId) || !in_array($type, array(0, 1, 2, 3))) {
+            return array();
+        }
+        $where = ' where uid = '.$userId;
+        $sql = '';
+        switch ($type) {
+            case 0:
+                //jifen update common_member credits
+                $sql = 'update '.DB::table('common_member').' set credits = credits+'.$score.$where;
+                break;
+            case 1:
+                //update common_member_count 1=extcredits2 2=extcredits3 3=extcredits1
+                $sql = 'update '.DB::table('common_member_count').' set extcredits2 = extcredits2+'.$score.$where;
+                break;
+            case 2:
+                $sql = 'update '.DB::table('common_member_count').' set extcredits3 = extcredits3+'.$score.$where;
+                break;
+            case 3:
+                $sql = 'update '.DB::table('common_member_count').' set extcredits1 = extcredits1+'.$score.$where;
+                break;
+            default:
+                break;
+        }
+        if ($sql != '') {
+            return DB::query($sql);
+        } else {
+            return array();
+        }
+    }
+
+    /**
+     * replace score text
+     * @param $num
+     * @param $type
+     * @return mixed
+     */
+    public function getScoreText($num, $type)
+    {
+        $typeNaeme = '';
+        switch ($type) {
+            case 0:
+                $typeNaeme = '积分';
+                break;
+            case 1:
+                $typeNaeme = '金钱';
+                break;
+            case 2:
+                $typeNaeme = '贡献';
+                break;
+            case 3:
+                $typeNaeme = '威望';
+                break;
+            default:
+                break;
+        }
+        $scoreText = $this->_config['score_text'];
+        $scoreText = str_replace('{#num#}', $num, $scoreText);
+        $scoreText = str_replace('{#type#}', $typeNaeme, $scoreText);
+        return $scoreText;
+
+    }
+
+    /**
+     * get award backgroud-pic
+     * @return string
+     */
+    public function getAwardPic()
+    {
+        $picArr = explode(PHP_EOL, $this->_config['score_pic']);
+        $randPic = '';
+        if (!empty($picArr)) {
+            $randKey = array_rand($picArr, 1);
+            $randPic = $picArr[$randKey];
+        }
+        return $randPic;
+    }
+
+    /**
+     * get award
+     */
     public function getAward()
     {
         $awardInfo = array(
-            'status' => 0,
+            'status' => 1,
             'data' => array(),
         );
         $rateConfig = $this->_config['rate'];
-        $rand = rand(0, 1);
-        if (!empty($rateConfig) && $rand > $rateConfig)
+        $dayMaxConfig = $this->_config['day_max'];
+        $eventMaxConfig = $this->_config['event_max'];
+        $scoreMaxConfig = $this->_config['score_max'];
+        $itemScoreConfig = $this->_config['item_score'];
+        $scoreType = $this->_config['score_type'];
+        $timeIntervalConfig = intval($this->_config['interval']);
+
+        $rand = mt_rand(0, 100)/100;
+        if (!empty($rateConfig) && $rand < $rateConfig)
         {
-            //check day max
+            $userInfo = $this->getUserInfo($this->_userId, $this->_eventId);
 
-        } else {
-            //no award
-            $awardInfo['status'] = 1;
+            if ($userInfo['status'] == 0) {
+                $remainScore = 0;
+                $totalScore = 0;
+                $dayNum = 0;
+                $totalNum = 0;
+                $lastTime = '';
+                //insert user info if not exists
+                if (empty($userInfo['data'])) {
+                    $this->insertUser($this->_userId, $this->_eventId, $this->_userName);
+                } else {
+                    $remainScore = $userInfo['data'][0]['remain_score'];
+                    $totalScore = $userInfo['data'][0]['total_score'];
+                    $dayNum = $userInfo['data'][0]['day_num'];
+                    $totalNum = $userInfo['data'][0]['total_num'];
+                    $lastTime = $userInfo['data'][0]['last_time'];
+
+                    $intvalTime = time() - strtotime($lastTime);
+                    if ($timeIntervalConfig > 0 && $intvalTime < $timeIntervalConfig * 60) {
+                        $awardInfo['status'] = 4;
+                        return $awardInfo;
+                    }
+                }
+                $currentDate = date('Y-m-d');
+                $lastDate = date('Y-m-d', strtotime($lastTime));
+                if ($currentDate != $lastDate) {
+                    $dayNum = 0;
+                }
+
+                //check day max ..
+                $totalScoreCheck = ($scoreMaxConfig == 0 || $totalScore < $scoreMaxConfig) ? true : false;
+                $totalNumCheck = ($eventMaxConfig == 0 || $totalNum < $eventMaxConfig) ? true : false;
+                $dayNumCheck = ($dayMaxConfig == 0 || $dayNum < $dayMaxConfig) ? true : false;
+                if ($totalScoreCheck && $totalNumCheck && $dayNumCheck) {
+                    //get item score
+                    $itemScore = $this->_getItemScore($itemScoreConfig);
+                    //todo if itemscore is 0
+                    //update user info
+                    $upUserData = array(
+                        'remain_score' => $remainScore+$itemScore,
+                        'total_score' => $totalScore+$itemScore,
+                        'last_time' => date('Y-m-d H:i:s'),
+                        'day_num' => $dayNum+1,
+                        'total_num' => $totalNum+1,
+                    );
+                    $this->updateUserInfo($this->_eventId, $this->_userId, $upUserData);
+                    //add score
+                    $upRes = $this->updateUserCredits($this->_userId, $scoreType, $itemScore);
+
+                    if (!empty($upRes)) {
+                        //add log
+                        $logData = array(
+                            'event_id' => $this->_eventId,
+                            'user_id' => $this->_userId,
+                            'user_name' => $this->_userName,
+                            'score_type' => $scoreType,
+                            'score' => $itemScore,
+                            'source' => 0, //todo 0 pc 1 mobile
+                        );
+                        $this->insertLog($logData);
+
+                        $awardInfo['status'] = 0;
+                        $awardInfo['data'] = array(
+                            'itemScore' => $itemScore,
+                            'scoreType' => $scoreType,
+                            'scoreText' => $this->getScoreText($itemScore, $scoreType),
+                            'scorepic' => $this->getAwardPic(),
+                            'shareText' => $this->_config['share_text'],
+                        );
+                    } else {
+                        $awardInfo['status'] = 3;
+                    }
+                } else {
+                    $awardInfo['status'] = 2;
+                }
+
+            }
         }
+        return $awardInfo;
+    }
 
+
+    public function checkEventStatus()
+    {
+        $status = $this->_config['status'];
+        return $status;
     }
 
     public function checkEventTime()
@@ -124,6 +333,34 @@ class award {
             $checkBlackRes = true;
         }
         return $checkBlackRes;
+    }
+
+    /**
+     * get item score
+     * @param $scoreConfig
+     * @return int
+     */
+    private function _getItemScore($scoreConfig)
+    {
+        $itemScore = 0;
+        if (empty($scoreConfig)) {
+            return $itemScore;
+        }
+        if (strpos($scoreConfig, '-')) {
+            $configArr = explode('-', $scoreConfig);
+            $count = count($configArr);
+            if ($count == 2 && intval($configArr[1]) > $configArr[0]) {
+                $itemScore = mt_rand($configArr[0], $configArr[1]);
+            }
+        } elseif (strpos($scoreConfig, ',')) {
+            $configArr = explode(',', $scoreConfig);
+            $randKey = array_rand($configArr, 1);
+            $itemScore = intval($configArr[$randKey]);
+        } else {
+            $itemScore = intval($scoreConfig);
+        }
+        return $itemScore;
+
     }
 
     public function __get($name)

@@ -13,31 +13,43 @@ error_reporting(E_ALL);
 
 require_once DISCUZ_ROOT.'./source/plugin/mrbear_award/awardController.php';
 
-
-$awardData = array(
-    'pic' => '',
-    'text' => '',
-);
 $response = array(
     'status' => 0,
-    'data' => $awardData,
+    'data' => array(),
     'msg' => ''
 );
 
 $awardObj = new award();
 
 $userId = $awardObj->_userId;
+$intervalTime = $awardObj->_config['interval'];
+$cookieLastTime = $_COOKIE['lastAwardTime'];
+$checkInterval = ((time()-$cookieLastTime) > $intervalTime*60) ? true : false;
+
+//check config
+$checkStatus = $awardObj->checkEventStatus();
 $checkTime = $awardObj->checkEventTime();
 $checkGroup = $awardObj->checkUserLevel();
 $checkBlack = $awardObj->checkBlackList();
-if (!$userId || !$checkTime || !$checkGroup || !$checkBlack) {
+if (!$userId || !$checkInterval || !$checkStatus || !$checkTime || !$checkGroup || !$checkBlack) {
     //return
-    $response['status'] = 1;
+    $response['status'] = 99;
     echo json_encode($response);
     die();
 }
 
+$awardRes = $awardObj->getAward();
+if ($awardRes['status'] == 0) {
+    //award then set cookie
+    setcookie('lastAwardTime', time());
+}
 
-var_dump($_G['cache']['plugin']['mrbear_award']);
+$response['status'] = $awardRes['status'];
+$response['data'] = $awardRes['data'];
+echo json_encode($response);
+die();
+var_dump($response);
+
+//var_dump($_G['cache']['plugin']['mrbear_award']);
 
 
