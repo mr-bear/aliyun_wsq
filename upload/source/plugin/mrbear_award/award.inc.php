@@ -12,6 +12,9 @@ if (!defined('IN_DISCUZ')) {
 error_reporting(E_ALL);
 
 require_once DISCUZ_ROOT.'./source/plugin/mrbear_award/awardController.php';
+$fid = $_GET['fid'];
+$uid = $_GET['uid'];
+
 
 $response = array(
     'status' => 0,
@@ -24,14 +27,22 @@ $awardObj = new award();
 $userId = $awardObj->_userId;
 $intervalTime = $awardObj->_config['interval'];
 $cookieLastTime = $_COOKIE['lastAwardTime'];
-$checkInterval = ((time()-$cookieLastTime) > $intervalTime*60) ? true : false;
+$checkInterval = ((time()-$cookieLastTime) >= $intervalTime*60) ? true : false;
 
 //check config
 $checkStatus = $awardObj->checkEventStatus();
 $checkTime = $awardObj->checkEventTime();
 $checkGroup = $awardObj->checkUserLevel();
+$checkForums = $awardObj->checkForums($fid);
 $checkBlack = $awardObj->checkBlackList();
-if (!$userId || !$checkInterval || !$checkStatus || !$checkTime || !$checkGroup || !$checkBlack) {
+if (!$userId
+    || $userId != $uid
+    || !$checkInterval
+    || !$checkStatus
+    || !$checkTime
+    || !$checkGroup
+    || !$checkForums
+    || !$checkBlack) {
     //return
     $response['status'] = 99;
     echo json_encode($response);
@@ -48,7 +59,7 @@ $response['status'] = $awardRes['status'];
 $response['data'] = $awardRes['data'];
 echo json_encode($response);
 die();
-var_dump($response);
+//var_dump($response);
 
 //var_dump($_G['cache']['plugin']['mrbear_award']);
 

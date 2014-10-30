@@ -170,12 +170,22 @@ class award {
     public function getAwardPic()
     {
         $picArr = explode(PHP_EOL, $this->_config['score_pic']);
+        $picUrlArr = explode(PHP_EOL, $this->_config['pic_url']);
         $randPic = '';
+        $randUrl = '';
         if (!empty($picArr)) {
             $randKey = array_rand($picArr, 1);
             $randPic = $picArr[$randKey];
+
+            if (isset($picUrlArr[$randKey])) {
+                $httpPos = strpos($picUrlArr[$randKey], 'http');
+                if ($httpPos == 0) {
+                    $randUrl = $picUrlArr[$randKey];
+                }
+
+            }
         }
-        return $randPic;
+        return array('pic'=>$randPic,'url'=>$randUrl);
     }
 
     /**
@@ -315,6 +325,22 @@ class award {
             $checkGroupRes = true;
         }
         return $checkGroupRes;
+    }
+
+    public function checkForums($fid)
+    {
+        $checkForumsRes = false;
+        $forumsConfig = $this->_config['board_lists'];
+        $forumsConfig = unserialize($forumsConfig);
+//        var_dump($forumsConfig);
+        if (!empty($forumsConfig)) {
+            if ($fid && in_array($fid, $forumsConfig)) {
+                $checkForumsRes = true;
+            }
+        } else {
+            $checkForumsRes = true;
+        }
+        return $checkForumsRes;
     }
 
     public function checkBlackList()
