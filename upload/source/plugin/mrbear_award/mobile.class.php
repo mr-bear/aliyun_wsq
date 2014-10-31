@@ -52,7 +52,7 @@ class mobileplugin_mrbear_award_forum extends mobileplugin_mrbear_award{
             <div class="jinhua">
                 <a href="javascript:;" target="_blank"><img src="" width="210px" height="140px"/></a>
                 <p style="height:10px;font-family:inherit;margin:10px 0px 10px 0px;font-size:10px;"></p>
-                <div class="bdsharebuttonbox" style="left:50%;margin-left:-80px;position:absolute;">
+                <div class="bdsharebuttonbox" style="width:170px;left:50%;margin-left:-60px;position:absolute;">
                   <a href="#" class="bds_more" data-cmd="more"></a>
                   <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
                   <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
@@ -60,7 +60,7 @@ class mobileplugin_mrbear_award_forum extends mobileplugin_mrbear_award{
                   <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
                   <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
                 </div>
-                <a  href="javascript:;" onclick="closejf();" style="display:block;width:110px;height:52px;margin:0 auto;"></a>
+                <a  href="javascript:;" onclick="closejf();" style="display:block;width:80px;height:22px;margin:0 auto;margin-top:45px;"></a>
             </div>
 
             <script src="http://imgs.xici.net/_js/jquery-1.7.2.min.js"></script>
@@ -80,11 +80,11 @@ class mobileplugin_mrbear_award_forum extends mobileplugin_mrbear_award{
                         "bdMiniList":false,
                         "bdPic":"",
                         "bdStyle":"1",
-                        "bdSize":"10"},
+                        "bdSize":"16"},
                     "share":{},
                     "image":{
                         "viewList":["qzone","tsina","tqq","renren","weixin"],
-                        "viewText":"分享到：","viewSize":"10"},
+                        "viewText":"分享到：","viewSize":"16"},
                         "selectShare":{
                             "bdContainerClass":null,
                             "bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]
