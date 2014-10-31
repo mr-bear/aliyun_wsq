@@ -16,6 +16,7 @@ class award {
     private $_userId = 0;
     private $_userName = '';
     private $_userGroup = 0;
+    public $source = 0; //0 pc 1 mobile
 
     public function __construct()
     {
@@ -252,8 +253,7 @@ class award {
         $timeIntervalConfig = intval($this->_config['interval']);
 
         $rand = mt_rand(0, 100)/100;
-        if (!empty($rateConfig) && $rand < $rateConfig)
-        {
+        if (!empty($rateConfig) && $rand < $rateConfig) {
             $userInfo = $this->getUserInfo($this->_userId, $this->_eventId);
 
             if ($userInfo['status'] == 0) {
@@ -312,7 +312,7 @@ class award {
                             'user_name' => $this->_userName,
                             'score_type' => $scoreType,
                             'score' => $itemScore,
-                            'source' => 0, //todo 0 pc 1 mobile
+                            'source' => $this->source, //todo 0 pc 1 mobile
                         );
                         $this->insertLog($logData);
                         //add rule log

@@ -14,8 +14,12 @@ error_reporting(E_ALL);
 
 require_once DISCUZ_ROOT.'./source/plugin/mrbear_award/awardController.php';
 
-$fid = $_GET['fid'];
-$uid = $_GET['uid'];
+$fid = isset($_GET['fid']) ? $_GET['fid'] : 0;
+$uid = isset($_GET['uid']) ? $_GET['uid'] : 0;
+$source = (isset($_GET['source']) && in_array($_GET['source'],array(0,1))) ? $_GET['source'] : 0;
+$fid = intval($fid);
+$uid = intval($uid);
+$source = intval($source);
 
 $response = array(
     'status' => 0,
@@ -24,6 +28,7 @@ $response = array(
 );
 
 $awardObj = new award();
+$awardObj->source = $source;
 
 $userId = $awardObj->_userId;
 $intervalTime = $awardObj->_config['interval'];
