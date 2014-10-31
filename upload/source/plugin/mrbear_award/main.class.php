@@ -5,7 +5,9 @@
  * Date: 14-10-28
  * Time: 下午3:44
  */
-
+if (!defined('IN_DISCUZ')) {
+    exit('Access Denied');
+}
 class plugin_mrbear_award{
 
     function plugin_mrbear_award()
