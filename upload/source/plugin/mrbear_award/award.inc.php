@@ -9,12 +9,13 @@
 if (!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
+ini_set("display_errors", 1);
 error_reporting(E_ALL);
 
 require_once DISCUZ_ROOT.'./source/plugin/mrbear_award/awardController.php';
+
 $fid = $_GET['fid'];
 $uid = $_GET['uid'];
-
 
 $response = array(
     'status' => 0,
@@ -35,6 +36,7 @@ $checkTime = $awardObj->checkEventTime();
 $checkGroup = $awardObj->checkUserLevel();
 $checkForums = $awardObj->checkForums($fid);
 $checkBlack = $awardObj->checkBlackList();
+
 if (!$userId
     || $userId != $uid
     || !$checkInterval

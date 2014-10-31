@@ -101,16 +101,12 @@ class award {
      */
     public function updateUserCredits($userId, $type, $score)
     {
-        if (!intval($userId) || !in_array($type, array(0, 1, 2, 3))) {
+        if (!intval($userId) || !in_array($type, array(1, 2, 3))) {
             return array();
         }
         $where = ' where uid = '.$userId;
         $sql = '';
         switch ($type) {
-            case 0:
-                //jifen update common_member credits
-                $sql = 'update '.DB::table('common_member').' set credits = credits+'.$score.$where;
-                break;
             case 1:
                 //update common_member_count 1=extcredits2 2=extcredits3 3=extcredits1
                 $sql = 'update '.DB::table('common_member_count').' set extcredits2 = extcredits2+'.$score.$where;
@@ -132,6 +128,59 @@ class award {
     }
 
     /**
+     * insert into credits rule log
+     * @param $userId
+     * @param $type
+     * @param $num
+     * @return array|int|string
+     */
+    public function upCreditsRuleLog($userId, $type, $num)
+    {
+        if (!intval($userId)) {
+            return array();
+        }
+        $creType = '';
+        $upCon = '';
+        switch ($type) {
+            case 1:
+                $creType = 'extcredits2';
+                $upCon = ' total = total + 1,cyclenum = cyclenum + 1, extcredits2 = extcredits2 + '.$num;
+                break;
+            case 2:
+                $creType = 'extcredits3';
+                $upCon = ' total = total + 1,cyclenum = cyclenum + 1, extcredits3 = extcredits3 + '.$num;
+                break;
+            case 3:
+                $creType = 'extcredits1';
+                $upCon = ' total = total + 1,cyclenum = cyclenum + 1, extcredits1 = extcredits1 + '.$num;
+                break;
+            default:
+                return array();
+                break;
+        }
+        $queryCon = 'select rid from '.DB::table('common_credit_rule').' where action = \''.self::PLUGIN_ID.'\'';
+        $ridRes = DB::fetch_all($queryCon);
+
+        if (!empty($ridRes)) {
+            $rid = $ridRes[0]['rid'];
+            $queryLogCon = 'select * from '.DB::table('common_credit_rule_log').' where uid = '.$userId.' and rid = '.$rid;
+            $logRes = DB::fetch_all($queryLogCon);
+            if (empty($logRes)) {
+                //insert
+                $insertCon = 'insert into '.DB::table('common_credit_rule_log').'(uid,rid,total,cyclenum,'.$creType.',dateline) values ('.$userId.','.$rid.',1,1,'.$num.','.time().')';
+                $upRes = DB::query($insertCon);
+            } else {
+                //update
+                $updateCon = 'update '.DB::table('common_credit_rule_log').' set '.$upCon.' where uid = '.$userId.' and rid = '.$rid;
+                $upRes = DB::query($updateCon);
+            }
+            return $upRes;
+        } else {
+            return array();
+        }
+    }
+
+    /**
      * replace score text
      * @param $num
      * @param $type
@@ -141,9 +190,6 @@ class award {
     {
         $typeNaeme = '';
         switch ($type) {
-            case 0:
-                $typeNaeme = '积分';
-                break;
             case 1:
                 $typeNaeme = '金钱';
                 break;
@@ -269,6 +315,8 @@ class award {
                             'source' => 0, //todo 0 pc 1 mobile
                         );
                         $this->insertLog($logData);
+                        //add rule log
+                        $this->upCreditsRuleLog($this->_userId, $scoreType, $itemScore);
 
                         $awardInfo['status'] = 0;
                         $awardInfo['data'] = array(
