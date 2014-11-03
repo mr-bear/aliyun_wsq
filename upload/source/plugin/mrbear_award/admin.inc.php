@@ -27,6 +27,9 @@ switch ($type) {
 }
 
 
+$url = ADMINSCRIPT.'?action=plugins&operation=config&do='.$pluginid.'&identifier=mrbear_award&pmod=admin&t=';
+$totalUrl = $url.'s';
+$userUrl = $url.'u';
 
 function getTotalData($eventId = '')
 {

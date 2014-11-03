@@ -60,6 +60,7 @@ h5 {
 ol.unstyled {
     list-style:none;
     margin-left:0;
+    display: table-row;
 }
 a {
     color:#0088cc;
