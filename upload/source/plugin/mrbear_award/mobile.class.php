@@ -54,20 +54,20 @@ class mobileplugin_mrbear_award_forum extends mobileplugin_mrbear_award{
                 <p style="height:10px;font-family:inherit;margin:10px 0px 10px 0px;font-size:10px;"></p>
                 <div class="bdsharebuttonbox" style="width:170px;left:50%;margin-left:-60px;position:absolute;">
                   <a href="#" class="bds_more" data-cmd="more"></a>
-                  <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
-                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-                  <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
-                  <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
-                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                  <a href="#" class="bds_qzone" data-cmd="qzone" title="'.lang('plugin/mrbear_award', 'shareQQTitle').'"></a>
+                  <a href="#" class="bds_tsina" data-cmd="tsina" title="'.lang('plugin/mrbear_award', 'shareSinaTitle').'"></a>
+                  <a href="#" class="bds_tqq" data-cmd="tqq" title="'.lang('plugin/mrbear_award', 'shareQQWTitle').'"></a>
+                  <a href="#" class="bds_renren" data-cmd="renren" title="'.lang('plugin/mrbear_award', 'shareRRTitle').'"></a>
+                  <a href="#" class="bds_weixin" data-cmd="weixin" title="'.lang('plugin/mrbear_award', 'shareWXTitle').'"></a>
                 </div>
                 <a  href="javascript:;" onclick="closejf();" style="display:block;width:80px;height:22px;margin:0 auto;margin-top:45px;"></a>
             </div>
 
-            <script src="http://imgs.xici.net/_js/jquery-1.7.2.min.js"></script>
+            <script src="source/plugin/mrbear_award/template/jquery.js"></script>
 
             <script>
                 var mba = jQuery.noConflict();
-                var defaultImg = "http://gtms04.alicdn.com/tps/i4/TB1CufqGFXXXXb3XFXXXK5zTVXX-520-280.png";
+                var defaultImg = "source/plugin/mrbear_award/template/default.jpg";
                 var shareText = "";
                 var sharePic = "";
             </script>
@@ -84,7 +84,7 @@ class mobileplugin_mrbear_award_forum extends mobileplugin_mrbear_award{
                     "share":{},
                     "image":{
                         "viewList":["qzone","tsina","tqq","renren","weixin"],
-                        "viewText":"分享到：","viewSize":"16"},
+                        "viewText":"'.lang('plugin/mrbear_award', 'shareTitle').'：","viewSize":"16"},
                         "selectShare":{
                             "bdContainerClass":null,
                             "bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]
@@ -93,14 +93,15 @@ class mobileplugin_mrbear_award_forum extends mobileplugin_mrbear_award{
 
 
                 mba.ajax({
-                    url: "http://121.199.30.154/wsq_t/upload/plugin.php?id=mrbear_award:award",
+                    url: "'.$siteUrl.'plugin.php?id=mrbear_award:award",
                     type: "GET",
                     dataType: "json",
                     cache: false,
                     data: {
                         "tid":'.$tid.',
                         "fid":'.$fid.',
-                        "uid":'.$uid.'
+                        "uid":'.$uid.',
+                        "source":1
                     },
                     success:function(data){
                         if (0 == data.status) {

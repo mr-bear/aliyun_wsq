@@ -18,7 +18,7 @@ class plugin_mrbear_award{
 
 class plugin_mrbear_award_forum extends plugin_mrbear_award{
 
-    public function viewthread_bottom()
+    public function viewthread_mrbearaward()
     {
         global $_G;
         $siteUrl = $_G['siteurl'];
@@ -38,7 +38,7 @@ class plugin_mrbear_award_forum extends plugin_mrbear_award{
                     left:50%;
                     z-index:4;
                     text-align:center;
-                    margin-left:-333px;
+                    margin-left:-300px;
                     display: none;
 
                 }
@@ -48,20 +48,19 @@ class plugin_mrbear_award_forum extends plugin_mrbear_award{
                 <p style="height:10px;font-family:inherit;margin:10px 0px 10px 0px;font-size:16px;"></p>
                 <div class="bdsharebuttonbox" style="margin-left:220px;">
                   <a href="#" class="bds_more" data-cmd="more"></a>
-                  <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
-                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-                  <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
-                  <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
-                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                  <a href="#" class="bds_qzone" data-cmd="qzone" title="'.lang('plugin/mrbear_award', 'shareQQTitle').'"></a>
+                  <a href="#" class="bds_tsina" data-cmd="tsina" title="'.lang('plugin/mrbear_award', 'shareSinaTitle').'"></a>
+                  <a href="#" class="bds_tqq" data-cmd="tqq" title="'.lang('plugin/mrbear_award', 'shareQQWTitle').'"></a>
+                  <a href="#" class="bds_renren" data-cmd="renren" title="'.lang('plugin/mrbear_award', 'shareRRTitle').'"></a>
+                  <a href="#" class="bds_weixin" data-cmd="weixin" title="'.lang('plugin/mrbear_award', 'shareWXTitle').'"></a>
                 </div>
                 <a  href="javascript:;" onclick="closejf();" style="display:block;width:110px;height:52px;margin:0 auto;"></a>
             </div>
 
-            <script src="http://imgs.xici.net/_js/jquery-1.7.2.min.js"></script>
-
+            <script src="source/plugin/mrbear_award/template/jquery.js"></script>
             <script>
                 var mba = jQuery.noConflict();
-                var defaultImg = "http://gtms04.alicdn.com/tps/i4/TB1CufqGFXXXXb3XFXXXK5zTVXX-520-280.png";
+                var defaultImg = "source/plugin/mrbear_award/template/default.jpg";
                 var shareText = "";
                 var sharePic = "";
             </script>
@@ -78,7 +77,7 @@ class plugin_mrbear_award_forum extends plugin_mrbear_award{
                     "share":{},
                     "image":{
                         "viewList":["qzone","tsina","tqq","renren","weixin"],
-                        "viewText":"分享到：","viewSize":"24"},
+                        "viewText":"'.lang('plugin/mrbear_award', 'shareTitle').'：","viewSize":"24"},
                         "selectShare":{
                             "bdContainerClass":null,
                             "bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]
@@ -87,7 +86,7 @@ class plugin_mrbear_award_forum extends plugin_mrbear_award{
 
 
                 mba.ajax({
-                    url: "http://121.199.30.154/wsq_t/upload/plugin.php?id=mrbear_award:award",
+                    url: "'.$siteUrl.'plugin.php?id=mrbear_award:award",
                     type: "GET",
                     dataType: "json",
                     cache: false,
@@ -125,7 +124,7 @@ class plugin_mrbear_award_forum extends plugin_mrbear_award{
                 }
 
             </script>';
-        return $awardPop;
+        echo $awardPop;
     }
 }
 

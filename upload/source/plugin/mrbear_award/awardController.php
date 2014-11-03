@@ -192,13 +192,13 @@ class award {
         $typeNaeme = '';
         switch ($type) {
             case 1:
-                $typeNaeme = '金钱';
+                $typeNaeme = lang('plugin/mrbear_award', 'jqTitle');
                 break;
             case 2:
-                $typeNaeme = '贡献';
+                $typeNaeme = lang('plugin/mrbear_award', 'gxTitle');
                 break;
             case 3:
-                $typeNaeme = '威望';
+                $typeNaeme = lang('plugin/mrbear_award', 'wqTitle');
                 break;
             default:
                 break;
@@ -291,7 +291,7 @@ class award {
                 if ($totalScoreCheck && $totalNumCheck && $dayNumCheck) {
                     //get item score
                     $itemScore = $this->_getItemScore($itemScoreConfig);
-                    //todo if itemscore is 0
+                    //
                     //update user info
                     $upUserData = array(
                         'remain_score' => $remainScore+$itemScore,
@@ -312,7 +312,7 @@ class award {
                             'user_name' => $this->_userName,
                             'score_type' => $scoreType,
                             'score' => $itemScore,
-                            'source' => $this->source, //todo 0 pc 1 mobile
+                            'source' => $this->source,
                         );
                         $this->insertLog($logData);
                         //add rule log
@@ -338,6 +338,17 @@ class award {
         return $awardInfo;
     }
 
+    public function checkTerminal()
+    {
+        $terminalRes = false;
+        $terminalConfig = $this->_config['terminal'];
+        $terminalConfig = unserialize($terminalConfig);
+        $terminal = $this->source + 1;
+        if (in_array($terminal, $terminalConfig)) {
+            $terminalRes = true;
+        }
+        return $terminalRes;
+    }
 
     public function checkEventStatus()
     {
@@ -441,5 +452,24 @@ class award {
     {
 
         return $this->$name;
+    }
+
+    public static function pluginIconv($inData)
+    {
+        global $_G;
+        $charset = $_G['charset'];
+        $outData = $inData;
+        if ('UTF-8' != $charset) {
+            if (is_array($inData)) {
+                foreach ($inData as $itemKey => $itemValue) {
+                    $convertValue = self::pluginIconv($itemValue);
+                    $inData[$itemKey] = $convertValue;
+                }
+            } else {
+                $outData = diconv($inData, $charset, 'UTF-8');
+            }
+
+        }
+        return $outData;
     }
 }

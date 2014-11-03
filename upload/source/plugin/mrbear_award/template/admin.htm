@@ -1,0 +1,101 @@
+{template common/header}
+
+<link rel="stylesheet" href="{$_G[siteurl]}source/plugin/mrbear_award/template/admin.css" />
+<div class="main">
+    <div class="awardsidebar remain">
+        <div class="panel">
+            <h5 class="">看帖送积分数据</h5>
+            <div id="tab_sidebar" class="panel_content">
+                <ol class="unstyled catalog">
+                    <li class="active"><a href="plugin.php?id=mrbear_award:admin&t=s" >单天数据汇总</a></li>
+                    <li><a href="plugin.php?id=mrbear_award:admin&t=u" >用户数据</a></li>
+                </ol>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section ml0">
+            <form action="plugin.php" method="get" style="border: 1px solid #EAEAEA;margin-bottom: 5px;">
+                <input type="hidden" id="id" name ="id" value="mrbear_award:admin"/>
+                <input type="hidden" id="t" name = "t" value="s"/>
+
+                <em style="color: #0088CC;font-size: 14px;">活动id:</em><input type="text" id="eid" name = "eid" value=""/>
+                <input type="submit" value="提交"/>
+            </form>
+
+            <fieldset style="clear:none">
+
+                <legend>数据结果</legend>
+                <table>
+                    <!--{if $type == 's'}-->
+                        <thead>
+                            <tr>
+                                <th width="90">时间</th>
+                                <th width="120">当天参与人数</th>
+                                <th width="120">新参与人数</th>
+                                <th width="120">共送出金钱</th>
+                                <th width="120">共送出威望</th>
+                                <th width="120">共送出贡献</th>
+                                <th width="120">pc端送出次数</th>
+                                <th width="120">手机端送出次数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!--{loop $totalData $itemTotalData}-->
+                            <tr>
+                                <td>$itemTotalData['add_time']</td>
+                                <td>$itemTotalData['u_count']</td>
+                                <td>$itemTotalData['new_user']</td>
+                                <td>$itemTotalData['jq']</td>
+                                <td>$itemTotalData['ww']</td>
+                                <td>$itemTotalData['gx']</td>
+                                <td>$itemTotalData['pc_count']</td>
+                                <td>$itemTotalData['mobile_count']</td>
+                            </tr>
+                        <!--{/loop}-->
+                        </tbody>
+                    <!--{/if}-->
+
+                    <!--{if $type == 'u'}-->
+                        <thead>
+                            <tr>
+                                <th width="90">用户id</th>
+                                <th width="120">用户名</th>
+                                <th width="120">获得金钱</th>
+                                <th width="120">获得威望</th>
+                                <th width="120">获得贡献</th>
+                                <th width="120">今日获得次数</th>
+                                <th width="120">总获得次数</th>
+                                <th width="120">最后时间</th>
+                                <th width="120">参与时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!--{loop $totalData $itemTotalData}-->
+                        <tr>
+                            <td>$itemTotalData['user_id']</td>
+                            <td>$itemTotalData['user_name']</td>
+                            <td>$itemTotalData['jq']</td>
+                            <td>$itemTotalData['ww']</td>
+                            <td>$itemTotalData['gx']</td>
+                            <td>$itemTotalData['day_num']</td>
+                            <td>$itemTotalData['total_num']</td>
+                            <td>$itemTotalData['last_time']</td>
+                            <td>$itemTotalData['add_time']</td>
+                        </tr>
+                        <!--{/loop}-->
+                        </tbody>
+                    <!--{/if}-->
+                </table>
+            </fieldset>
+            <div id="state_info" style="color:#4E9700;">
+                温馨提示：<br/>
+                1、列表为实时数据。<br/>
+                2、管理员可根据每天的送出量及参与量在后台配置适当的概率。<br/>
+                3、此页面需要在后台配置白名单后获得权限方可查看。
+            </div>
+        </div>
+    </div>
+</div>

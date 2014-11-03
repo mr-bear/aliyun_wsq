@@ -1,0 +1,128 @@
+.main {
+    margin-top: 10px;
+    padding: 10px;
+}
+.awardsidebar {
+    float: left;
+    width: 150px;
+}
+.panel {
+    position: relative;
+    margin-bottom: 10px;
+}
+.panel h5{
+    color: #333333;
+    font-weight: bold;
+    overflow: hidden;
+    padding: 0 12px;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+    height: 36px;
+    line-height: 36px;
+    background: url("bg_repeat_x.png") repeat-x scroll 0 0 #FFFFFF;
+    margin: 0px;
+    border: 1px solid #DDDDDD;
+    border-bottom: none;
+}
+h5 {
+    font-size: 14px;
+}
+.panel_content {
+    padding: 5px 12px;
+    border: 1px solid #DDDDDD;
+    border-top: none;
+    position: relative;
+}
+.panel_content p {
+    margin: 0 0 5px;
+}
+.messages .panel_content {
+    min-height: 50px;
+    max-height: 240px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: static;
+}
+.panel_content .catalog li{
+    line-height:2.0em;
+    font-size:14px;
+}
+.catalog ul{
+    list-style:none;
+    margin-left:25px;
+}
+#tab_sidebar ol li a {
+    font-size: 14px;
+}
+#tab_sidebar ol li.active>a {
+    color: #000;
+}
+ol.unstyled {
+    list-style:none;
+    margin-left:0;
+}
+a {
+    color:#0088cc;
+    text-decoration:none;
+}
+
+.section {
+    margin-left: 170px;
+}
+.ml0 {
+    margin-left: 0px;
+}
+fieldset {
+    border: 1px solid #EAEAEA;
+    clear: both;
+    margin-bottom: 10px;
+    padding: 5px 15px 15px;
+    position: relative;
+}
+fieldset:hover {
+    border:1px solid rgba(82,168,236,0.6);
+}
+fieldset legend {
+    border: medium none;
+    color: #0088CC;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 0;
+    margin-left: 15px;
+    padding: 0 5px;
+    width: auto;
+    *width: 70px;/*IE7*/
+    line-height: 20px;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+th {
+    vertical-align: bottom;
+    padding: 4px;
+    font-weight: bold;
+    line-height: 20px;
+    text-align: left;
+    display: table-cell;
+}
+td {
+    padding: 4px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+}
+
