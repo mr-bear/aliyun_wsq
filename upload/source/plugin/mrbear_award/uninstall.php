@@ -5,7 +5,7 @@
  * Date: 14-11-3
  * Time: 上午10:55
  */
-if(!defined('IN_DISCUZ')) {
+if (!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
 

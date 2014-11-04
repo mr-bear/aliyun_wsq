@@ -17,9 +17,9 @@ class mobileplugin_mrbear_award{
 class mobileplugin_mrbear_award_forum extends mobileplugin_mrbear_award{
 
 
-    function viewthread_mobile_award(){
+    function viewthread_bottom_mobile_output(){
         $awardInfo = $this->award();
-        echo $awardInfo;
+        return $awardInfo;
 
     }
 

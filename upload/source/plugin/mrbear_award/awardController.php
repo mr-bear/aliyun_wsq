@@ -338,6 +338,9 @@ class award {
         return $awardInfo;
     }
 
+    /**
+     * @return bool
+     */
     public function checkTerminal()
     {
         $terminalRes = false;
@@ -450,7 +453,6 @@ class award {
 
     public function __get($name)
     {
-
         return $this->$name;
     }
 

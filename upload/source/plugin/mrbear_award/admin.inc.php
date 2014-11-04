@@ -6,7 +6,7 @@
  * Time: 下午1:50
  */
 
-if (!defined('IN_DISCUZ')) {
+if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
     exit('Access Denied');
 }
 

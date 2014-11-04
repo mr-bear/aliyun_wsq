@@ -18,7 +18,7 @@ class plugin_mrbear_award{
 
 class plugin_mrbear_award_forum extends plugin_mrbear_award{
 
-    public function viewthread_mrbearaward()
+    public function viewthread_bottom_output()
     {
         global $_G;
         $siteUrl = $_G['siteurl'];
@@ -124,7 +124,8 @@ class plugin_mrbear_award_forum extends plugin_mrbear_award{
                 }
 
             </script>';
-        echo $awardPop;
+//        echo $awardPop;
+        return $awardPop;
     }
 }
 

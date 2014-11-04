@@ -11,7 +11,7 @@ if (!defined('IN_DISCUZ')) {
 
 $sql = <<<EOF
 
-CREATE TABLE IF NOT EXISTS `mrbear_diaobao_config` (
+CREATE TABLE IF NOT EXISTS `pre_mrbear_diaobao_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(120) NOT NULL,
   `start_time` datetime NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `mrbear_diaobao_config` (
 ) ENGINE=MyISAM;
 
 
-CREATE TABLE IF NOT EXISTS `mrbear_diaobao_user` (
+CREATE TABLE IF NOT EXISTS `pre_mrbear_diaobao_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `mrbear_diaobao_user` (
   KEY `event_user` (`event_id`,`user_id`)
 ) ENGINE=MyISAM;
 
-CREATE TABLE IF NOT EXISTS  `mrbear_diaobao_log` (
+CREATE TABLE IF NOT EXISTS  `pre_mrbear_diaobao_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
