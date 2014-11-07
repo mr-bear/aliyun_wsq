@@ -1,3 +1,12 @@
+body {
+    font: 12px Helvetica,Arial,sans-serif;
+    line-height: 1.62;
+}
+#wrapper {
+    width: 950px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
 ol,ul{
     list-style-position:outside;
     margin-left:0
@@ -992,7 +1001,10 @@ h1{
 }
 h2{
     margin-bottom:24px;
-    color:#333
+    color:#333;
+    font: 15px Arial,Helvetica,sans-serif;
+    margin: 0 0 12px 0;
+    line-height: 150%;
 }
 h2 em{
     font-size:12px;
@@ -1253,4 +1265,12 @@ a.title-badge:link,a.title-badge:visited{
 }
 .short-comments-nopic .info{
     padding-left:0
+}
+.pl {
+    font: 12px Arial,Helvetica,sans-serif;
+    line-height: 150%;
+    color: #666;
+}
+ol {
+    padding: 0 0 0 20px;
 }
