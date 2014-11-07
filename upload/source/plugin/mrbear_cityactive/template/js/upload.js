@@ -92,7 +92,7 @@ XICI.Mobile.post.prototype={
             _.previewFile(files[0]);
         })
         $(".images").on(tapEvent," .close",function(){
-            console.log(1);
+//            console.log(1);
             $(this).parent().remove();
             _.fillHiddenInput();
         })
@@ -167,7 +167,7 @@ XICI.Mobile.post.prototype={
             if($(this).attr("pic_url")){
                 v.push($(this).attr("pic_url"));
             }
-            console.log($(this));
+//            console.log($(this));
 
         });
         $("#uploadImages").val(v.join(","));

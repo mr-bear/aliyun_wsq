@@ -1,7 +1,5 @@
 {template common/header}
 
-<script >var _head_start = new Date();</script>
-
 
 <link href="{$_G[siteurl]}source/plugin/mrbear_cityactive/template/css/main.css" rel="stylesheet" type="text/css">
 
@@ -22,11 +20,10 @@
 
 <!--<link rel="stylesheet" href="http://img3.douban.com/misc/mixed_static/6dd7f9e60c16d718.css">-->
 
-<script></script>
-
-
-
-<script type="text/javascript">var _body_start = new Date();</script>
+<script type="text/javascript">
+    var _head_start = new Date();
+    var _body_start = new Date();
+</script>
 
 <div id="wrapper" class="fwrap">
 
@@ -1308,8 +1305,8 @@
 
 <div class="row footer">
     <div class="item">
-        <input class="loc-btn" type="button" id="submit_form" value="下一步：上传活动海报" />
-        <a class="lnk-flat" id="cancel_form">取消</a>
+        <input class="loc-btn" type="button" id="submit_form" value="确认提交" />
+        <a class="loc-btn" id="cancel_form" style="margin-left:20px">取消</a>
     </div>
 </div>
 </form>
