@@ -13,6 +13,7 @@ if(!defined('IN_DISCUZ')) {
 
 ?>
 <script type="text/javascript" src="http://wsq.discuz.qq.com/cdn/discuz/js/openjs.js"></script>
+<link rel="stylesheet" href="http://3g.xici.net/css/new.css"/>
 <script>
         var menu = new Array();
 	menu.push({name:"menu1", pluginid:'wsq_demo:view', param:"a=1&b=2"});
@@ -36,18 +37,22 @@ if(!defined('IN_DISCUZ')) {
 </style>
 </head>
     <body>
-        <div id="header">a = <?php echo $_GET['a']; ?>; b = <?php echo $_GET['b']; ?></div>
-        <div id="container">
-            <botton class="btn" onclick="WSQ.showHeadBar()">showHeadBar</botton>
+        <form method="post" action="/" />
+        <div class="new_post_page">
+            <input type="hidden" name="method" value="doc.reply" />
+            <input type="hidden" name="bid" value="1334600" />
+            <input type="hidden" name="tid" value="209932661" />
+            <div class="textarea"><textarea placeholder="回帖字数限制2000中文字" name="content"></textarea></div>
+            <div class="tip"><input type="checkbox" checked id="minifyCheckBox"/>如图片大小超过1M，请帮我压缩后再上传</div>
+            <ul class="images">
+                <li class="add"><input type="file" id="fileUpload"></li>
+            </ul>
+            <input type="hidden" id="uploadImages" name="files">
         </div>
-        <div id="container">
-            <botton class="btn" onclick="WSQ.hideHeadBar()">hideHeadBar</botton>
-        </div>
-        <div id="container">
-            <botton class="btn" onclick="WSQ.showBtmBar()">showBtmBar</botton>
-        </div>
-        <div id="container">
-            <botton class="btn" onclick="WSQ.hideBtmBar()">hideBtmBar</botton>
-        </div>
-        </body>
+        </form>
+    </body>
+<script src="http://3g.xici.net/js/zepto.min.js"></script>
+<script src="http://3g.xici.net/js/zepto.touch.js"></script>
+<script src="http://3g.xici.net/js/canvasResize.js"></script>
+<script src="http://3g.xici.net/js/XICI.Mobile.post.js"></script>
 </html>

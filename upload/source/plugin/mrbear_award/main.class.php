@@ -77,7 +77,7 @@ class plugin_mrbear_award_forum extends plugin_mrbear_award{
                     "share":{},
                     "image":{
                         "viewList":["qzone","tsina","tqq","renren","weixin"],
-                        "viewText":"'.lang('plugin/mrbear_award', 'shareTitle').'：","viewSize":"24"},
+                        "viewText":"'.lang('plugin/mrbear_award', 'shareTitle').':","viewSize":"24"},
                         "selectShare":{
                             "bdContainerClass":null,
                             "bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]
