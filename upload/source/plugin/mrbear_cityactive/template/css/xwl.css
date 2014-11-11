@@ -22,7 +22,7 @@
 
 .detail_info .actsidebar{position:absolute;right:0;top:0;width:218px;padding-left:9px;height:417px;background:url(../image/ico2.png) no-repeat 100% 0;z-index:1;}
 .detail_info .ewmbox{text-align:center}
-.detail_info h5{padding-top:17px;padding-bottom:12px;height:24px;font-size:14px;line-height:24px;font-family:'微软雅黑',Microsoft Yahei;color:#fff;text-align:center;}
+.detail_info h5{padding-top:17px;padding-bottom:12px;height:24px;font-size:14px;line-height:24px;font-family:'微软雅黑',Microsoft Yahei;color:#fff;text-align:center;font-weight: bold}
 .detail_info h5 a:link,.detail_info h5 a:visited{color:#A7A7A7}
 .detail_info h5 a:hover{text-decoration:none}
 .detail_info .sidebar_tags{height:25px;margin-bottom:10px;color:#fff;cursor:pointer;font-family:'微软雅黑',Microsoft Yahei;position:relative;_zoom:1;}

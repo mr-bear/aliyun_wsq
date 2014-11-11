@@ -201,7 +201,7 @@ class active{
                 dmkdir($file);
             }
 
-            if (1==2 && function_exists('imagecreatefromstring') && function_exists('imagecreatetruecolor') && function_exists('imagecopy') && function_exists('imagecreatetruecolor') && function_exists('imagecopyresampled') && function_exists('imagejpeg') && function_exists('imagedestroy')) {
+            if (function_exists('imagecreatefromstring') && function_exists('imagecreatetruecolor') && function_exists('imagecopy') && function_exists('imagecreatetruecolor') && function_exists('imagecopyresampled') && function_exists('imagejpeg') && function_exists('imagedestroy')) {
                 $dstScale = $this->_targetHeight/$this->_targetWidth; //目标图像长宽比
                 $srcScale = $height/$width; // 原图长宽比
 
