@@ -61,7 +61,7 @@ class active{
             $loc_id = intval($postData['loc_id']);
             $city = trim($postData['city']);
             $address = trim($postData['street_address']); //todo length
-            $desc = trim($postData['desc']);
+            $desc = nl2br(trim($postData['desc']));
             $fee = intval($postData['fee']);
             $feeDetail = $postData['fee_detail'];
             $tags = trim($postData['tags']);
@@ -98,13 +98,13 @@ class active{
                     if ($filesArr[$i] == 'data:image/jpeg;base64') {
                         $itemFile = $filesArr[$i].','.$filesArr[$i+1];
                         $itemFileRes = $this->saveImage($itemFile);
+
                         if ($itemFileRes['status']) {
                             $imgLists[] = $itemFileRes['data'];
                         }
                     }
 
                 }
-
             } else {
                 $response['msg'] = '请正确上传图片';
                 return $response;
@@ -188,7 +188,8 @@ class active{
             $height = $imgInfo[1];
             $mime = $imgInfo['mime'];
             $imgstr = preg_replace('/data:image\/jpeg;base64,/', '', $imgData);
-            $imgName = time().'.jpg';
+            $randKey = mt_rand(0, 100);
+            $imgName = 'u'.$this->_uid.'_'.time().'_'.$randKey.'.jpg';
             $file = $this->targetRoot.'u'.$this->_uid.'/';
             $imgRoot = $file.$imgName;
 

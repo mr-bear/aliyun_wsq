@@ -1,0 +1,221 @@
+
+{template common/header}
+<!--{if empty($activeData)}-->
+        活动不存在!
+<!--{else}-->
+<link rel="stylesheet" href="{$_G[siteurl]}source/plugin/mrbear_cityactive/template/css/css.css">
+<link rel="stylesheet" href="{$_G[siteurl]}source/plugin/mrbear_cityactive/template/css/xwl.css">
+
+<!--<link href="http://staitc3.mosh.cn/css/css.css?js_version=1.980637" rel="stylesheet" type="text/css" />-->
+<!--<link href="http://staitc3.mosh.cn/css/xwl.css?js_version=1.980637" rel="stylesheet" type="text/css" />-->
+
+<div class="grid">
+<div class="main">
+
+<div class="c_xwl detail">
+<div class="formwrap1 mb15">
+
+    <div class="conwrap mb7">
+        <div class="con fix detail_info"  style="min-height:405px; height:auto;">
+            <div id="detail_bigimg" class="bigimg"><img title="{$activeData['title']}" title="{$activeData['title']}" alt="{$activeData['title']}" src="{$activeData['firstImage']}" /></div>
+
+            <div class="auto pr250 pl22">
+                <h1 id="collectinfo">{$activeData['title']}&nbsp;
+                    <img onclick="showLogin();" style="cursor:pointer;" src="http://staitc3.mosh.cn/images/img_collect2.png">
+                </h1>
+                <div class="auto"><p>类型:&nbsp;&nbsp;&nbsp;&nbsp;{$activeData['typeName']}</p></div>
+
+                <div class="auto"><p>时间:&nbsp;&nbsp;&nbsp;&nbsp;{$activeData['timeStr']}</p></div>
+
+                <div class="auto"><p>场地:&nbsp;&nbsp;&nbsp;&nbsp;{$activeData['city']}&nbsp;&nbsp;{$activeData['street_address']}</p></div>
+
+                <div class="auto"><p>费用:&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!--{loop $activeData['feeArr'] $itemFee}-->
+                        {$itemFee} |
+                    <!--{/loop}-->
+                </p></div>
+
+                <div class="auto">
+                    <p class="mr15">标签:&nbsp;&nbsp;&nbsp;&nbsp;
+                        {$activeData['tags']}
+                    </p>
+                </div>
+                <div class="auto"><p>{$activeData['praise_count']}人感兴趣&nbsp;&nbsp;&nbsp;&nbsp;{$activeData['active_count']}人参加</p></div>
+            </div>
+            <!--<div style="position: absolute;right: 45px;;top: 68px;width: 300px;padding-left: 9px;height: 350px;">-->
+                <!--<p class="map_link" style="float:none">活动地图</p>-->
+                <!--<div><img src="http://restapi.amap.com/v3/staticmap?location={$activeData['coordinate']}&zoom=10&size=300*300&markers=mid,,A:{$activeData['coordinate']}&key=efd795d3dcfe11b2f52da46d366a6bb1"/></div>-->
+            <!--</div>-->
+            <div class="actsidebar">
+                <div class="bdsharebuttonbox">
+                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+                    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                </div>
+                <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"{$activeData['title']}","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+                <h5>扫一扫分享活动</h5>
+                <div class="ewmbox"><img width="" height="" src="http://www.mosh.cn/events/getqrcode?eid=298635&amp;time=1415616288&amp;type=event"></div>
+
+            </div>
+
+        </div>
+        <div class="tl1"></div>
+        <div class="bl1"></div>
+    </div>
+
+    <div class="tl"></div>
+    <div class="tr"></div>
+    <div class="bl"></div>
+    <div class="br"></div>
+</div>
+<!-- xiewulong20130311 -->
+<!-- xiewulong20130311 -->
+<div class="fix">
+<div class="detail_r">
+    <!-- xiewulong20130311 -->
+    <!-- xiewulong20130311 -->
+    <div class="detail_r_title">活动地图</div>
+    <div class="formwrap1">
+        <div class="con side_img_info">
+            <div class="side_con1">
+                <div class="bd_top"></div>
+                <img src="http://restapi.amap.com/v3/staticmap?location={$activeData['coordinate']}&zoom=10&size=338*300&markers=mid,,A:{$activeData['coordinate']}&key=efd795d3dcfe11b2f52da46d366a6bb1"/>
+                <div class="bd_btm"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail_r_title mt10">活动组织者</div>
+    <div class="formwrap1">
+        <div class="con side_img_info">
+            <div class="side_con1">
+                <ul>
+                    <li style="display: inline-block;position: relative;width: 40px;height: 43px;"><a href="{$userUrl}" title="{$activeData['uname']}" target="_blank"><img src="{$userPic}" alt="{$activeData['uname']}" width="35"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail_r_title mt10">活动成员(xx人参加 xx人感兴趣)</div>
+    <div class="formwrap1">
+        <div class="con side_img_info">
+            <div class="side_con1">
+                <ul>
+                    <li style="display: inline-block;position: relative;width: 40px;height: 43px; _zoom:1;*display:inline;"><a href=""><img src="http://img3.douban.com/icon/u46428356-10.jpg" alt="腥桃" width="35"></a></li>
+                    <li style="display: inline-block;position: relative;width: 40px;height: 43px; _zoom:1;*display:inline;"><img src="http://img3.douban.com/icon/u63758656-20.jpg" alt="腥桃" width="35"></li>
+                    <li style="display: inline-block;position: relative;width: 40px;height: 43px; _zoom:1;*display:inline;"><img src="http://img3.douban.com/icon/u46428356-10.jpg" alt="腥桃" width="35"></li>
+                    <li style="display: inline-block;position: relative;width: 40px;height: 43px; _zoom:1;*display:inline;"><img src="http://img3.douban.com/icon/u63758656-20.jpg" alt="腥桃" width="35"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail_r_title mt10">人气活动</div>
+    <div class="formwrap1 mt10">
+        <div class="con side_img_info">
+            {eval $ii=1}
+            <!--{loop $rankAct $itemRankAct}-->
+            <div class="side_con1">
+                <div class="bd_top"></div>
+                <div class="bd_con side_img2">
+                    <ul>
+                        <li>
+                            <div class="top{$ii}"></div>
+                            <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:detail&aid={$itemRankAct['id']}"><img src="{$itemRankAct['image']}" title="{$itemRankAct['title']}" alt="{$itemRankAct['title']}" width="84px" height="97px"/></a>
+                            <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:detail&aid={$itemRankAct['id']}" title="{$itemRankAct['title']}">{$itemRankAct['title']}</a> <br>
+                            {$itemRankAct['actTime']}<br>
+                            {$itemRankAct['city']}
+                        </li>
+                    </ul>
+                </div>
+                <div class="bd_btm"></div>
+            </div>
+            <div class="blank10"></div>
+            {eval $ii++}
+            <!--{/loop}-->
+        </div>
+        <div class="tl"></div>
+        <div class="tr"></div>
+        <div class="bl"></div>
+        <div class="br"></div>
+    </div>
+</div>
+<div class="auto">
+    <!-- xiewulong20130311 -->
+    <!-- xiewulong20130311 -->
+    <div class="formwrap1 mb10">
+        <div class="detail_gul_t">活动介绍</div>
+        <div class="conwrap mb15" id="introduce">
+            <div class="con fix int" style="padding:19px;">
+                <strong><span style="font-size:16px;">{$activeData['title']}</span></strong><br />
+                <br />
+                {$activeData['desc']}
+            </div>
+            <div class="tl1"></div>
+            <div class="tr1"></div>
+            <div class="bl1"></div>
+            <div class="br1"></div>
+        </div>
+        <div class="tl"></div>
+        <div class="tr"></div>
+        <div class="bl"></div>
+        <div class="br"></div>
+    </div>
+    <div class="formwrap1  mt10">
+        <div class="detail_gul_t">活动照片</div>
+        <div class="conwrap">
+            <div class="con">
+                <ul class="detail_gul">
+                    <!--{loop $activeData['images'] $itemImage}-->
+                    <li style="width: 180px;padding-left:48px;padding-right:30px;">
+                        <div class="img" style="width: 175px;height: 260px;"><img src="{$itemImage}" title="" alt=""/></div>
+                    </li>
+                    <!--{/loop}-->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="formwrap1  mt10">
+        <div class="detail_gul_t">相关活动</div>
+        <div class="conwrap">
+            <div class="con">
+                <ul class="detail_gul">
+                    <!--{loop $relateAct $itemRelateAct}-->
+                    <li>
+                        <div class="img"><img src="{$itemRelateAct['image']}" title="{$itemRelateAct['title']}" alt="{$itemRelateAct['title']}"/></div>
+                        <div class="auto">
+                            <strong><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:detail&aid={$itemRelateAct['id']}" title="{$itemRelateAct['title']}" target="_blank">{$itemRelateAct['title']}</a></strong>
+                            <p>{$itemRelateAct['city']}{$itemRelateAct['street_address']}</p>
+                            <p>{$itemRelateAct['actTime']}</p>
+                        </div>
+                    </li>
+                    <!--{/loop}-->
+                </ul>
+            </div>
+            <div class="tl1"></div>
+            <div class="tr1"></div>
+            <div class="bl1"></div>
+            <div class="br1"></div>
+        </div>
+        <div class="tl"></div>
+        <div class="tr"></div>
+        <div class="bl"></div>
+        <div class="br"></div>
+    </div>
+    <!-- xiewulong20130311 -->
+    <!-- xiewulong20130311 -->
+</div>
+</div>
+</div>
+
+
+<div style="clear:both"></div>
+
+</div>
+</div>
+<!--{/if}-->
+
+

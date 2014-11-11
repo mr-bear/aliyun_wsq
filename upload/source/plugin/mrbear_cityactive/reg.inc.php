@@ -11,5 +11,5 @@ if (!defined('IN_DISCUZ')) {
     exit('Access Denied');
 
 }
-
+$formHash = formhash();
 include_once template('mrbear_cityactive:reg');

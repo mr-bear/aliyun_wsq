@@ -48,6 +48,7 @@ $response = array(
     'msg' => ''
 );
 $postData = $_GET;
+
 $activeObj = new active();
 $activeObj->targetRoot = DISCUZ_ROOT.'./data/attachment/cityactive/';
 $saveRes = $activeObj->saveActive($postData);

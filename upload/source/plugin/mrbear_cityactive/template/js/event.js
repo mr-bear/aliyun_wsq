@@ -1305,10 +1305,11 @@ Do("validate", "editable-select",
         var j = {
             callback: function(z) {
                 var A = $("#submit_form").val();
-                $("#submit_form").val("正在提交，请稍候...").unbind("click");
+                $("#submit_form").val("正在提交，请稍候...");//.unbind("click");
                 $.post("http://121.199.30.154/wsq_t/upload/plugin.php?id=mrbear_cityactive:post", $(z).serialize(),
                     function(B) {
                         if (B.status) {
+
                             $(window).unbind();
                             alert('创建成功');
                             //todo redirect
