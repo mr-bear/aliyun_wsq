@@ -141,7 +141,7 @@ class active{
             $saveDataRes = $this->_insertActive($saveData);
             if ($saveDataRes) {
                 //save img
-                $position = 1;
+                $position = count($imgLists);
                 foreach ($imgLists as $itemImg) {
                     $saveImgData = array(
                         'uid' => $this->_uid,
@@ -151,7 +151,7 @@ class active{
                         'position' => $position,
                     );
                     $this->_insertImage($saveImgData);
-                    $position++;
+                    $position--;
                 }
                 $response['status'] = 1;
                 $response['activeId'] = $saveDataRes;
@@ -266,6 +266,167 @@ class active{
             }
         }
         return true;
+    }
+
+    /**
+     * praise
+     * @param $eventId
+     * @param $uid
+     * @param int $isCancel
+     * @return bool
+     */
+    public function praiseEvent($eventId, $uid, $isCancel = 1)
+    {
+        if ($uid != $this->_uid || !intval($eventId)) {
+            return false;
+        }
+        if ($isCancel == 1) {
+            //act
+            $curPraise = $this->_queryPraise($eventId, $uid);
+            if (empty($curPraise)) {
+                $insertData = array(
+                    'event_id' => $eventId,
+                    'uid' => $uid,
+                    'uname' => $this->_uname,
+                    'add_time' => date('Y-m-d H:i:s'),
+                );
+                DB::insert('mrbear_cityactive_praise', $insertData, true);
+                $this->_vote($eventId, 'praise', '+');
+            } else {
+                if ($curPraise[0]['status'] == 1) {
+                    DB::update('mrbear_cityactive_praise', array('status'=>0), 'event_id='.$eventId.' and uid='.$uid);
+                    $this->_vote($eventId, 'praise', '+');
+                }
+            }
+
+        } else {
+            //cancel
+            $curPraise = $this->_queryPraise($eventId, $uid);
+            if (empty($curPraise) || $curPraise[0]['status'] == 1) {
+                return false;
+            }
+
+            DB::update('mrbear_cityactive_praise', array('status'=>1), 'event_id='.$eventId.' and uid='.$uid);
+            $this->_vote($eventId, 'praise', '-');
+        }
+        return true;
+    }
+
+    /**
+     * @param $eventId
+     * @param $uid
+     * @param $realName
+     * @param $userPhone
+     * @param string $otherInfo
+     * @param int $isApply
+     * @return bool
+     */
+    public function applyEvent($eventId, $uid, $realName = '', $userPhone = '', $otherInfo = '', $isApply = 1)
+    {
+        if ($uid != $this->_uid || !intval($eventId)) {
+            return false;
+        }
+
+        if ($isApply == 1) {
+            if (strlen($realName) == 0 || strlen($realName) > 10 || !is_numeric($userPhone) || strlen($otherInfo) > 50) {
+                return false;
+            }
+            //act
+            $curPraise = $this->_queryApply($eventId, $uid);
+            if (empty($curPraise)) {
+                $insertData = array(
+                    'event_id' => $eventId,
+                    'uid' => $uid,
+                    'uname' => $this->_uname,
+                    'phone' => $userPhone,
+                    'real_name' => $realName,
+                    'msg' => $otherInfo,
+                    'add_time' => date('Y-m-d H:i:s'),
+                );
+                DB::insert('mrbear_cityactive_active', $insertData, true);
+                $this->_vote($eventId, 'apply', '+');
+            } else {
+                if ($curPraise[0]['status'] == 1) {
+                    DB::update('mrbear_cityactive_active', array('status'=>0,'real_name'=>$realName,'phone'=>$userPhone,'msg'=>$otherInfo), 'event_id='.$eventId.' and uid='.$uid);
+                    $this->_vote($eventId, 'apply', '+');
+                }
+            }
+
+        } else {
+            //cancel
+            $curPraise = $this->_queryApply($eventId, $uid);
+            if (empty($curPraise) || $curPraise[0]['status'] == 1) {
+                return false;
+            }
+
+            DB::update('mrbear_cityactive_active', array('status'=>1), 'event_id='.$eventId.' and uid='.$uid);
+            $this->_vote($eventId, 'apply', '-');
+        }
+        return true;
+    }
+
+    public function getPraise($eventId, $uid)
+    {
+        if (!intval($eventId) || !intval($uid)) {
+            return array();
+        }
+        $res = $this->_queryPraise($eventId, $uid);
+        return $res;
+    }
+
+    public function getApply($eventId, $uid)
+    {
+        if (!intval($eventId) || !intval($uid)) {
+            return array();
+        }
+        $res = $this->_queryApply($eventId, $uid);
+        return $res;
+    }
+
+    public function queryRelateUser($eventId)
+    {
+        $queryCon = 'select uid,uname from '.DB::table('mrbear_cityactive_active').' where event_id='.$eventId.' and status=0';
+        $res = DB::fetch_all($queryCon);
+        return $res;
+    }
+
+    private function _queryApply($eventId, $uid)
+    {
+        $queryCon = 'select * from '.DB::table('mrbear_cityactive_active').' where event_id='.$eventId.' and uid='.$uid.' limit 1';
+        $res = DB::fetch_all($queryCon);
+        return $res;
+    }
+
+    private function _vote($eventId, $type, $act)
+    {
+        if ($type == 'praise') {
+            if ($act == '+') {
+                $con = 'update '.DB::table('mrbear_cityactive_event').' set praise_count=praise_count+1 where id='.$eventId;
+            } else {
+                $con = 'update '.DB::table('mrbear_cityactive_event').' set praise_count=praise_count-1 where id='.$eventId;
+            }
+
+        } elseif ($type == 'apply') {
+            if ($act == '+') {
+                $con = 'update '.DB::table('mrbear_cityactive_event').' set active_count=active_count+1 where id='.$eventId;
+            } else {
+                $con = 'update '.DB::table('mrbear_cityactive_event').' set active_count=active_count-1 where id='.$eventId;
+            }
+        }
+        DB::query($con);
+
+    }
+
+    /**
+     * @param $eventId
+     * @param $uid
+     * @return array
+     */
+    private function _queryPraise($eventId, $uid)
+    {
+        $queryCon = 'select * from '.DB::table('mrbear_cityactive_praise').' where event_id='.$eventId.' and uid='.$uid.' limit 1';
+        $res = DB::fetch_all($queryCon);
+        return $res;
     }
 
     /**

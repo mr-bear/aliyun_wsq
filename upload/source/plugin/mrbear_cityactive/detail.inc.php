@@ -11,13 +11,12 @@ if (!defined('IN_DISCUZ')) {
 }
 //ini_set("display_errors", 1);
 //error_reporting(E_ALL);
-require_once DISCUZ_ROOT.'source/plugin/mobile/qrcode.class.php';
+require_once DISCUZ_ROOT.'./source/plugin/mrbear_cityactive/activeController.php';
 global $_G;
 $activeId = isset($_GET['aid']) ? intval($_GET['aid']) : 0;
 $activeData = array();
-//echo 1;
-//die();
-
+$activeObj = new active();
+$formHash = formhash();
 if ($activeId) {
     $originData = getOriginData($activeId);
     if (!empty($originData)) {
@@ -63,7 +62,21 @@ if ($activeId) {
         if (!empty($relateActData)) {
             $relateAct = activeStruct($relateActData);
         }
+        //active user
+        $activeUserData = $activeObj->queryRelateUser($activeId);
 
+        //is collect
+        $isPraise = 1;
+        $praiseRes = $activeObj->getPraise($activeId, $_G['uid']);
+        if (!empty($praiseRes) && $praiseRes[0]['status'] == 0) {
+            $isPraise = 2;
+        }
+        //is apply
+        $isApply = 0;
+        $applyRes = $activeObj->getApply($activeId, $_G['uid']);
+        if (!empty($applyRes) && $applyRes[0]['status'] == 0) {
+            $isApply = 1;
+        }
     }
 }
 //var_dump($rankAct);

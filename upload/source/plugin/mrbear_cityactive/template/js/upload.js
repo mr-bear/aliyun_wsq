@@ -22,18 +22,11 @@ XICI.Mobile.post.prototype={
         var _=this;
         _.rotate= _.rotate - Math.floor(_.rotate/360)*360;
         var fileType = "";
-        if (/\.png/ig.test(file.name)) {
-            fileType = "png";
-        } else if (/\.jpg/ig.test(file.name) || /\.jpeg/ig.test(file.name)) {
+        if (/\.jpg/ig.test(file.name) || /\.jpeg/ig.test(file.name)) {
             fileType = "jpeg";
-        }else if (/\.gif/ig.test(file.name)) {
-            fileType = "gif";
-        }else if (/\.bmp/ig.test(file.name)) {
-            fileType = "bmp";
         } else {
             fileType="";
         }
-
 
         if(fileType){
             var html="<li index='"+ _.fileQueryNumber+"'>读图中</li>";
@@ -60,7 +53,7 @@ XICI.Mobile.post.prototype={
         }
         else{
 
-            alert("您上传的不是图片，或者您的浏览器不支持上传图片");
+            alert("请上传jpg图片,或者您的浏览器不支持上传图片");
         }
 
     },
@@ -101,14 +94,8 @@ XICI.Mobile.post.prototype={
     previewFile:function(file){
         var _=this;
         var fileType = "";
-        if (/\.png/ig.test(file.name)) {
-            fileType = "image/png";
-        } else if (/\.jpg/ig.test(file.name) || /\.jpeg/ig.test(file.name)) {
+        if (/\.jpg/ig.test(file.name) || /\.jpeg/ig.test(file.name)) {
             fileType = "image/jpeg";
-        }else if (/\.gif/ig.test(file.name)) {
-            fileType = "image/gif";
-        }else if (/\.bmp/ig.test(file.name)) {
-            fileType = "image/bmp";
         } else {
             fileType="";
         }
@@ -158,7 +145,7 @@ XICI.Mobile.post.prototype={
             r.readAsDataURL(file);
 
         }else{
-            alert("您上传的不是图片，或者您的浏览器不支持上传图片");
+            alert("请上传jpg图片,或者您的浏览器不支持上传图片");
         }
     },
     fillHiddenInput:function(){

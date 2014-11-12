@@ -45,6 +45,7 @@
 
 <form id="eform" name="lzform" action="" method="post" autocomplete="off">
 <input type="hidden" name="formhash" id="formhash" value="{$formHash}" />
+<input type="hidden" name="act" id="act" value="reg" />
 
 <div class="row">
     <label for="type" class="field">活动分类<em class="man">*</em></label>
@@ -1261,20 +1262,6 @@
 <hr class="hrline" />
 
 <div class="row">
-    <label class="field" for="priv">参加权限<em class="man">*</em></label>
-    <div class="item floatbug">
-        <label for="allow_others">
-            <input id="allow_others" name="priv" type="checkbox"  />只有被邀请的成员才能参加
-        </label>
-    </div>
-    <div class="item">
-        <label for="need_apply">
-            <input id="need_apply" name="need_apply" type="checkbox" />参加者需要提前填写报名表
-        </label>
-    </div>
-</div>
-
-<div class="row">
     <label class="field" for="label">活动标签<em class="man">*</em></label>
     <div class="item">
         <input id="tags" name="tags" class="basic-input" size="50" value="">
@@ -1284,11 +1271,12 @@
 <hr class="hrline" />
 
 <div class="row">
-    <label class="field" for="label">活动海报<em class="man">*</em></label>
+    <label class="field" for="label">活动海报(限3张jpg图,上传第一张作为封面)<em class="man">*</em></label>
     <div class="new_post_page">
         <!--<div class="tip"><input type="checkbox" checked id="minifyCheckBox"/>如图片大小超过1M，请帮我压缩后再上传</div>-->
         <ul class="images">
             <li class="add"><input type="file" id="fileUpload" accept="image/*"></li>
+
         </ul>
     </div>
 

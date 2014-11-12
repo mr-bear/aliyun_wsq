@@ -1,14 +1,14 @@
 
 {template common/header}
 <!--{if empty($activeData)}-->
-        活动不存在!
+        活动不存在或还未上线!
 <!--{else}-->
 <link rel="stylesheet" href="{$_G[siteurl]}source/plugin/mrbear_cityactive/template/css/css.css">
 <link rel="stylesheet" href="{$_G[siteurl]}source/plugin/mrbear_cityactive/template/css/xwl.css">
 
 <!--<link href="http://staitc3.mosh.cn/css/css.css?js_version=1.980637" rel="stylesheet" type="text/css" />-->
 <!--<link href="http://staitc3.mosh.cn/css/xwl.css?js_version=1.980637" rel="stylesheet" type="text/css" />-->
-
+<script src="{$_G[siteurl]}source/plugin/mrbear_cityactive/template/js/main.js"></script>
 <div class="grid">
 <div class="main">
 
@@ -21,7 +21,11 @@
 
             <div class="auto pr250 pl22">
                 <h1 id="collectinfo">{$activeData['title']}&nbsp;
-                    <img onclick="showLogin();" style="cursor:pointer;" src="http://staitc3.mosh.cn/images/img_collect2.png">
+                    <!--{if $isPraise == 1}-->
+                    <img onclick="actcollect({$_G['uid']},{$activeData['id']},1);" style="cursor:pointer;padding-left:20px" src="{$_G['siteurl']}/source/plugin/mrbear_cityactive/template/image/img_collect2.png">
+                    <!--{else}-->
+                    <img onclick="actcollect({$_G['uid']},{$activeData['id']},2);" style="cursor:pointer;padding-left:20px" src="{$_G['siteurl']}/source/plugin/mrbear_cityactive/template/image/img_collect.png">
+                    <!--{/if}-->
                 </h1>
                 <div class="auto"><p>类型:&nbsp;&nbsp;&nbsp;&nbsp;{$activeData['typeName']}</p></div>
 
@@ -41,6 +45,14 @@
                     </p>
                 </div>
                 <div class="auto"><p>{$activeData['praise_count']}人感兴趣&nbsp;&nbsp;&nbsp;&nbsp;{$activeData['active_count']}人参加</p></div>
+                <div class="auto">
+                    <!--{if $isApply}-->
+                    <a href="javascript:cancelapply({$_G['uid']},{$activeData['id']});" style="background: url({$_G['siteurl']}/source/plugin/mrbear_cityactive/template/image/buy_btn.png) 0 0 no-repeat;width: 113px;height: 36px;overflow: hidden;float: left;text-decoration:none;text-align: center;line-height:36px;vertical-align: middle;font-size: 16px;font-weight: bold;color: white;" id="applybutname">取消报名</a>
+                    <!--{else}-->
+                    <a href="javascript:showapply({$_G['uid']});" style="background: url({$_G['siteurl']}/source/plugin/mrbear_cityactive/template/image/buy_btn.png) 0 0 no-repeat;width: 113px;height: 36px;overflow: hidden;float: left;text-decoration:none;text-align: center;line-height:36px;vertical-align: middle;font-size: 16px;font-weight: bold;color: white;" id="applybutname">我要报名</a>
+                    <!--{/if}-->
+
+                </div>
             </div>
             <!--<div style="position: absolute;right: 45px;;top: 68px;width: 300px;padding-left: 9px;height: 350px;">-->
                 <!--<p class="map_link" style="float:none">活动地图</p>-->
@@ -100,15 +112,14 @@
         </div>
     </div>
 
-    <div class="detail_r_title mt10">活动成员(xx人参加 xx人感兴趣)</div>
+    <div class="detail_r_title mt10">活动成员</div>
     <div class="formwrap1">
         <div class="con side_img_info">
             <div class="side_con1">
                 <ul>
-                    <li style="display: inline-block;position: relative;width: 40px;height: 43px; _zoom:1;*display:inline;"><a href=""><img src="http://img3.douban.com/icon/u46428356-10.jpg" alt="腥桃" width="35"></a></li>
-                    <li style="display: inline-block;position: relative;width: 40px;height: 43px; _zoom:1;*display:inline;"><img src="http://img3.douban.com/icon/u63758656-20.jpg" alt="腥桃" width="35"></li>
-                    <li style="display: inline-block;position: relative;width: 40px;height: 43px; _zoom:1;*display:inline;"><img src="http://img3.douban.com/icon/u46428356-10.jpg" alt="腥桃" width="35"></li>
-                    <li style="display: inline-block;position: relative;width: 40px;height: 43px; _zoom:1;*display:inline;"><img src="http://img3.douban.com/icon/u63758656-20.jpg" alt="腥桃" width="35"></li>
+                    <!--{loop $activeUserData $itemActiveUser}-->
+                    <li style="display: inline-block;position: relative;width: 40px;height: 43px; _zoom:1;*display:inline;"><a href="{$_G['siteurl']}home.php?mod=space&uid={$itemActiveUser['uid']}&do=profile" target="_blank"><img src="{$_G['siteurl']}uc_server/avatar.php?uid={$itemActiveUser['uid']}&size=small" alt="{$itemActiveUser['uname']}" width="35"></a></li>
+                    <!--{/loop}-->
                 </ul>
             </div>
         </div>
@@ -154,7 +165,17 @@
                 <strong><span style="font-size:16px;">{$activeData['title']}</span></strong><br />
                 <br />
                 {$activeData['desc']}
+                <br/>
+                <div class="bdsharebuttonbox" style="float: right;">
+                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+                    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+                    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                </div>
             </div>
+
             <div class="tl1"></div>
             <div class="tr1"></div>
             <div class="bl1"></div>
@@ -217,7 +238,152 @@
 
 </div>
 </div>
+<div id="applydiv" class="applydiv">
+    <span  class="applyspan"></span>
+    <div id="applycon" class="applycon">
+        <a href="javascript:closeapply();" class="closebut">X</a>
+        <div class="bd">
+            <div style="font-size:14px;line-height:26px;color:#564338;padding-bottom:10px;">
+                <span style="color: red;">*</span>姓名 : <input type="text" id="realname" name="realname"/>(最多10个汉字)
+            </div>
+            <div style="font-size:14px;line-height:26px;color:#564338;padding-bottom:10px;">
+                <span style="color: red;">*</span>手机 : <input type="text" id="userphone" name="userphone"/>
+            </div>
+            <div style="font-size:14px;line-height:26px;color:#564338;padding-bottom:10px;">
+                其他信息(还有什么要说的,限50字内) :
+                <br/><textarea id="otherinfo" name="otherinfo" style="border: 1px solid #ccc;padding:3px;width: 98%" maxlength="280" rows="3"></textarea>
+            </div>
+            <div class="interest-form-ft pl" id="submits">
+                <span class="bn-flat"><input type="submit" value="确定" name="save" onclick="actapply({$_G['uid']},{$activeData['id']})"></span>
+            </div>
+        </div>
+    </div>
+</div>
 <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"{$activeData['title']}","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<script>
+var mbc = jQuery.noConflict();
+
+function actcollect(uid, eid, iscancel){
+    if (0 == uid) {
+        lsSubmit();
+        return false;
+    }
+    mbc.ajax({
+        url:"{$_G['siteurl']}plugin.php?id=mrbear_cityactive:post",
+        data:{
+            "act":"praise",
+            "eid":eid,
+            "iscancel":iscancel,
+            "uid":uid
+        },
+        type: "GET",
+        dataType: "json",
+        success:function(res){
+            if (res.status) {
+                if (iscancel == 1) {
+                    mbc("#collectinfo img").remove();
+                    var str = '<img onclick="actcollect('+uid+','+eid+', 2);" style="cursor:pointer;padding-left:20px" src="../upload/source/plugin/mrbear_cityactive/template/image/img_collect.png">';
+                    mbc("#collectinfo").append(str);
+                }else{
+                    mbc("#collectinfo img").remove();
+                    var str = '<img onclick="actcollect('+uid+','+eid+', 1);" style="cursor:pointer;padding-left:20px" src="../upload/source/plugin/mrbear_cityactive/template/image/img_collect2.png">';
+                    mbc("#collectinfo").append(str);
+                }
+            } else {
+                alert('请稍后再试');
+            }
+
+        }
+    });
+}
+
+function showapply(uid)
+{
+    if (0 == uid) {
+        lsSubmit();
+        return false;
+    }
+    mbc("#applydiv").css("display","block");
+}
+
+function closeapply(){
+    mbc("#applydiv").css("display","none");
+}
+
+function actapply(uid, eid){
+    if (0 == uid) {
+        lsSubmit();
+        return false;
+    }
+    var realname = mbc("#realname").val();
+    var userphone = mbc("#userphone").val();
+    var otherinfo = mbc("#otherinfo").val();
+    if (realname.length == 0 || realname.length > 10 ) {
+        alert('请正确填写姓名');
+        return false;
+    }
+    var re= /^(13|15|18)\d{9}$/;
+    if(!re.test(userphone)){
+        alert('请正确填写手机号');
+        return false;
+    }
+    if (otherinfo.length > 50 ) {
+        alert('请正确填写信息');
+        return false;
+    }
+    mbc.ajax({
+        url:"{$_G['siteurl']}plugin.php?id=mrbear_cityactive:post",
+        data:{
+            "act":"apply",
+            "eid":eid,
+            "isapply":1,
+            "uid":uid,
+            "real_name":realname,
+            "user_phone":userphone,
+            "other_info":otherinfo,
+            "formhash":"{$formHash}"
+        },
+        type: "POST",
+        dataType: "json",
+        success:function(res){
+            if (res.status == 1) {
+                closeapply();
+                mbc("#applybutname").text("取消报名");
+                mbc("#applybutname").attr("href","javascript:cancelapply({$_G['uid']},{$activeData['id']})");
+            }
+        }
+    });
+}
+
+function cancelapply(uid, eid){
+    if (0 == uid) {
+        lsSubmit();
+        return false;
+    }
+    mbc.ajax({
+        url:"{$_G['siteurl']}plugin.php?id=mrbear_cityactive:post",
+        data:{
+            "act":"apply",
+            "eid":eid,
+            "isapply":0,
+            "uid":uid,
+            "real_name":'',
+            "user_phone":'',
+            "other_info":'',
+            "formhash":"{$formHash}"
+        },
+        type: "POST",
+        dataType: "json",
+        success:function(res){
+            if (res.status == 1) {
+                closeapply();
+                mbc("#applybutname").text("我要报名");
+                mbc("#applybutname").attr("href","javascript:showapply({$_G['uid']})");
+            }
+        }
+    });
+}
+</script>
 <!--{/if}-->
 
 
