@@ -56,6 +56,13 @@ class active{
             $repeatType = intval($postData['repeat_type']);
             $beginTime = date('Y-m-d H:i:s', strtotime($postData['begin_date'].' '.$postData['begin_time']));
             $endTime = date('Y-m-d H:i:s', strtotime($postData['end_date'].' '.$postData['end_time']));
+            if ($repeatType == 3) {
+                $timeArr = explode('~', $postData['repeat_time']);
+                if (!empty($timeArr)) {
+                    $beginTime = $timeArr[0];
+                    $endTime = $timeArr[count($timeArr)-1];
+                }
+            }
             $repeatTime = $postData['repeat_time'];
             $coordinateArr = explode(',', $postData['coordinate']);
             $loc_id = intval($postData['loc_id']);
