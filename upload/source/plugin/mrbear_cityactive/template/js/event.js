@@ -333,90 +333,17 @@ Do(function(c) {
     Do.DropInput = b
 });
 var pinicon = window._pinicon_;
-var empty_image = "http://maps.google.cn/maps/api/staticmap?size=388x106&amp;zoom=6&amp;center=北京,CN&amp;sensor=false&amp;language=zh-CN";
-var previewMap = function(f, b) {
-    var e = $(f).data("detail");
-    var d = $(b).parent().parent().parent();
-    var g = d.find(".map-card");
-    var a = e.coordinate || "";
-    if (a == "0.0,0.0") {
-        a = ""
-    }
-    var c = ['<div class="map-card" style="margin: 5px 0 10px 18px;_margin: 5px 0 15px 10px;"><div class="bd">', '<a href="javascript:void(0);" data-type="known_address" class="lnk-modify-addr">', '<div id="known_map" class="static-map"></div>', "", "</a>", '<div class="map-card-modify" ', "", '>已标记地点 <a href="javascript:void(0);" data-type="known_address" class="no-visited lnk-modify-addr">修改</a></div>', '<input type="hidden" id="selected_known_address" value="', a, '">', "</div></div>"];
-    if (!a) {
-        c[3] = '<span class="map-card-nomark">在地图上标记地点</span>';
-        c[6] = 'style="display:none;"';
-        src = empty_image
-    }
-    c = c.join("");
-    if (!g.length) {
-        g = $(c).appendTo(d)
-    } else {
-        g = g.replaceWith(c)
-    }
-    $("#known_map").attr("data-coord", a);
-    $("#coordinate").val(a);
-    g.find(".lnk-modify-addr").data("coordinate", a);
-    $("#selected_known_address").data(e);
-    $("#street_address").val(e.street_address || "");
-    Do.updateCity(e.loc_id, e.district_id, e.region_id)
-};
-var known_address = $("#events-known-address");
-if (known_address.length) {
-    Do("selectbox",
-        function() {
-            known_address.selectBox({
-                width: 400
-            }).bind("selectbox::init",
-                function(b, a) {
-                    previewMap(a.selectField[0][0], a.selectItem)
-                }).bind("selectbox::focus",
-                function() {
-                    $("#sel-address-type0")[0].checked = true;
-                    $("#events-new-address").hide();
-                    $(".known-addr-item .map-card").show()
-                }).bind("selectbox::change",
-                function(b, a) {
-                    previewMap(a.instance.selectField[0][a.index], a.instance.selectItem)
-                })
-        })
-}
-$("input[name=address-type]").change(function() {
-    if (this.id === "sel-address-type1") {
-        $("#events-new-address").show();
-        $(".known-addr-item .map-card").hide();
-        $("#coordinate").val("");
-        $("#q_address").focus().blur();
-        if (!Do.new_map) {
-            Do.new_map = new Do.StaticMap("new_map")
-        }
-    } else {
-        $("#events-new-address").hide();
-        $(".known-addr-item .map-card").show();
-        var a = $(".ui-selectbox-container a").data("value");
-        $("#coordinate").val(a)
-    }
-});
 
 Do(function() {
-    var b = '<option value="0">城区　</option>';
-    var d = '<option value="0">商圈(可选)　</option>';
-    var o = '<option value="{id}">{name}</option>';
-    function i(s, q, r) {
-        r = r || b;
-        if (!q || !q.length) {
-            s.html(r).addClass("hint");
-            return
-        }
-        $.each(q,
-            function(t, u) {
-                r += o.replace("{id}", u.id || "").replace("{name}", u.name || "")
-            });
-        s.html(r)
-    }
+
     var p = $("#loc_id").val();
     var a = $("#city");
     var c = a.val();
+
+    var k = Do.updateCity = function(t, r, q) {
+//        alert(1);
+        $("#loc_id").val(t);
+    };
 
     var h = Do.DropInput({
         picker: "#html-citypicker",
@@ -427,9 +354,10 @@ Do(function() {
                 return
             }
             p = q;
-
+            $("#loc_id").val(q);
         },
         onInit: function(s, r) {
+//            console.log(r);
             var t = r.find("span.tab");
             var q = r.find("div.bd");
             t.click(function(v) {

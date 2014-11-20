@@ -372,6 +372,140 @@ class active{
         return true;
     }
 
+
+    public function queryEvent($ids = array(), $loc_id = 0, $type = array(), $feeType = '', $orderType = 'praise_count', $offset = 0, $limit = 10)
+    {
+        global $_G;
+        $querySql = 'select * from '.DB::table('mrbear_cityactive_event');
+        $con = ' where 1=1 ';
+        if (!empty($ids)) {
+            $idStr = implode(',', $ids);
+            $con .= ' and id in('.$idStr.')';
+        }
+        if (intval($loc_id)) {
+            $con .= ' and  loc_id = '.$loc_id;
+        }
+        if (!empty($type)) {
+            $typeStr = implode(',', $type);
+            $con .= ' and type in('.$typeStr.')';
+        }
+        if ($feeType !== '') {
+            $feeType = intval($feeType);
+            $con .= ' and fee = '.$feeType;
+        }
+        $con .= ' and status = 1';
+        $con .= ' and end_time >\''.date('Y-m-d H:i:s').'\'';
+        if (in_array($orderType, array('praise_count', 'active_count', 'add_time'))) {
+            $order = ' order by '.$orderType.' desc';
+        } else {
+            $order = ' order by praise_count desc';
+        }
+        $querySql .= $con . $order .' limit '.$offset*$limit.','.$limit;
+        $res = DB::fetch_all($querySql);
+
+        if (!empty($res)) {
+            foreach ($res as &$itemRes) {
+                $itemId = $itemRes['id'];
+                $itemImg = $this->_queryImage($itemId, 1);
+                $itemRes['first_img'] = '';
+                if (!empty($itemImg)) {
+                    $itemRes['first_img'] = $_G['siteurl'].'data/attachment/cityactive/'.$itemImg[0]['img_root'];
+                }
+                $itemRes['detail_url'] = $_G['siteurl'].'plugin.php?id=mrbear_cityactive:detail&aid='.$itemRes['id'];
+            }
+            unset($itemRes);
+        }
+
+        $totalCountSql = 'select count(1) count from '.DB::table('mrbear_cityactive_event').$con;
+        $totalCountRes = DB::fetch_all($totalCountSql);
+
+
+        $totalCount = 0;
+        if (!empty($totalCountRes)) {
+            $totalCount = $totalCountRes[0]['count'];
+        }
+        $response = array(
+            'data' => $res,
+            'total' => $totalCount
+        );
+        return $response;
+    }
+
+
+    public function queryNearBegin()
+    {
+        global $_G;
+        $current = date('Y-m-d H:i:s');
+        $querySql = 'select * from '.DB::table('mrbear_cityactive_event').' where status=1 and begin_time>\''.$current.'\' order by begin_time asc limit 5';
+        $res = DB::fetch_all($querySql);
+        if (!empty($res)) {
+            foreach ($res as &$itemRes) {
+                $itemId = $itemRes['id'];
+                $itemImg = $this->_queryImage($itemId, 1);
+                $itemRes['first_img'] = '';
+                if (!empty($itemImg)) {
+                    $itemRes['first_img'] = $_G['siteurl'].'data/attachment/cityactive/'.$itemImg[0]['img_root'];
+                }
+                $itemRes['detail_url'] = $_G['siteurl'].'plugin.php?id=mrbear_cityactive:detail&aid='.$itemRes['id'];
+
+                $timeStr = self::getDetailActiveTime($itemRes['repeat_type'], $itemRes['begin_time'], $itemRes['end_time'], $itemRes['repeat_time']);
+                $itemRes['detail_time'] = $timeStr;
+            }
+            unset($itemRes);
+        }
+        return $res;
+    }
+
+    public function queryMyTotal()
+    {
+        $response = array(
+            'nbCount' => 0,
+            'beginCount' => 0,
+            'activeCount' => 0,
+            'praiseCount' => 0,
+        );
+        if (!intval($this->_uid)) {
+            return $response;
+        }
+        $queryCon = 'select count(1) count from '.DB::table('mrbear_cityactive_praise').' where uid = '.$this->_uid.' and status=0';
+        $res = DB::fetch_all($queryCon);
+        if (!empty($res)) {
+            $response['praiseCount'] = $res[0]['count'];
+        }
+
+        $queryCon = 'select * from '.DB::table('mrbear_cityactive_active').' where uid = '.$this->_uid.' and status=0';
+        $res = DB::fetch_all($queryCon);
+        if (!empty($res)) {
+            $response['activeCount'] = count($res);
+            $ids = '';
+            foreach ($res as $itemRes) {
+                $ids .= $itemRes['event_id'].',';
+            }
+            if ($ids != '') {
+                $ids = substr($ids, 0, strlen($ids)-1);
+                $queryCon = 'select count(1) count from '.DB::table('mrbear_cityactive_event').' where id in ('.$ids.') and status=1 and begin_time>\''.date('Y-m-d H:i:s').'\'';
+                $res = DB::fetch_all($queryCon);
+                if (!empty($res)) {
+                    $response['nbCount'] = $res[0]['count'];
+                }
+                $queryCon = 'select count(1) count from '.DB::table('mrbear_cityactive_event').' where id in ('.$ids.') and status=1 and begin_time<\''.date('Y-m-d H:i:s').'\' and end_time > \''.date('Y-m-d H:i:s').'\'';
+                $res = DB::fetch_all($queryCon);
+                if (!empty($res)) {
+                    $response['beginCount'] = $res[0]['count'];
+                }
+            }
+        }
+        return $response;
+
+    }
+
+    public function queryHotCity()
+    {
+        $querySql = 'select loc_id,city,count(1) count from '.DB::table('mrbear_cityactive_event').' where status=1 group by loc_id order by count desc limit 10';
+        $res = DB::fetch_all($querySql);
+        return $res;
+    }
+
     public function getPraise($eventId, $uid)
     {
         if (!intval($eventId) || !intval($uid)) {
@@ -532,5 +666,37 @@ class active{
         );
 
         return DB::insert('mrbear_cityactive_image', $insertData, true);
+    }
+
+    private function _queryImage($eventId, $postion = 0)
+    {
+        if (intval($postion)) {
+            $queryCon = 'select * from '.DB::table('mrbear_cityactive_image').' where event_id='.$eventId.' and position='.$postion.' and status = 0';
+        } else {
+            $queryCon = 'select * from '.DB::table('mrbear_cityactive_image').' where event_id='.$eventId.' and status = 0';
+        }
+        $res = DB::fetch_all($queryCon);
+        return $res;
+    }
+
+
+    public static function getDetailActiveTime($repeatType, $beginTime, $endTime, $repeatTime, $struct='Y-m-d')
+    {
+        $activeTimeStr = '';
+        $beginTime = date($struct, strtotime($beginTime));
+        $endTime = date($struct, strtotime($endTime));
+        if ($repeatType == 0) {
+            $activeTimeStr = $beginTime.'~'.$endTime;
+        } elseif ($repeatType == 1) {
+            $activeTimeStr = $beginTime.'~'.$endTime;
+        } elseif ($repeatType == 2) {
+            $activeTimeStr = $beginTime.'~'.$endTime;
+        } else {
+            $timeArr = explode('~', $repeatTime);
+            if (!empty($timeArr)) {
+                $activeTimeStr = $timeArr[0] .' ~ '.$timeArr[count($timeArr)-1];
+            }
+        }
+        return $activeTimeStr;
     }
 }

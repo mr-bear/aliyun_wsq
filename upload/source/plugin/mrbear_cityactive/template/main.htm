@@ -18,292 +18,158 @@
 <div class="leftBox">
 <div class="focusMap J_focusMap">
     <ul class="J_img" style="width: 3525px; left: -2820px;">
+        <!--{if !empty($indexFocusRes)}-->
+        <!--{loop $indexFocusRes $itemFocusData}-->
         <li>
-            <a href="http://www.mosh.cn/events/298383" target="_blank"><img src="http://1.img.mosh.cn/705/380/8d9b30029beb0008dc1597d7585c7bc1b7e.jpg" _title="探寻墨西哥之旅" alt="探寻墨西哥之旅" title="探寻墨西哥之旅"></a>
+            <a href="{$itemFocusData[2]}" target="_blank"><img src="{$itemFocusData[1]}" _title="{$itemFocusData[0]}" alt="{$itemFocusData[0]}" title="{$itemFocusData[0]}"></a>
         </li>
-        <li>
-            <a href="http://www.mosh.cn/events/298426" target="_blank"><img src="http://0.img.mosh.cn/705/380/f493800d995bfc430e2ccb32df0f936db3e.jpg" _title="第七届国际新人电影节嘉年华" alt="第七届国际新人电影节嘉年华" title="第七届国际新人电影节嘉年华"></a>
-        </li>
-        <li>
-            <a href="http://www.mosh.cn/events/298480" target="_blank"><img src="http://3.img.mosh.cn/705/380/72915003798a157e31d684136d0aebb45d0.jpg" _title="金秋京城8大赏银杏景点" alt="金秋京城8大赏银杏景点" title="金秋京城8大赏银杏景点"></a>
-        </li>
-        <li>
-            <a href="http://www.mosh.cn/events/297264" target="_blank"><img src="http://4.img.mosh.cn/705/380/e397f0006e4b865a447667cf1051220475e.jpg" _title="“悲观主义三部曲”《琥珀》" alt="“悲观主义三部曲”《琥珀》" title="“悲观主义三部曲”《琥珀》"></a>
-        </li>
-        <li>
-            <a href="http://e.mosh.cn/26111" target="_blank"><img src="http://2.img.mosh.cn/705/380/c99bf0028cc788c8ca2e1bede3859aafc95.jpg" _title="北脱爆笑脱口秀《花花世界》" alt="北脱爆笑脱口秀《花花世界》" title="北脱爆笑脱口秀《花花世界》"></a>
-        </li>
+        <!--{/loop}-->
+        <!--{/if}-->
     </ul>
     <div>
         <span></span>
-        <b><a href="http://e.mosh.cn/26111" id="otitle" target="_blank">北脱爆笑脱口秀《花花世界》</a></b>
+        <!--{if !empty($indexFocusRes)}-->
+        <b><a href="{$indexFocusRes[0][2]}" id="otitle" target="_blank">{$indexFocusRes[0][0]}</a></b>
         <div class="imgTab J_tab">
-            <ul><li class="">1</li><li class="">2</li><li class="">3</li><li class="">4</li><li class="hover">5</li></ul>
+            {eval $ii=1}
+            <ul>
+            <!--{loop $indexFocusRes $itemFocusData}-->
+            <li class="">{$ii}</li>
+            {eval $ii++}
+            <!--{/loop}-->
+            </ul>
         </div>
+        <!--{/if}-->
     </div>
 </div>
-<div class="likeTit"><a style="color:#B2B2B2" href="http://www.mosh.cn/tags">热门活动标签</a>：
-    <a href="http://www.mosh.cn/tags/t4072" title="艺术展" target="_blank">艺术展</a>
-    <a href="http://www.mosh.cn/tags/t1242" title="livehouse" target="_blank">livehouse</a>
-    <a href="http://www.mosh.cn/tags/t5750" title="APEC × 光棍节" target="_blank">APEC × 光棍节</a>
-    <a href="http://www.mosh.cn/tags/t2182" title="亲子活动" target="_blank">亲子活动</a>
-    <a href="http://www.mosh.cn/tags/t5099" title="戏剧" target="_blank">戏剧</a>
-    <a href="http://www.mosh.cn/tags/t999" title="免费" target="_blank">免费</a>
-
-    <a href="http://www.mosh.cn/tags" title="更多" target="_blank">更多</a>
-</div>
-
 <div class="tabListBox">
 <dfn class="T"></dfn>
 <dfn class="C">
-
 <div class="sequence J_tabBoxList">
-    <em><a href="http://www.mosh.cn/beijing/events/" class="on" target="_blank">人气</a></em>
-    <em><a href="http://www.mosh.cn/beijing/events/today" target="_blank">今天</a></em>
-    <em><a href="http://www.mosh.cn/beijing/events/tomorrow" target="_blank">明天</a></em>
-    <em><a href="http://www.mosh.cn/beijing/events/weekend" target="_blank">周末</a></em>
-    <em><a href="http://www.mosh.cn/beijing/events/week" target="_blank">一周</a></em>
-    <em><a href="http://www.mosh.cn/beijing/events" target="_blank">更多北京活动</a></em>
-</div><div class="sequence J_tabBoxList">
-    <em><a href="http://www.mosh.cn/beijing/events/" class="on" target="_blank">人气</a></em>
-    <em><a href="http://www.mosh.cn/beijing/events/today" target="_blank">今天</a></em>
-    <em><a href="http://www.mosh.cn/beijing/events/tomorrow" target="_blank">明天</a></em>
-    <em><a href="http://www.mosh.cn/beijing/events/weekend" target="_blank">周末</a></em>
-    <em><a href="http://www.mosh.cn/beijing/events/week" target="_blank">一周</a></em>
-    <em><a href="http://www.mosh.cn/beijing/events" target="_blank">更多北京活动</a></em>
+    <em>热门城市:</em>
+    <!--{if $loc_id === 0}-->
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid=0&ftype={$fType}&fee={$feeType}&order={$order}" class="on">全部</a></em>
+    <!--{else}-->
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid=0&ftype={$fType}&fee={$feeType}&order={$order}">全部</a></em>
+    <!--{/if}-->
+
+    <!--{if !empty($hotCitysRes)}-->
+        <!--{loop $hotCitysRes $itemHotCity}-->
+            <!--{if $loc_id == $itemHotCity['loc_id']}-->
+            <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$itemHotCity['loc_id']}&ftype={$fType}&fee={$feeType}&order={$order}"  class="on">{$itemHotCity['city']}</a></em>
+            <!--{else}-->
+            <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$itemHotCity['loc_id']}&ftype={$fType}&fee={$feeType}&order={$order}">{$itemHotCity['city']}</a></em>
+            <!--{/if}-->
+        <!--{/loop}-->
+    <!--{/if}-->
+</div>
+<div class="sequence J_tabBoxList">
+    <em>费用:</em>
+    <!--{if $feeType === ''}-->
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&order={$order}" class="on">全部</a></em>
+    <!--{else}-->
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&order={$order}">全部</a></em>
+    <!--{/if}-->
+    <!--{if $feeType === 0}-->
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=0&order={$order}" class="on">免费</a></em>
+    <!--{else}-->
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=0&order={$order}">免费</a></em>
+    <!--{/if}-->
+    <!--{if $feeType === 1}-->
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=1&order={$order}"  class="on">自费</a></em>
+    <!--{else}-->
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=1&order={$order}">自费</a></em>
+    <!--{/if}-->
+</div>
+<div class="sequence J_tabBoxList">
+    <em>排序:</em>
+    <em>
+        <!--{if $order === 'praise_count'}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=praise_count"  class="on">关注度</a>
+        <!--{else}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=praise_count">关注度</a>
+        <!--{/if}-->
+    </em>
+    <em>
+        <!--{if $order === 'add_time'}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=add_time" class="on">发布时间</a>
+        <!--{else}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=add_time" >发布时间</a>
+        <!--{/if}-->
+    </em>
+    <em>
+        <!--{if $order === 'active_count'}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=active_count" class="on">参与人数</a>
+        <!--{else}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=active_count">参与人数</a>
+        <!--{/if}-->
+    </em>
 </div>
 <div class="tabList">
-<div class="listBoxL">
-    <code class="top"></code>
-    <code class="cont">
-        <div class="imgBox">
-            <em><a title="穷游十年—『世界市集 』逛起！" alt="穷游十年—『世界市集 』逛起！" href="http://www.mosh.cn/events/298635" target="_blank">
-                <img src="http://7.img.mosh.cn/83/97/b294140316ee33f47c8f344a55f6163fb06.jpg" data-original="http://7.img.mosh.cn/83/97/b294140316ee33f47c8f344a55f6163fb06.jpg" class="lazy" width="83" height="97" style="display: inline;"></a>
-            </em>
-        </div>
-        <div class="conBox">
-            <span><a href="http://www.mosh.cn/events/298635" title="穷游十年—『世界市集 』逛起！" target="_blank">穷游十年—『世界市集 』逛起！</a></span><br>
-            地点：（北京）北京市朝阳区通惠河北路6号院朗园Vintage<br>
-            时间：2014年11月15日—2014年11月15日&nbsp;&nbsp;&nbsp;11:00—18:00<br>
-            票价：详见现场<br>
-            <em>标签：
-                <a href="http://www.mosh.cn/tags/t1021" title="北京" target="_blank">北京</a>
-                <a href="http://www.mosh.cn/tags/t1971" title="创意市集" target="_blank">创意市集</a>
-                <a href="http://www.mosh.cn/tags/t5754" title="本周推荐" target="_blank">本周推荐</a>
-            </em>
-        </div>
-    </code>
-    <code class="bottom"></code>
-</div>
-<div class="listBoxL">
-    <code class="top"></code>
-    <code class="cont">
-        <div class="imgBox">
-            <em><a title="2014凤凰岭彩叶节" alt="2014凤凰岭彩叶节" href="http://www.mosh.cn/events/298677" target="_blank">
-                <img src="http://4.img.mosh.cn/83/97/55926409d3dedea17be70d2ba63169c5294.jpg" data-original="http://4.img.mosh.cn/83/97/55926409d3dedea17be70d2ba63169c5294.jpg" class="lazy" width="83" height="97" style="display: inline;"></a>
-            </em>
-        </div>
-        <div class="conBox">
-            <span><a href="http://www.mosh.cn/events/298677" title="2014凤凰岭彩叶节" target="_blank">2014凤凰岭彩叶节</a></span><br>
-            地点：（北京）凤凰岭自然风景区<br>
-            时间：2014年10月15日—2014年11月15日&nbsp;&nbsp;&nbsp;07:00—17:00<br>
-            票价：详见现场<br>
-            <em>标签：
-                <a href="http://www.mosh.cn/tags/t739" title="凤凰岭" target="_blank">凤凰岭</a>
-                <a href="http://www.mosh.cn/tags/t742" title="红叶" target="_blank">红叶</a>
-                <a href="http://www.mosh.cn/tags/t4054" title="银杏" target="_blank">银杏</a>
-                <a href="http://www.mosh.cn/tags/t5754" title="本周推荐" target="_blank">本周推荐</a>
-            </em>
-        </div>
-    </code>
-    <code class="bottom"></code>
-</div>
-<div class="listBoxL">
-    <code class="top"></code>
-    <code class="cont">
-        <div class="imgBox">
-            <em><a title="舞剧《梅兰芳》" alt="舞剧《梅兰芳》" href="http://www.mosh.cn/events/298637" target="_blank">
-                <img src="http://7.img.mosh.cn/83/97/2f90b405c470562b8fcc5bf8c8d2dacacad.jpg" data-original="http://7.img.mosh.cn/83/97/2f90b405c470562b8fcc5bf8c8d2dacacad.jpg" class="lazy" width="83" height="97" style="display: inline;"></a>
-            </em>
-            <div class="btn_yellow mt10 ml19">
-                <a href="http://e.mosh.cn/30962" target="_blank"><span>购票</span></a>
+    <!--{if !empty($eventData)}-->
+    <!--{loop $eventData $itemEvent}-->
+    <div class="listBoxL">
+        <code class="top"></code>
+        <code class="cont">
+            <div class="imgBox">
+                <em><a title="{$itemEvent['title']}" alt="{$itemEvent['title']}" href="{$itemEvent['detail_url']}" target="_blank">
+                    <img src="{$itemEvent['first_img']}" data-original="{$itemEvent['first_img']}" class="lazy" width="83" height="97" style="display: inline;"></a>
+                </em>
             </div>
-        </div>
-        <div class="conBox">
-            <span><a href="http://www.mosh.cn/events/298637" title="舞剧《梅兰芳》" target="_blank">舞剧《梅兰芳》</a></span><br>
-            地点：（北京）地铁2号线东四十条B口出<br>
-            时间：2014年12月09日—2014年12月09日&nbsp;&nbsp;&nbsp;<br>
-            票价：100~1000<br>
-            <em>标签：
-                <a href="http://www.mosh.cn/tags/t890" title="舞剧" target="_blank">舞剧</a>
-                <a href="http://www.mosh.cn/tags/t2387" title="保利剧院" target="_blank">保利剧院</a>
-                <a href="http://www.mosh.cn/tags/t3384" title="梅兰芳" target="_blank">梅兰芳</a>
-            </em>
-        </div>
-    </code>
-    <code class="bottom"></code>
-</div>
-<div class="listBoxL">
-    <code class="top"></code>
-    <code class="cont">
-        <div class="imgBox">
-            <em><a title="再不相爱就老了 ——幸福大街乐队十五周年演出（1999-2014）" alt="再不相爱就老了 ——幸福大街乐队十五周年演出（1999-2014）" href="http://www.mosh.cn/events/298531" target="_blank">
-                <img src="http://4.img.mosh.cn/83/97/e9983407f6e9502a95a47ac5bae35fb4fb8.jpg" data-original="http://4.img.mosh.cn/83/97/e9983407f6e9502a95a47ac5bae35fb4fb8.jpg" class="lazy" width="83" height="97" style="display: inline;"></a>
-            </em>
-            <div class="btn_yellow mt10 ml19">
-                <a href="http://e.mosh.cn/30894" target="_blank"><span>购票</span></a>
+            <div class="conBox">
+                <span><a href="{$itemEvent['detail_url']}" title="{$itemEvent['title']}" target="_blank">{$itemEvent['title']}</a></span><br>
+                地点:&nbsp;({$itemEvent['city']}){$itemEvent['street_address']}<br>
+                时间:&nbsp;{$itemEvent['begin_time']}&nbsp;~&nbsp;{$itemEvent['end_time']}<br>
+                <!--{if $itemEvent['fee'] == 0}-->
+                票价:&nbsp;免费<br>
+                <!--{else}-->
+                票价:&nbsp;{$itemEvent['fee_detail']}<br>
+                <!--{/if}-->
+                <em>标签:&nbsp;{$itemEvent['tags']}</em>
             </div>
-        </div>
-        <div class="conBox">
-            <span><a href="http://www.mosh.cn/events/298531" title="再不相爱就老了 ——幸福大街乐队十五周年演出（1999-2014）" target="_blank">再不相爱就老了 ——幸福大街乐队十五周年演出（1999-2014）</a></span><br>
-            地点：（北京）鼓楼东?大街111号<br>
-            时间：2014年11月29日—2014年11月29日&nbsp;&nbsp;&nbsp;20:00—22:00<br>
-            票价：90~120<br>
-            <em>标签：
-                <a href="http://www.mosh.cn/tags/t1242" title="livehouse" target="_blank">livehouse</a>
-                <a href="http://www.mosh.cn/tags/t2358" title="北京MAO LIVEHOUSE" target="_blank">北京MAO LIVEHOUSE</a>
-            </em>
-        </div>
-    </code>
-    <code class="bottom"></code>
-</div>
-<div class="listBoxL">
-    <code class="top"></code>
-    <code class="cont">
-        <div class="imgBox">
-            <em><a title="“愿爱无忧”痛仰北京演唱会" alt="“愿爱无忧”痛仰北京演唱会" href="http://www.mosh.cn/events/298292" target="_blank">
-                <img src="http://3.img.mosh.cn/83/97/8e92a406497caa35a090237b4538b8a365f.jpg" data-original="http://3.img.mosh.cn/83/97/8e92a406497caa35a090237b4538b8a365f.jpg" class="lazy" width="83" height="97" style="display: inline;"></a>
-            </em>
-        </div>
-        <div class="conBox">
-            <span><a href="http://www.mosh.cn/events/298292" title="“愿爱无忧”痛仰北京演唱会" target="_blank">“愿爱无忧”痛仰北京演唱会</a></span><br>
-            地点：（北京）北京展览馆剧场<br>
-            时间：2014年11月29日—2014年11月29日&nbsp;&nbsp;&nbsp;19:30—21:30<br>
-            票价：80~480<br>
-            <em>标签：
-                <a href="http://www.mosh.cn/tags/t2653" title="痛仰乐队" target="_blank">痛仰乐队</a>
-                <a href="http://www.mosh.cn/tags/t3752" title="北京展览馆剧场" target="_blank">北京展览馆剧场</a>
-            </em>
-        </div>
-    </code>
-    <code class="bottom"></code>
-</div>
-<div class="listBoxL">
-    <code class="top"></code>
-    <code class="cont">
-        <div class="imgBox">
-            <em><a title="2014冬季北京国际长走大会" alt="2014冬季北京国际长走大会" href="http://www.mosh.cn/events/298680" target="_blank">
-                <img src="http://2.img.mosh.cn/83/97/5e983407436040765c418a9c0ab7166ee67.jpg" data-original="http://2.img.mosh.cn/83/97/5e983407436040765c418a9c0ab7166ee67.jpg" class="lazy" width="83" height="97" style="display: inline;"></a>
-            </em>
-        </div>
-        <div class="conBox">
-            <span><a href="http://www.mosh.cn/events/298680" title="2014冬季北京国际长走大会" target="_blank">2014冬季北京国际长走大会</a></span><br>
-            地点：（北京）十三陵水库<br>
-            时间：2014年11月16日—2014年11月16日&nbsp;&nbsp;&nbsp;09:00—16:00<br>
-            票价：20<br>
-            <em>标签：
-                <a href="http://www.mosh.cn/tags/t567" title="北京·昌平苹果文化节 " target="_blank">北京·昌平苹果文化节 </a>
-                <a href="http://www.mosh.cn/tags/t729" title="昌平区" target="_blank">昌平区</a>
-                <a href="http://www.mosh.cn/tags/t5754" title="本周推荐" target="_blank">本周推荐</a>
-            </em>
-        </div>
-    </code>
-    <code class="bottom"></code>
-</div>
-<div class="listBoxL">
-    <code class="top"></code>
-    <code class="cont">
-        <div class="imgBox">
-            <em><a title="纪念斯坦利·库布里克 逝世十五周年作品展映" alt="纪念斯坦利·库布里克 逝世十五周年作品展映" href="http://www.mosh.cn/events/297684" target="_blank">
-                <img src="http://7.img.mosh.cn/83/97/a793840d500b6d19bb839cce5a981c6f83e.jpg" data-original="http://7.img.mosh.cn/83/97/a793840d500b6d19bb839cce5a981c6f83e.jpg" class="lazy" width="83" height="97" style="display: inline;"></a>
-            </em>
-        </div>
-        <div class="conBox">
-            <span><a href="http://www.mosh.cn/events/297684" title="纪念斯坦利·库布里克 逝世十五周年作品展映" target="_blank">纪念斯坦利·库布里克 逝世十五周年作品展映</a></span><br>
-            地点：（北京）中国电影资料馆<br>
-            时间：2014年11月01日—2014年11月30日&nbsp;&nbsp;&nbsp;13:00—21:00<br>
-            票价：40~80<br>
-            <em>标签：
-                <a href="http://www.mosh.cn/tags/t4642" title="中国电影资料馆" target="_blank">中国电影资料馆</a>
-                <a href="http://www.mosh.cn/tags/t5115" title="主题放映" target="_blank">主题放映</a>
-            </em>
-        </div>
-    </code>
-    <code class="bottom"></code>
-</div>
-<div class="listBoxL">
-    <code class="top"></code>
-    <code class="cont">
-        <div class="imgBox">
-            <em><a title="20年后的重逢--思想者再临京城！" alt="20年后的重逢--思想者再临京城！" href="http://www.mosh.cn/events/294530" target="_blank">
-                <img src="http://1.img.mosh.cn/83/97/f299d40f754456ef0640d82849370ae8d6f.jpg" data-original="http://1.img.mosh.cn/83/97/f299d40f754456ef0640d82849370ae8d6f.jpg" class="lazy" width="83" height="97" style="display: inline;"></a>
-            </em>
-        </div>
-        <div class="conBox">
-            <span><a href="http://www.mosh.cn/events/294530" title="20年后的重逢--思想者再临京城！" target="_blank">20年后的重逢--思想者再临京城！</a></span><br>
-            地点：（北京）东城区中国国家博物馆<br>
-            时间：2014年11月27日—2015年03月01日&nbsp;&nbsp;&nbsp;09:00—17:00<br>
-            票价：待定<br>
-            <em>标签：
-                <a href="http://www.mosh.cn/tags/t4072" title="艺术展" target="_blank">艺术展</a>
-                <a href="http://www.mosh.cn/tags/t4695" title="中国国家博物馆" target="_blank">中国国家博物馆</a>
-            </em>
-        </div>
-    </code>
-    <code class="bottom"></code>
-</div>
-<div class="listBoxL">
-    <code class="top"></code>
-    <code class="cont">
-        <div class="imgBox">
-            <em><a title="孟京辉经典戏剧作品《两只狗的生活意见》" alt="孟京辉经典戏剧作品《两只狗的生活意见》" href="http://www.mosh.cn/events/297058" target="_blank">
-                <img src="http://6.img.mosh.cn/83/97/4598340721ac152f0b68bf79fefa711ad48.jpg" data-original="http://6.img.mosh.cn/83/97/4598340721ac152f0b68bf79fefa711ad48.jpg" class="lazy" width="83" height="97" style="display: inline;"></a>
-            </em>
-        </div>
-        <div class="conBox">
-            <span><a href="http://www.mosh.cn/events/297058" title="孟京辉经典戏剧作品《两只狗的生活意见》" target="_blank">孟京辉经典戏剧作品《两只狗的生活意见》</a></span><br>
-            地点：（北京）蜂巢剧场<br>
-            时间：2014年11月25日—2014年12月21日&nbsp;&nbsp;&nbsp;19:30—21:00<br>
-            票价：50~200<br>
-            <em>标签：
-                <a href="http://www.mosh.cn/tags/t2282" title="孟京辉" target="_blank">孟京辉</a>
-                <a href="http://www.mosh.cn/tags/t2656" title="蜂巢剧场" target="_blank">蜂巢剧场</a>
-            </em>
-        </div>
-    </code>
-    <code class="bottom"></code>
-</div>
-<div class="listBoxL">
-    <code class="top"></code>
-    <code class="cont">
-        <div class="imgBox">
-            <em><a title="2014北京国际老龄产业博览会" alt="2014北京国际老龄产业博览会" href="http://www.mosh.cn/events/298628" target="_blank">
-                <img src="http://7.img.mosh.cn/83/97/8297f40173bd44ac1643c93810e24b8fbd3.jpg" data-original="http://7.img.mosh.cn/83/97/8297f40173bd44ac1643c93810e24b8fbd3.jpg" class="lazy" width="83" height="97" style="display: inline;"></a>
-            </em>
-        </div>
-        <div class="conBox">
-            <span><a href="http://www.mosh.cn/events/298628" title="2014北京国际老龄产业博览会" target="_blank">2014北京国际老龄产业博览会</a></span><br>
-            地点：（北京）北京展览馆<br>
-            时间：2014年11月14日—2014年11月16日&nbsp;&nbsp;&nbsp;10:00—17:00<br>
-            票价：详见现场<br>
-            <em>标签：
-                <a href="http://www.mosh.cn/tags/t2350" title="北京展览馆" target="_blank">北京展览馆</a>
-                <a href="http://www.mosh.cn/tags/t4777" title="博览会" target="_blank">博览会</a>
-            </em>
-        </div>
-    </code>
-    <code class="bottom"></code>
-</div>
+        </code>
+        <code class="bottom"></code>
+    </div>
+    <!--{/loop}-->
+    <!--{/if}-->
+
 </div>
 </dfn>
 <dfn class="B"></dfn>
 <div class="view_more">
+    <!--{if $currentPage && $totalPage && $currentPage<=$totalPage}-->
     <div class="mosh_page" style="float:left;width:100%;">
-        <span class="current">1</span>
-        <a href="http://www.mosh.cn/beijing/events?page=2"> 2 </a>
-        <a href="http://www.mosh.cn/beijing/events?page=3"> 3 </a>
-        <a href="http://www.mosh.cn/beijing/events?page=2" class="btn_click">下一页</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}" class="btn_click">首页</a>
+
+        <!--{if $prePage > 0}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$prePage}" class="btn_click">上一页</a>
+        <!--{/if}-->
+
+        <!--{if $pPrePage > 0}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$pPrePage}"> {$pPrePage} </a>
+        <!--{/if}-->
+
+        <!--{if $prePage > 0}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$prePage}"> {$prePage} </a>
+        <!--{/if}-->
+
+        <span class="current">{$currentPage}</span>
+
+        <!--{if $nextPage > 0}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$nextPage}"> {$nextPage} </a>
+        <!--{/if}-->
+
+        <!--{if $nNextPage > 0}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$nNextPage}"> {$nNextPage} </a>
+        <!--{/if}-->
+
+        <!--{if $nextPage > 0}-->
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$nextPage}" class="btn_click">下一页</a>
+        <!--{/if}-->
+
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$totalPage}" class="btn_click">尾页</a>
     </div>
+    <!--{/if}-->
 </div>
 </div>
 </div>
@@ -313,57 +179,40 @@
     <div class="landedH">
         <dfn class="T"></dfn>
         <dfn class="C">
-            <!--<div class="user"><span><a style="color:#fff" href="http://www.mosh.cn/uc/account/identity">被辐射前很矮</a></span> 的账号</div>-->
-
             <div class="tithd">我的活动</div>
             <div class="tab">
-                <span><em>1</em><dfn>未开始</dfn></span>
-                <span><a href="http://www.mosh.cn/uc/eventcollect"><em>1</em><dfn>收藏</dfn></a></span>
-                <span><a href="http://www.mosh.cn/uorder/eorderlist"><em>0</em><dfn>电子票</dfn></a></span>
-                <span><a href="http://www.mosh.cn/uorder/orderlist"><em>0</em><dfn>纸质票</dfn></a></span>
+                <span><em>{$mynbCount}</em><dfn>未开始</dfn></span>
+                <span><a href="http://www.mosh.cn/uc/eventcollect"><em>{$mybeginCount}</em><dfn>进行中</dfn></a></span>
+                <span><a href="http://www.mosh.cn/uorder/eorderlist"><em>{$myActiveCount}</em><dfn>已报名</dfn></a></span>
+                <span><a href="http://www.mosh.cn/uorder/orderlist"><em>{$myPraiseCount}</em><dfn>感兴趣</dfn></a></span>
             </div>
 
 
         </dfn>
         <dfn class="B"></dfn>
     </div>
-    <!-- xiewulong20130311 -->
-    <div class="formwrap1 mb10 formwrap2">
-
-        <div class="tl"></div>
-        <div class="tr"></div>
-        <div class="bl"></div>
-        <div class="br"></div>
-    </div>
     <div class="side_indexpage mt10">
         <div class="bd_top"></div>
         <div class="bd_con">
-            <div class="title"><a href="http://www.mosh.cn/beijing/events/selling" target="_blank">正在售票</a></div>
+            <div class="title" >即将开始</div>
             <div class="con">
                 <div class="bd_top2"></div>
                 <div class="bd_con2">
                     <ul class="s1">
+                        <!--{if !empty($nearEventRes)}-->
+                        <!--{loop $nearEventRes $itemNearEvent}-->
                         <li style="*width:230px">
-                            <a title="【北漂团伙】贰周年纪念演出" href="http://www.mosh.cn/events/297665"><img title="【北漂团伙】贰周年纪念演出" alt="【北漂团伙】贰周年纪念演出" src="http://4.img.mosh.cn/83/97/6a91840078f27f73025f929240a889f7b6f.jpg" data-original="http://4.img.mosh.cn/83/97/6a91840078f27f73025f929240a889f7b6f.jpg"></a>
-                            <a target="_blank" title="【北漂团伙】贰周年纪念演出" href="http://www.mosh.cn/events/297665">【北漂团伙】贰周年纪念演出</a> <br>
-                            <p>11.07—11.16</p>
-                            <strong>100~120 元</strong>
-                            <div class="btn_yellow"><a href="http://e.mosh.cn/25914"><span>购票</span></a></div>
+                            <a title="{$itemNearEvent['title']}" href="{$itemNearEvent['detail_url']}"><img title="{$itemNearEvent['title']}" alt="{$itemNearEvent['title']}" src="{$itemNearEvent['first_img']}" data-original="{$itemNearEvent['first_img']}" width="83px" height="97px"></a>
+                            <a target="_blank" title="{$itemNearEvent['title']}" href="{$itemNearEvent['detail_url']}">{$itemNearEvent['title']}</a> <br>
+                            <p>{$itemNearEvent['detail_time']}</p>
+                            <!--{if $itemNearEvent['fee'] === 0}-->
+                            <strong>免费</strong>
+                            <!--{else}-->
+                            <strong>自费</strong>
+                            <!--{/if}-->
                         </li>
-                        <li style="*width:230px">
-                            <a title="布衣乐队19周年巡演" href="http://www.mosh.cn/events/297536"><img title="布衣乐队19周年巡演" alt="布衣乐队19周年巡演" src="http://2.img.mosh.cn/83/97/e79914050050fc81fbc806080d3fd8863ce.jpg" data-original="http://2.img.mosh.cn/83/97/e79914050050fc81fbc806080d3fd8863ce.jpg"></a>
-                            <a target="_blank" title="布衣乐队19周年巡演" href="http://www.mosh.cn/events/297536">布衣乐队19周年巡演</a> <br>
-                            <p>11.01—12.21</p>
-                            <strong>70-120 元</strong>
-                            <div class="btn_yellow"><a href="http://e.mosh.cn/buyi2014"><span>购票</span></a></div>
-                        </li>
-                        <li style="*width:230px">
-                            <a title="电音摇滚第一团 MP魔幻力量 战神 演唱會Fighting for love" href="http://www.mosh.cn/events/297198"><img title="电音摇滚第一团 MP魔幻力量 战神 演唱會Fighting for love" alt="电音摇滚第一团 MP魔幻力量 战神 演唱會Fighting for love" src="http://3.img.mosh.cn/83/97/7490340291f88373c93f6793b3086d6fe6b.jpg" data-original="http://3.img.mosh.cn/83/97/7490340291f88373c93f6793b3086d6fe6b.jpg"></a>
-                            <a target="_blank" title="电音摇滚第一团 MP魔幻力量 战神 演唱會Fighting for love" href="http://www.mosh.cn/events/297198">电音摇滚第一团 MP魔幻力量 战神 演唱...</a> <br>
-                            <p>11.08—11.08</p>
-                            <strong>120~150 元</strong>
-                            <div class="btn_yellow"><a href="http://e.mosh.cn/25784"><span>购票</span></a></div>
-                        </li>
+                        <!--{/loop}-->
+                        <!--{/if}-->
                     </ul>
                 </div>
                 <div class="bd_btm2"></div>
@@ -372,26 +221,26 @@
         <div class="bd_btm"></div>
     </div>
 
-    <div class="side_indexpage mt10">
-        <div class="bd_top"></div>
-        <div class="bd_con">
-            <div class="title"><a href="http://www.mosh.cn/beijing/events/latest" target="_blank">最新城市活动</a></div>
-            <div class="con">
-                <div class="bd_top2"></div>
-                <div class="bd_con2">
-                    <ul class="s2">
-                        <li><a title="牵手蓝天·水立方亲子环保嘉年华" href="http://www.mosh.cn/events/298713" target="_blank">牵手蓝天·水立方亲子环保嘉年华</a></li>
-                        <li><a title="2014冬季北京国际长走大会" href="http://www.mosh.cn/events/298680" target="_blank">2014冬季北京国际长走大会</a></li>
-                        <li><a title="2014凤凰岭彩叶节" href="http://www.mosh.cn/events/298677" target="_blank">2014凤凰岭彩叶节</a></li>
-                        <li><a title="舞剧《梅兰芳》" href="http://www.mosh.cn/events/298637" target="_blank">舞剧《梅兰芳》</a></li>
-                        <li><a title="穷游十年—『世界市集 』逛起！" href="http://www.mosh.cn/events/298635" target="_blank">穷游十年—『世界市集 』逛起！</a></li>
-                    </ul>
-                </div>
-                <div class="bd_btm2"></div>
-            </div>
-        </div>
-        <div class="bd_btm"></div>
-    </div>
+    <!--<div class="side_indexpage mt10">-->
+        <!--<div class="bd_top"></div>-->
+        <!--<div class="bd_con">-->
+            <!--<div class="title"><a href="http://www.mosh.cn/beijing/events/latest" target="_blank">最新城市活动</a></div>-->
+            <!--<div class="con">-->
+                <!--<div class="bd_top2"></div>-->
+                <!--<div class="bd_con2">-->
+                    <!--<ul class="s2">-->
+                        <!--<li><a title="牵手蓝天·水立方亲子环保嘉年华" href="http://www.mosh.cn/events/298713" target="_blank">牵手蓝天·水立方亲子环保嘉年华</a></li>-->
+                        <!--<li><a title="2014冬季北京国际长走大会" href="http://www.mosh.cn/events/298680" target="_blank">2014冬季北京国际长走大会</a></li>-->
+                        <!--<li><a title="2014凤凰岭彩叶节" href="http://www.mosh.cn/events/298677" target="_blank">2014凤凰岭彩叶节</a></li>-->
+                        <!--<li><a title="舞剧《梅兰芳》" href="http://www.mosh.cn/events/298637" target="_blank">舞剧《梅兰芳》</a></li>-->
+                        <!--<li><a title="穷游十年—『世界市集 』逛起！" href="http://www.mosh.cn/events/298635" target="_blank">穷游十年—『世界市集 』逛起！</a></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!--<div class="bd_btm2"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="bd_btm"></div>-->
+    <!--</div>-->
     <!-- xiewulong20130311 -->
     <!-- xiewulong20130311 -->
 </div>
@@ -401,30 +250,42 @@
         <div class="menuBox" id="menuBox" style="top: 0px;">
             <a href="http://www.mosh.cn/"><div class="logo"></div></a>
 
-
-
-            <div class="cityBox J_cityList">
-                <ul>
-                    <li class="hove"><a href="http://www.mosh.cn/beijing" title="北京">北京</a></li>
-                    <li><a href="http://www.mosh.cn/shanghai" title="上海">上海</a></li>
-                    <li><a href="http://www.mosh.cn/guangzhou" title="广州">广州</a></li>
-                    <li><a href="http://www.mosh.cn/shenzhen" title="深圳">深圳</a></li>
-                    <li><a href="http://www.mosh.cn/chengdu" title="成都">成都</a></li>
-                </ul>
-                <div><a href="javascript:;" class="close J_close"></a></div></div>
             <div>
                 <div class="menuList">
                     <dfn class="T"></dfn>
                     <dfn class="C">
                         <div class="menu">
                             <ul>
-                                <li><a href="http://www.mosh.cn/beijing/park"><span class="a"></span>游园玩乐</a></li>
-                                <li><a href="http://www.mosh.cn/beijing/movie"><span class="b"></span>电影放映</a></li>
-                                <li><a href="http://www.mosh.cn/beijing/music"><span class="g"></span>音乐现场</a></li>
-                                <li><a href="http://www.mosh.cn/beijing/drama"><span class="f"></span>戏剧舞台</a></li>
-                                <li><a href="http://www.mosh.cn/beijing/exbt"><span class="i"></span>展览讲座</a></li>
-                                <li><a href="http://www.mosh.cn/beijing/sports"><span class="j"></span>运动赛事</a></li>
-                                <li><a href="http://www.mosh.cn/beijing/other"><span class="l"></span>公益其他</a></li>
+                                <!--{if $fType == 0}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=0" class="checkclass"><span class="a"></span>全部</a></li>
+                                <!--{else}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=0"><span class="a"></span>全部</a></li>
+                                <!--{/if}-->
+                                <!--{if $fType == 1}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=1"  class="checkclass"><span class="b"></span>音乐戏剧</a></li>
+                                <!--{else}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=1"><span class="b"></span>音乐戏剧</a></li>
+                                <!--{/if}-->
+                                <!--{if $fType == 2}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=2"  class="checkclass"><span class="g"></span>展览讲座</a></li>
+                                <!--{else}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=2"><span class="g"></span>展览讲座</a></li>
+                                <!--{/if}-->
+                                <!--{if $fType == 3}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=3"  class="checkclass"><span class="f"></span>聚会旅行</a></li>
+                                <!--{else}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=3"><span class="f"></span>聚会旅行</a></li>
+                                <!--{/if}-->
+                                <!--{if $fType == 4}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=4"  class="checkclass"><span class="j"></span>电影放映</a></li>
+                                <!--{else}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=4"><span class="j"></span>电影放映</a></li>
+                                <!--{/if}-->
+                                <!--{if $fType == 5}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=5"  class="checkclass"><span class="a"></span>公益其他</a></li>
+                                <!--{else}-->
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=5"><span class="a"></span>公益其他</a></li>
+                                <!--{/if}-->
                             </ul>
                         </div>
                         <div class="submit"><a href="http://www.mosh.cn/events/addinfo" target="_blank">活动合作</a></div>
@@ -435,11 +296,10 @@
         </div>
     </div>
 </div>
-<input type="hidden" id="Usex" value="">
-<input type="hidden" id="Ushowtype" value="">
-<div style="position: fixed; left: 1550px; top: 341px; display: none;" id="go_top" class="go_top"><a href="javascript:;"><img src="http://staitc3.mosh.cn/images/goto_top.jpg" style="border-radius:4px 4px 4px 4px;"></a></div>
 
 <script type="text/javascript" src="{$_G[siteurl]}source/plugin/mrbear_cityactive/template/js/lquery.js"></script>
 <script type="text/javascript" src="{$_G[siteurl]}source/plugin/mrbear_cityactive/template/js/js.js"></script>
-<!--<script type="text/javascript" src="http://staitc3.mosh.cn/js/xwl.js?js_version=1.980637"></script>-->
-<iframe allowtransparency="true" id="add_speed_bfd" frameborder="0" scrolling="no" style="height: 0px; width: 0px; float: none; position: absolute; overflow: hidden; z-index: 333333; margin: 0px; padding: 0px; border: 0px none; background: none;"></iframe></div></div>
+
+</div></div>
+
+{template common/footer}
