@@ -113,7 +113,7 @@
         <code class="cont">
             <div class="imgBox">
                 <em><a title="{$itemEvent['title']}" alt="{$itemEvent['title']}" href="{$itemEvent['detail_url']}" target="_blank">
-                    <img src="{$itemEvent['first_img']}" data-original="{$itemEvent['first_img']}" class="lazy" width="83" height="97" style="display: inline;"></a>
+                    <img src="{$itemEvent['first_img']}" data-original="{$itemEvent['first_img']}" class="lazy" width="83" height="125" style="display: inline;"></a>
                 </em>
             </div>
             <div class="conBox">
@@ -191,6 +191,33 @@
         </dfn>
         <dfn class="B"></dfn>
     </div>
+
+    <div class="side_indexpage mt10">
+        <div class="bd_top"></div>
+        <div class="bd_con">
+            <div class="title" >人气活动</div>
+            <div class="con">
+                <div class="bd_top2"></div>
+                <div class="bd_con2">
+                    <ul class="s1">
+                        <!--{if !empty($hotEventRes)}-->
+                        <!--{loop $hotEventRes $itemHotEvent}-->
+                        <li style="*width:230px">
+                            <a title="{$itemHotEvent['title']}" href="{$itemHotEvent['detail_url']}"><img title="{$itemHotEvent['title']}" alt="{$itemHotEvent['title']}" src="{$itemHotEvent['first_img']}" data-original="{$itemHotEvent['first_img']}" width="83px" height="97px"></a>
+                            <a target="_blank" title="{$itemHotEvent['title']}" href="{$itemHotEvent['detail_url']}">{$itemHotEvent['title']}</a> <br>
+                            <p style="width: 235px;">{$itemHotEvent['detail_time']}</p>
+                            <strong>{$itemHotEvent['fee_range']}</strong>
+                        </li>
+                        <!--{/loop}-->
+                        <!--{/if}-->
+                    </ul>
+                </div>
+                <div class="bd_btm2"></div>
+            </div>
+        </div>
+        <div class="bd_btm"></div>
+    </div>
+
     <div class="side_indexpage mt10">
         <div class="bd_top"></div>
         <div class="bd_con">
@@ -204,12 +231,8 @@
                         <li style="*width:230px">
                             <a title="{$itemNearEvent['title']}" href="{$itemNearEvent['detail_url']}"><img title="{$itemNearEvent['title']}" alt="{$itemNearEvent['title']}" src="{$itemNearEvent['first_img']}" data-original="{$itemNearEvent['first_img']}" width="83px" height="97px"></a>
                             <a target="_blank" title="{$itemNearEvent['title']}" href="{$itemNearEvent['detail_url']}">{$itemNearEvent['title']}</a> <br>
-                            <p>{$itemNearEvent['detail_time']}</p>
-                            <!--{if $itemNearEvent['fee'] === 0}-->
-                            <strong>免费</strong>
-                            <!--{else}-->
-                            <strong>自费</strong>
-                            <!--{/if}-->
+                            <p style="width: 235px;">{$itemNearEvent['detail_time']}</p>
+                            <strong>{$itemNearEvent['fee_range']}</strong>
                         </li>
                         <!--{/loop}-->
                         <!--{/if}-->

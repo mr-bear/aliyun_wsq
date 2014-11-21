@@ -412,6 +412,7 @@ class active{
                     $itemRes['first_img'] = $_G['siteurl'].'data/attachment/cityactive/'.$itemImg[0]['img_root'];
                 }
                 $itemRes['detail_url'] = $_G['siteurl'].'plugin.php?id=mrbear_cityactive:detail&aid='.$itemRes['id'];
+                $itemRes['fee_range'] = self::getRangeFee($itemRes['fee'], $itemRes['fee_detail']);
             }
             unset($itemRes);
         }
@@ -432,11 +433,18 @@ class active{
     }
 
 
-    public function queryNearBegin()
+    public function queryRank($type,$limit=5)
     {
         global $_G;
         $current = date('Y-m-d H:i:s');
-        $querySql = 'select * from '.DB::table('mrbear_cityactive_event').' where status=1 and begin_time>\''.$current.'\' order by begin_time asc limit 5';
+        if ($type == 'nearbegin') {
+            $querySql = 'select * from '.DB::table('mrbear_cityactive_event').' where status=1 and begin_time>\''.$current.'\' order by begin_time asc limit '.$limit;
+        } elseif ($type == 'hot') {
+            $querySql = 'select * from '.DB::table('mrbear_cityactive_event').' where status=1 and end_time>\''.$current.'\' order by active_count desc limit '.$limit;
+        } else {
+            return array();
+        }
+
         $res = DB::fetch_all($querySql);
         if (!empty($res)) {
             foreach ($res as &$itemRes) {
@@ -450,6 +458,7 @@ class active{
 
                 $timeStr = self::getDetailActiveTime($itemRes['repeat_type'], $itemRes['begin_time'], $itemRes['end_time'], $itemRes['repeat_time']);
                 $itemRes['detail_time'] = $timeStr;
+                $itemRes['fee_range'] = self::getRangeFee($itemRes['fee'], $itemRes['fee_detail']);
             }
             unset($itemRes);
         }
@@ -694,9 +703,36 @@ class active{
         } else {
             $timeArr = explode('~', $repeatTime);
             if (!empty($timeArr)) {
-                $activeTimeStr = $timeArr[0] .' ~ '.$timeArr[count($timeArr)-1];
+                $activeTimeStr = date($struct, strtotime($timeArr[0])) .'~'.date($struct, strtotime($timeArr[count($timeArr)-1]));
             }
         }
         return $activeTimeStr;
+    }
+
+    public static function getRangeFee($feeType, $detail)
+    {
+        $feeStr = '联系主办方';
+        if ($feeType == 0) {
+            $feeStr = '免费';
+        } elseif ($feeType == 1) {
+            $feeArr = array();
+            $feeDetailArr = explode('||', $detail);
+            foreach ($feeDetailArr as $itemFeeDetail) {
+                $itemFeeDetailArr = explode('==', $itemFeeDetail);
+                if (isset($itemFeeDetailArr[1])) {
+                    $itemFee = intval($itemFeeDetailArr[1]);
+                    $feeArr[] = $itemFee;
+                }
+            }
+            if (!empty($feeArr)) {
+                sort($feeArr);
+                if (count($feeArr) == 1) {
+                    $feeStr = $feeArr[0].'元';
+                } else {
+                    $feeStr = $feeArr[0].'~'.$feeArr[count($feeArr)-1].'元';
+                }
+            }
+        }
+        return $feeStr;
     }
 }

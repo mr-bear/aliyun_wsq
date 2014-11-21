@@ -67,11 +67,12 @@ if (!empty($indexFocusArr)) {
 //Hot citylists
 $hotCitysRes = $activeObj->queryHotCity();
 
+//hot event
+$hotEventRes = $activeObj->queryRank('hot');
 //near event
-$nearEventRes = $activeObj->queryNearBegin();
+$nearEventRes = $activeObj->queryRank('nearbegin');
 
 //my data
-
 $myData = $activeObj->queryMyTotal();
 $mynbCount = $myData['nbCount'];
 $mybeginCount = $myData['beginCount'];

@@ -52,7 +52,7 @@ ul.detail_gul li{display:inline;float:left;padding-left:15px;overflow:hidden;pad
 ul.detail_gul li .img{display:inline;float:left;margin-right:10px;width:83px;height:97px;overflow:hidden;border-radius:2px;}
 ul.detail_gul li .img img{width:100%;height:100%;}
 ul.detail_gul li strong{padding-top:6px;padding-bottom:9px;height:36px;line-height:18px;color:#4a4447;font-family:'微软雅黑',Microsoft Yahei;display:block;}
-ul.detail_gul li p{height:22px;line-height:22px;color:#959595;font-family:'微软雅黑',Microsoft Yahei;}
+ul.detail_gul li p{height:22px;line-height:22px;color:#959595;font-family:'微软雅黑',Microsoft Yahei;width: 232px;overflow: hidden;}
 
 .formwrap,
 .formwrap1{display:inline;float:left;padding:7px;background:#f2f2f2;position:relative;_zoom:1;}
