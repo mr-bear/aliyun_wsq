@@ -46,11 +46,11 @@
 <dfn class="T"></dfn>
 <dfn class="C">
 <div class="sequence J_tabBoxList">
-    <em>热门城市:</em>
+    <em>{lang mrbear_cityactive:main_hotcity}:</em>
     <!--{if $loc_id === 0}-->
-    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid=0&ftype={$fType}&fee={$feeType}&order={$order}" class="on">全部</a></em>
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid=0&ftype={$fType}&fee={$feeType}&order={$order}" class="on">{lang mrbear_cityactive:main_label_all}</a></em>
     <!--{else}-->
-    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid=0&ftype={$fType}&fee={$feeType}&order={$order}">全部</a></em>
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid=0&ftype={$fType}&fee={$feeType}&order={$order}">{lang mrbear_cityactive:main_label_all}</a></em>
     <!--{/if}-->
 
     <!--{if !empty($hotCitysRes)}-->
@@ -64,44 +64,44 @@
     <!--{/if}-->
 </div>
 <div class="sequence J_tabBoxList">
-    <em>费用:</em>
+    <em>{lang mrbear_cityactive:main_label_fee}:</em>
     <!--{if $feeType === ''}-->
-    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&order={$order}" class="on">全部</a></em>
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&order={$order}" class="on">{lang mrbear_cityactive:main_label_all}</a></em>
     <!--{else}-->
-    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&order={$order}">全部</a></em>
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&order={$order}">{lang mrbear_cityactive:main_label_all}</a></em>
     <!--{/if}-->
     <!--{if $feeType === 0}-->
-    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=0&order={$order}" class="on">免费</a></em>
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=0&order={$order}" class="on">{lang mrbear_cityactive:main_label_fee_free}</a></em>
     <!--{else}-->
-    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=0&order={$order}">免费</a></em>
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=0&order={$order}">{lang mrbear_cityactive:main_label_fee_free}</a></em>
     <!--{/if}-->
     <!--{if $feeType === 1}-->
-    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=1&order={$order}"  class="on">自费</a></em>
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=1&order={$order}"  class="on">{lang mrbear_cityactive:main_label_fee_self}</a></em>
     <!--{else}-->
-    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=1&order={$order}">自费</a></em>
+    <em><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee=1&order={$order}">{lang mrbear_cityactive:main_label_fee_self}</a></em>
     <!--{/if}-->
 </div>
 <div class="sequence J_tabBoxList">
-    <em>排序:</em>
+    <em>{lang mrbear_cityactive:main_label_order}:</em>
     <em>
         <!--{if $order === 'praise_count'}-->
-        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=praise_count"  class="on">关注度</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=praise_count"  class="on">{lang mrbear_cityactive:main_label_order_praise}</a>
         <!--{else}-->
-        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=praise_count">关注度</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=praise_count">{lang mrbear_cityactive:main_label_order_praise}</a>
         <!--{/if}-->
     </em>
     <em>
         <!--{if $order === 'add_time'}-->
-        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=add_time" class="on">发布时间</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=add_time" class="on">{lang mrbear_cityactive:main_label_order_adtime}</a>
         <!--{else}-->
-        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=add_time" >发布时间</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=add_time" >{lang mrbear_cityactive:main_label_order_adtime}</a>
         <!--{/if}-->
     </em>
     <em>
         <!--{if $order === 'active_count'}-->
-        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=active_count" class="on">参与人数</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=active_count" class="on">{lang mrbear_cityactive:main_label_order_acnum}</a>
         <!--{else}-->
-        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=active_count">参与人数</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order=active_count">{lang mrbear_cityactive:main_label_order_acnum}</a>
         <!--{/if}-->
     </em>
 </div>
@@ -118,14 +118,14 @@
             </div>
             <div class="conBox">
                 <span><a href="{$itemEvent['detail_url']}" title="{$itemEvent['title']}" target="_blank">{$itemEvent['title']}</a></span><br>
-                地点:&nbsp;({$itemEvent['city']}){$itemEvent['street_address']}<br>
-                时间:&nbsp;{$itemEvent['begin_time']}&nbsp;~&nbsp;{$itemEvent['end_time']}<br>
+                {lang mrbear_cityactive:main_detail_address}:&nbsp;({$itemEvent['city']}){$itemEvent['street_address']}<br>
+                {lang mrbear_cityactive:main_detail_time}:&nbsp;{$itemEvent['begin_time']}&nbsp;~&nbsp;{$itemEvent['end_time']}<br>
                 <!--{if $itemEvent['fee'] == 0}-->
-                票价:&nbsp;免费<br>
+                {lang mrbear_cityactive:main_detail_fee}:&nbsp;{lang mrbear_cityactive:main_label_fee_free}<br>
                 <!--{else}-->
-                票价:&nbsp;{$itemEvent['fee_detail']}<br>
+                {lang mrbear_cityactive:main_detail_fee}:&nbsp;{$itemEvent['fee_detail']}<br>
                 <!--{/if}-->
-                <em>标签:&nbsp;{$itemEvent['tags']}</em>
+                <em>{lang mrbear_cityactive:main_detail_tag}:&nbsp;{$itemEvent['tags']}</em>
             </div>
         </code>
         <code class="bottom"></code>
@@ -139,10 +139,10 @@
 <div class="view_more">
     <!--{if $currentPage && $totalPage && $currentPage<=$totalPage}-->
     <div class="mosh_page" style="float:left;width:100%;">
-        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}" class="btn_click">首页</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}" class="btn_click">{lang mrbear_cityactive:main_page_first}</a>
 
         <!--{if $prePage > 0}-->
-        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$prePage}" class="btn_click">上一页</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$prePage}" class="btn_click">{lang mrbear_cityactive:main_page_pre}</a>
         <!--{/if}-->
 
         <!--{if $pPrePage > 0}-->
@@ -164,10 +164,10 @@
         <!--{/if}-->
 
         <!--{if $nextPage > 0}-->
-        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$nextPage}" class="btn_click">下一页</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$nextPage}" class="btn_click">{lang mrbear_cityactive:main_page_next}</a>
         <!--{/if}-->
 
-        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$totalPage}" class="btn_click">尾页</a>
+        <a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&locid={$loc_id}&ftype={$fType}&fee={$feeType}&order={$order}&p={$totalPage}" class="btn_click">{lang mrbear_cityactive:main_page_last}</a>
     </div>
     <!--{/if}-->
 </div>
@@ -179,12 +179,12 @@
     <div class="landedH">
         <dfn class="T"></dfn>
         <dfn class="C">
-            <div class="tithd">我的活动</div>
+            <div class="tithd">{lang mrbear_cityactive:main_label_myact}</div>
             <div class="tab">
-                <span><em>{$mynbCount}</em><dfn>未开始</dfn></span>
-                <span><a href="http://www.mosh.cn/uc/eventcollect"><em>{$mybeginCount}</em><dfn>进行中</dfn></a></span>
-                <span><a href="http://www.mosh.cn/uorder/eorderlist"><em>{$myActiveCount}</em><dfn>已报名</dfn></a></span>
-                <span><a href="http://www.mosh.cn/uorder/orderlist"><em>{$myPraiseCount}</em><dfn>感兴趣</dfn></a></span>
+                <span><em>{$mynbCount}</em><dfn>{lang mrbear_cityactive:main_label_myact_nb}</dfn></span>
+                <span><a href="http://www.mosh.cn/uc/eventcollect"><em>{$mybeginCount}</em><dfn>{lang mrbear_cityactive:main_label_myact_b}</dfn></a></span>
+                <span><a href="http://www.mosh.cn/uorder/eorderlist"><em>{$myActiveCount}</em><dfn>{lang mrbear_cityactive:main_label_myact_a}</dfn></a></span>
+                <span><a href="http://www.mosh.cn/uorder/orderlist"><em>{$myPraiseCount}</em><dfn>{lang mrbear_cityactive:main_label_myact_p}</dfn></a></span>
             </div>
 
 
@@ -195,7 +195,7 @@
     <div class="side_indexpage mt10">
         <div class="bd_top"></div>
         <div class="bd_con">
-            <div class="title" >人气活动</div>
+            <div class="title" >{lang mrbear_cityactive:main_label_mostact}</div>
             <div class="con">
                 <div class="bd_top2"></div>
                 <div class="bd_con2">
@@ -221,7 +221,7 @@
     <div class="side_indexpage mt10">
         <div class="bd_top"></div>
         <div class="bd_con">
-            <div class="title" >即将开始</div>
+            <div class="title" >{lang mrbear_cityactive:main_label_nb}</div>
             <div class="con">
                 <div class="bd_top2"></div>
                 <div class="bd_con2">
@@ -280,9 +280,9 @@
                         <div class="menu">
                             <ul>
                                 <!--{if $fType == 0}-->
-                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=0" class="checkclass"><span class="a"></span>全部</a></li>
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=0" class="checkclass"><span class="a"></span>{lang mrbear_cityactive:main_label_all}</a></li>
                                 <!--{else}-->
-                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=0"><span class="a"></span>全部</a></li>
+                                <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=0"><span class="a"></span>{lang mrbear_cityactive:main_label_all}</a></li>
                                 <!--{/if}-->
                                 <!--{if $fType == 1}-->
                                 <li><a href="{$_G['siteurl']}plugin.php?id=mrbear_cityactive:main&ftype=1"  class="checkclass"><span class="b"></span>音乐戏剧</a></li>
